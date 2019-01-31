@@ -1,13 +1,18 @@
 <template>
   <div id="app">
-    <img src="./assets/logo.png">
     <router-view/>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'App'
+  name: 'App',
+  mounted() {
+    this.axios.get('http://127.0.0.1:5050/user/session').then((data) => {
+      console.log(data.data)
+    })  
+  },
+  
 }
 </script>
 
