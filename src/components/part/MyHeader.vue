@@ -23,7 +23,7 @@
                   <a href="#">加盟</a>
                 </li>
                 <li>
-                  <a href="user_index.html">点外卖</a>
+                  <router-link to="/UserIndex">点外卖</router-link>
                 </li>
                 <li>
                   <a href="#">关于我们</a>
@@ -39,7 +39,7 @@
                   <a href="#">加盟</a>
                 </li>
                 <li>
-                  <a href="user_index.html">点外卖</a>
+                  <router-link to="/UserIndex">点外卖</router-link>
                 </li>
                 <li>
                   <a href="#">关于我们</a>

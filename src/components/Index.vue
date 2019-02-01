@@ -134,7 +134,7 @@ export default {
   },
   methods: {
     buying() {
-      location.href = `${location.href}user_index.html`;
+      this.$router.push(`/UserIndex`)
     },
     handleScroll() {
       var scrollTop =
