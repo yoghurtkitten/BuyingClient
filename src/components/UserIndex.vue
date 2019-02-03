@@ -10,7 +10,7 @@
               <div class="col-lg-5 col-md-8 col-sm-10 d-flex p-0">
                 <div class="row detail-btn">
                   <div class="col-md-6 p-0 d-flex user">
-                    <a href="login.html" class="btn mr-1 login_user" v-if="user.length==0">注册/登录</a>
+                    <router-link to="/Login" class="btn mr-1 login_user" v-if="!user">注册/登录</router-link>
                     <a href="javascript:;" class="btn mr-1 login_user" v-else @click="{return false;}" @mouseenter="enter"
                       @mouseleave="leave">{{user}}</a>
                   </div>
@@ -32,7 +32,7 @@
                       </li>
                       <li>
                         <i class="iconfont">&#xe78c;</i>
-                        <a href="login.html" class="exit_login">退出登录</a>
+                        <router-link to="/Login" class="exit_login">退出登录</router-link>
                       </li>
                     </ul>
                   </div>
@@ -56,12 +56,11 @@
     components: { VDistpicker },
     data() {
       return {
-        user: "",
-        province: "",
-        city: "",
-        area: "",
+        province: "湖北",
+        city: "武汉",
+        area: "武昌区",
         isToggle: false,
-        store_user: store.state.user
+        user: store.state.user
       }
     },
     mounted: function () {
@@ -75,8 +74,11 @@
         this.isToggle = false;
       },
       search: function () {
-        var data = txt_city.value.replace(/\s*/gi, "");
-        location.href = `${location.origin}/user_choose.html?address=${data}`;
+        // var data = txt_city.value.replace(/\s*/gi, "");
+        // location.href = `${location.origin}/user_choose.html?address=${data}`;
+        console.log(`${this.province}-${this.city}-${this.area}`);
+        var address = `${this.province}-${this.city}-${this.area}`;
+        this.$router.push(`/UserChoose?address=${address}`)
       },
       selected(data) {
         this.province = data.province.value.slice(0, -1);

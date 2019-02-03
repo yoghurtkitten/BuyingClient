@@ -25,6 +25,7 @@
     </div>
 </template>
 <script>
+    import qs from 'qs'
     export default {
         data() {
             return {
@@ -88,19 +89,12 @@
                 }, 30000)
             },
             login() {
-                $.ajax({
-                    url: 'http://127.0.0.1:5050/user/login',
-                    type: 'post',
-                    dataType: 'json',
-                    data: {
-                        phone: this.phone,
-                        user_code: this.code,
-                        code: this.pwd,
-                    }
-                }).then((data) => {
-                    console.log(data);
-                    // window.location.replace(document.referrer);
+                var url = 'http://127.0.0.1:5050/user/login';
+                var data = qs.stringify({phone: this.phone, user_code: this.code, code: this.pwd});
+                this.axios.post(url, data).then(result => {
+                    // console.log(result.data)
                     this.$router.push('/UserIndex')
+
                 })
             }
         },
