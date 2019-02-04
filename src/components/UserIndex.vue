@@ -41,7 +41,7 @@
             </div>
             <div class="input-group mt-2 search-form row">
               <v-distpicker province="湖北省" city="武汉市" area="武昌区" @selected="selected"></v-distpicker>
-              <a href="#" class="search-btn col-lg-2 col-md-3 col-sm-2" @click="search">搜索</a>
+              <a href="javascript:;" class="search-btn col-lg-2 col-md-3 col-sm-2" @click="search">搜索</a>
             </div>
           </div>
         </div>

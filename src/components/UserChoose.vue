@@ -1,82 +1,38 @@
 <template>
-    <div class="container-fluid" id="app" v-cloak>
-        <div class="container">
-            <div class="section">
-                <div class="business-type">
-                    <div class="row m-0 mt-5">
-                        <div class="col-lg-9 col-md-6 row m-0 position-relative">
-                            <div class="col-lg-2 col-md-5 d-flex align-items-center pr-0">
-                                <i class="address-icon"></i>
-                                <span class="ml-2">{{pageAddress}}</span>
-                            </div>
-                            <div class="col-lg-2 col-md-5 d-flex align-items-center p-0">
+    <div>
+        <my-header :toggleFixed="false"></my-header>
+        <div class="container-fluid" id="app" v-cloak>
+            <div class="container">
+                <div class="section">
+                    <div class="business-type">
+                        <div class="row m-0 mt-5">
+                            <div class="col-lg-9 col-md-6 row m-0 position-relative">
+                                <div class="col-lg-2 col-md-5 d-flex align-items-center pr-0">
+                                    <i class="address-icon"></i>
+                                    <span class="ml-2">{{pageAddress}}</span>
+                                </div>
+                                <div class="col-lg-2 col-md-5 d-flex align-items-center p-0">
 
-                                <a href="user_index.html" class="ml-3 mr-4 select-address">
-                                    [切换地址]
-                                </a>
+                                    <a href="user_index.html" class="ml-3 mr-4 select-address">
+                                        [切换地址]
+                                    </a>
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-lg-3 col-md-6 row detail-btn m-0">
-                            <div class="col-md-6 col-sm-3 col-xs-6 offset-6 p-0 m-0">
-                                <a href="login.html" class="btn mr-1 login_user" v-if="user.length==0">注册/登录</a>
-                                <a href="javascript:;" class="btn mr-1 login_user" v-else @click="{return false;}">
-                                    {{user}}</a>
-                            </div>
-                            <div class="col-md-6 col-sm-3 col-xs-6 p-0 ">
-                                <a href="#" class="new-list-btn fr btn">
-                                    我的订单
-                                </a>
+                            <div class="col-lg-3 col-md-6 row detail-btn m-0">
+                                <div class="col-md-6 col-sm-3 col-xs-6 offset-6 p-0 m-0">
+                                    <a href="login.html" class="btn mr-1 login_user" v-if="user.length==0">注册/登录</a>
+                                    <a href="javascript:;" class="btn mr-1 login_user" v-else @click="{return false;}">
+                                        {{user}}</a>
+                                </div>
+                                <div class="col-md-6 col-sm-3 col-xs-6 p-0 ">
+                                    <a href="#" class="new-list-btn fr btn">
+                                        我的订单
+                                    </a>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <div class="type-detail row d-flex align-content-center m-0 pl-3 mt-2 pt-3 pb-3">
-                        <div class="col-lg-1 col-md-12 p-0">
-                            <div class="business-type-title">商家分类</div>
-                        </div>
-                        <div class="col-lg-7 col-md-8 col-sm-12">
-                            <ul class="list-unstyled m-0">
-                                <li v-for="(item, index) in type" :key="index">
-                                    <a href="javascript:;" v-text="item" v-if="index==0" @click="loadAll"></a>
-                                    <a href="javascript:;" v-text="item" v-else @click="select_type(item)"></a>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="col-lg-4 col-md-4 col-sm-12 d-flex">
-                            <input type="text" placeholder="搜索商家，美食" class="align-self-center pl-3" id="search_business"
-                                v-model="search_shop" @keyup.13="search">
-                            <a href="#" class="d-flex align-items-center justify-content-center" @click="search">
-                                <i class="iconfont">&#xe694;</i>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                <div class="detail-list m-0 mt-3" id="busi_list">
-                    <ul v-for="(obj, index) in shop_item" :key="index">
-                        <li @click="choose_shop(obj.id)">
-                            <img :src="'http://127.0.0.1:5050/'+obj.shop_img" alt="">
-                            <p class="business-title">
-                                {{obj.shop_name}}
-                            </p>
-                            <div class="star">
-                                <i class="iconfont" v-for="n in obj.shop_start" :key="n">&#xec43;</i>
-                                <span>
-                                    {{obj.shop_start}}分
-                                </span>
-                            </div>
-                            <p class="descript d-flex align-items-center">
-                                <span>起送:￥{{obj.deliver_fee}}</span>
-                                <span class="pl-3">配送费:￥{{obj.deliver_cost}}</span>
-                                <span>
-                                    <i class="iconfont">&#xe784;</i>
-                                    {{obj.deliver_time}}分钟
-                                </span>
-                            </p>
-                            <input type="hidden" :value="obj.id" id="busi_id">
-                        </li>
-                    </ul>
-                </div>
-                <div class="load" @click="load">
-                    <p>点击加载更多商家...</p>
+                    <my-choose></my-choose>
                 </div>
             </div>
         </div>
@@ -84,7 +40,7 @@
 </template>
 <script>
     import store from '../store/store.js';
-
+    import myChoose from './shop_search/Choose.vue'
     export default {
         data() {
             return {
@@ -94,11 +50,11 @@
                 shop_item: [],
                 search_shop: '',
                 type: [
-                    "全部",
-                    "美食",
-                    "正餐优选",
-                    "精选小吃",
-                    "下午茶"
+                    { name: "全部", isActive: true },
+                    { name: "美食", isActive: false },
+                    { name: "正餐优选", isActive: false },
+                    { name: "精选小吃", isActive: false },
+                    { name: "下午茶", isActive: false },
                 ],
                 loading: ''
             }
@@ -156,10 +112,24 @@
                 })
             },
             loadAll: function () {
-                this.shop_item = []
+                for (const key in this.type) {
+                    if (this.type.hasOwnProperty(key)) {
+                        const element = this.type[key];
+                        element.isActive = false;
+                    }
+                }
+                this.type[0].isActive = true;
+                this.shop_item = [];
                 this.ajax_get_data('getlist', this.data, 0)
             },
-            select_type: function (item) {
+            select_type: function (item, index) {
+                for (const key in this.type) {
+                    if (this.type.hasOwnProperty(key)) {
+                        const element = this.type[key];
+                        element.isActive = false;
+                    }
+                }
+                this.type[index].isActive = true;
                 this.shop_item = [];
                 this.ajax_get_data('getlist', this.data, item, 0)
             },
@@ -184,6 +154,7 @@
                 }
             }
         },
+        components:{myChoose}
     }
 </script>
 <style scoped>

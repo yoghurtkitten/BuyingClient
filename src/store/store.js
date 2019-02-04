@@ -4,7 +4,7 @@ vue.use(vuex)
 
 const store = new vuex.Store({
     state: {
-      user: '123',
+      user: '',
     },
     mutations: {
       //所有mutations中的方法的第一个参数一定是state变量，用来进行对state中的状态的操作
