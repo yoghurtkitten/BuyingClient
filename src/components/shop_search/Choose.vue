@@ -54,13 +54,15 @@
     import store from '../../store/store.js';
 
     export default {
+        props: ['data'],
         data() {
             return {
                 user: store.state.user,
-                data: '',
+                // data: '',
                 pageAddress: '',
                 shop_item: [],
                 search_shop: '',
+                loading: '',
                 type: [
                     { name: "全部", isActive: true },
                     { name: "美食", isActive: false },
@@ -68,7 +70,6 @@
                     { name: "精选小吃", isActive: false },
                     { name: "下午茶", isActive: false },
                 ],
-                loading: ''
             }
         },
         mounted: function () {
@@ -177,9 +178,6 @@
         background: #fff;
         box-sizing: border-box;
         color: #333;
-
-
-
         height: 34px;
     }
 

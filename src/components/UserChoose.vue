@@ -32,7 +32,7 @@
                             </div>
                         </div>
                     </div>
-                    <my-choose></my-choose>
+                    <my-choose :data="data"></my-choose>
                 </div>
             </div>
         </div>
@@ -47,104 +47,21 @@
                 user: store.state.user,
                 data: '',
                 pageAddress: '',
-                shop_item: [],
-                search_shop: '',
-                type: [
-                    { name: "全部", isActive: true },
-                    { name: "美食", isActive: false },
-                    { name: "正餐优选", isActive: false },
-                    { name: "精选小吃", isActive: false },
-                    { name: "下午茶", isActive: false },
-                ],
-                loading: ''
+                // shop_item: [],
+                // search_shop: '',
+                // loading: ''
             }
         },
         mounted: function () {
             this.setData();
-            this.ajax_get_data('getlist', this.data, 0),
-                this.loading = this.loadMore();
+            // this.ajax_get_data('getlist', this.data, 0);
+            // this.loading = this.loadMore();
         },
         methods: {
-            load: function () {
-                var typeName = $('.active').text();
-                var obj = this.loading(typeName);
-                if (typeName == '全部') {
-                    this.ajax_get_data('getlist', this.data, obj[typeName])
-                } else {
-                    this.ajax_get_data('getlist', this.data, typeName, obj[typeName])
-                }
-            },
-            search: function () {
-                var business = this.search_shop;
-                // location.href = `${location.origin}/user_sheach.html?address=${this.data}&business=${business}`;
-                // this.$router.push(`/UserSearch?address=${this.data}&business=${business}`)
-            },
             setData: function () {
-                // var urlParams = new URLSearchParams(location.search);
-                // this.data = urlParams.get('address');
                 this.data = this.$route.query.address;
                 var title_address = this.data.split('-');
                 this.pageAddress = title_address[1] + ' ' + title_address[2]
-            },
-            ajax_get_data: function (...arr) {
-                var data = {}
-                if (arr.length == 3) {
-                    data = {
-                        address: arr[1],
-                        n: arr[2]
-                    }
-                } else {
-                    data = {
-                        address: arr[1],
-                        type: arr[2],
-                        n: arr[3]
-                    }
-                };
-                var _self = this;
-                $.ajax({
-                    url: `http://127.0.0.1:5050/user/${arr[0]}`,
-                    data: data,
-                    dataType: 'json',
-                    type: 'get'
-                }).then(function (result) {
-                    console.log(result)
-                    _self.shop_item = _self.shop_item.concat(result)
-                })
-            },
-            loadAll: function () {
-                for (const key in this.type) {
-                    if (this.type.hasOwnProperty(key)) {
-                        const element = this.type[key];
-                        element.isActive = false;
-                    }
-                }
-                this.type[0].isActive = true;
-                this.shop_item = [];
-                this.ajax_get_data('getlist', this.data, 0)
-            },
-            select_type: function (item, index) {
-                for (const key in this.type) {
-                    if (this.type.hasOwnProperty(key)) {
-                        const element = this.type[key];
-                        element.isActive = false;
-                    }
-                }
-                this.type[index].isActive = true;
-                this.shop_item = [];
-                this.ajax_get_data('getlist', this.data, item, 0)
-            },
-            loadMore: function () {
-                var typeIndex = {
-                    "全部": 0,
-                    "美食": 0,
-                    "正餐优选": 0,
-                    "精选小吃": 0,
-                    "下午茶": 0
-                };
-                return function (str) {
-                    typeIndex[str]++;
-                    return typeIndex;
-                }
             },
             choose_shop: function (sid) {
                 if ($(".login_user").text() == '注册/登录') {

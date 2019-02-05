@@ -1,5 +1,402 @@
 <template>
-    <div>
-        
+    <div class="detail-list m-0 mt-3 search-mode" id="busi_list">
+        <ul>
+            <li v-for="(obj, index) in businessList" :key="index">
+                <h4>{{obj.foods[0].shop_name}}</h4>
+                <div class="star">
+                    <i class="iconfont" v-for="item in obj.foods[0].shop_start">&#xec43;</i>
+                    <span>
+                        平均{{obj.foods[0].deliver_time}}分钟送达
+                    </span>
+                </div>
+                <ul>
+                    <li v-for="(item, index) in obj.foods" :key="index">
+                        <div>
+                            <span>{{item.name}}</span>
+                        </div>
+                        <div class="right-choose">
+                            <span>￥{{item.price.toFixed(2)}}</span>
+                            <span class="buying" @click="toShop(obj.foods.id,user)">去购买</span>
+                            <div>
+                                <p>
+                                    <i class="iconfont">&#xec43;</i>
+                                    <i class="iconfont">&#xec43;</i>
+                                    <i class="iconfont">&#xec43;</i>
+                                    <i class="iconfont">&#xec43;</i>
+                                    <i class="iconfont">&#xec43;</i>
+                                </p>
+                                <p>
+                                    月售68份
+                                </p>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </li>
+
+        </ul>
     </div>
 </template>
+<script>
+    export default {
+        data() {
+            return {
+                user: '',
+                address: '',
+                business: '',
+                businessList: []
+            }
+        },
+        created() {
+            this.getUser();
+            this.getAdderss();
+        },
+        mounted() {
+            this.getBusiness();
+        },
+        methods: {
+            getUser() {
+                $.ajax({
+                    type: "GET",
+                    url: "/user/session",
+                    dataType: "json",
+                }).then((data) => {
+                    if (data.code == 200) {
+                        this.user = data.msg.name;
+                        console.log(this.user)
+                        $('.login_user').click(function () {
+                            return false;
+                        })
+                    }
+                });
+            },
+            getAdderss() {
+                var urlParams = new URLSearchParams(location.search);
+                this.address = urlParams.get('address');
+                this.business = urlParams.get('business');
+            },
+            getBusiness() {
+                $.ajax({
+                    url: '/user/searchByBusiness',
+                    data: {
+                        address: this.address,
+                        business: this.business
+                    },
+                    type: 'get',
+                    dataType: 'json',
+                }).then((data) => {
+                    this.businessList = data;
+                    console.log(data);
+                })
+            },
+            toShop(sid, user) {
+                location.href = `${location.origin}/shop.html?sid=${sid}&user=${user}`
+            }
+        },
+
+    }
+</script>
+<style scoped>
+    ul {
+        list-style: none
+    }
+
+    .detail-btn div a {
+        background: #fff;
+        box-sizing: border-box;
+        color: #333;
+        height: 34px;
+    }
+
+    .new-list-btn {
+        width: 96px;
+        background: #fff url("http://127.0.0.1:5050/img/small_img/order-list.png") no-repeat 10px 6px / 15px 18px !important;
+        padding-left: 30px;
+        box-sizing: border-box;
+    }
+
+    .row {
+        width: 100%;
+    }
+
+    .address-icon {
+        display: block;
+        width: 14px !important;
+        height: 30px !important;
+        background: url("http://127.0.0.1:5050/img/small_img/address-icon.png")no-repeat center center;
+        background-size: 100%;
+        float: left;
+    }
+
+    a {
+        text-decoration: none !important;
+    }
+
+    a:hover {
+        text-decoration: none;
+    }
+
+    .select-address {
+        width: 60%;
+        color: #e54c2a;
+    }
+
+    .select-address:hover,
+    .select-address:focus,
+    .select-address:visited {
+        color: #e54c2a;
+        text-decoration: none;
+    }
+
+    .list-group-item {
+        z-index: 2;
+    }
+
+    .type-detail {
+        background: #fff;
+    }
+
+    .business-type-title {
+        width: 88px;
+        height: 30px;
+        padding-left: 32px;
+        background: url("http://127.0.0.1:5050/img/small_img/new-icon-sort.png") no-repeat;
+        background-position-y: center;
+        background-size: 28%;
+        font-size: 14px;
+        margin-right: 1.5%;
+        line-height: 30px;
+    }
+
+    .type-detail p {
+        margin-right: 1.5%;
+        height: 30px;
+        line-height: 30px;
+    }
+
+    .type-detail ul {
+        height: 30px;
+        display: flex;
+        align-items: center;
+    }
+
+    .type-detail ul li {
+        float: left;
+        margin-right: 5%;
+    }
+
+    .type-detail ul li a {
+        color: #333;
+    }
+
+    .type-detail ul li .active {
+        color: #e54c2a;
+    }
+
+    .type-detail>div>input {
+        width: 234px;
+        height: 38px;
+        border: 1px solid #e5e5e5;
+        margin-left: 20%;
+    }
+
+    .type-detail>div>a {
+        width: 49px;
+        height: 38px;
+        border: 1px solid #e5e5e5;
+    }
+
+    .type-detail a span {
+        display: inline-block;
+        color: #101010;
+    }
+
+    @media screen and (max-width:1200px) {
+        .container {
+            padding: 0;
+            margin: 0;
+            max-width: 100% !important;
+            width: 100%;
+        }
+    }
+
+    /* 765px */
+    @media screen and (max-width:765px) {
+        .select-address {
+            background: url("http://127.0.0.1:5050/img/small_img/up-icon.png") no-repeat 60px center;
+            background-size: 10px 5px;
+            width: 60%;
+            color: #e54c2a;
+        }
+    }
+
+    /* 499 */
+    @media screen and (max-width:499px) {
+        .type-detail ul li {
+            margin-right: 1.4%;
+        }
+    }
+
+    .star i {
+        color: #e54c2a;
+    }
+
+    .detail-list {
+        width: 100%;
+        box-shadow: 0px 0px 5px #ccc;
+
+        background: #fff;
+        overflow: auto;
+    }
+
+    .detail-list>ul>li {
+        width: 210px;
+        height: 288px;
+        display: list-item;
+        float: left;
+        margin: 1.5%;
+        margin-left: 4%;
+    }
+
+    .detail-list>ul>li:nth-child(4n+1) {
+        margin-left: 2.2% !important;
+    }
+
+    .detail-list li img {
+        width: 100%;
+        border: 1px solid #eaeaea;
+    }
+
+    .detail-list>ul>li .business-title {
+        font-size: 16px;
+        color: #313131;
+        width: 80%;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+        margin-top: 5%;
+        margin-bottom: 3%;
+    }
+
+    .descript,
+    .star {
+        margin-bottom: 1%;
+    }
+
+    .descript,
+    .star span {
+        font-size: 12px;
+        color: #707070;
+    }
+
+    .descript span:last-child {
+        margin-left: auto;
+    }
+
+    .load {
+        height: 54px;
+        /* border: 1px solid #ccc; */
+        border-top: 1px solid transparent;
+        box-shadow: 0 2px 5px #ccc;
+        text-align: center;
+        background-image: linear-gradient(to bottom, #f5f2f2, #e8e3e3);
+        color: #777;
+    }
+
+    .load p {
+        margin: 0;
+        padding: 0;
+        line-height: 54px;
+        cursor: pointer;
+    }
+
+    .search-mode {
+        margin-bottom: 200px !important;
+    }
+
+    .search-mode>ul>li {
+        display: block;
+        clear: both;
+        width: 100%;
+        /* border: 1px solid #000; */
+        margin: 0;
+        padding: 0;
+        margin-bottom: 1em;
+        /* padding-left: 2%; */
+        height: auto !important;
+        background: #f5f5f5;
+        box-shadow: 0px 0px 5px #ccc;
+    }
+
+    .search-mode>ul>li:nth-child(4n+1) {
+        margin-left: 0 !important;
+    }
+
+    .search-mode>ul>li>div {
+        margin-bottom: 10px !important;
+        padding-left: 2%;
+    }
+
+    .search-mode>ul>li>div>span {
+        margin-left: 3%;
+    }
+
+    .search-mode>ul>li>h4 {
+        margin-top: 15px;
+        margin-bottom: 5px !important;
+        padding-left: 2%;
+        font-family: "PingFang SC", "Lantinghei SC", "Helvetica Neue", "Microsoft Yahei", "Hiragino Sans GB", "Microsoft Sans Serif", "WenQuanYi Micro Hei", sans;
+        font-size: 16px;
+    }
+
+    .search-mode>ul>li>ul {
+        border-top: 1px solid #e4e3e3;
+    }
+
+    .search-mode>ul>li>ul>li {
+        background: #fff;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 1px solid #ccc;
+        padding-left: 1.5%;
+        padding-right: 5%;
+        padding-top: 1%;
+        padding-bottom: 1%;
+        font-size: 14px;
+    }
+
+    .search-mode>ul>li>ul>li>div>div>p {
+        margin: 0;
+        padding: 0;
+    }
+
+    .search-mode>ul>li>ul>li>div>div>p:first-child {
+        color: #e54c2a;
+    }
+
+    .search-mode>ul>li>ul>li>div>div {
+        text-align: center;
+    }
+
+    .right-choose {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 30%;
+    }
+
+    .buying {
+        display: inline-block;
+        width: 40%;
+        color: #fff;
+        text-align: center;
+        line-height: 2.3em;
+        border-radius: 5px;
+        background: #e54c2a;
+    }
+
+    [v-cloak] {
+        display: none;
+    }
+</style>

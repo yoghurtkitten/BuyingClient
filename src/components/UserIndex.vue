@@ -78,7 +78,7 @@
         // location.href = `${location.origin}/user_choose.html?address=${data}`;
         console.log(`${this.province}-${this.city}-${this.area}`);
         var address = `${this.province}-${this.city}-${this.area}`;
-        this.$router.push(`/UserChoose?address=${address}`)
+        this.$router.push(`/UserChoose/Choose?address=${address}`)
       },
       selected(data) {
         this.province = data.province.value.slice(0, -1);
