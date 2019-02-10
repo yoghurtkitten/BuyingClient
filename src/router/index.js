@@ -4,6 +4,7 @@ import Index from '@/components/Index.vue'
 import UserIndex from '@/components/UserIndex.vue'
 import Login from '@/components/Login.vue'
 import UserChoose from '@/components/UserChoose.vue'
+import Choose from '@/components/shop_search/Choose.vue'
 
 Vue.use(Router)
 
@@ -27,7 +28,13 @@ export default new Router({
     {
       path: '/UserChoose',
       name: 'UserChoose',
-      component: UserChoose
+      component: UserChoose,
+      children: [
+        {
+          path: '/UserChoose/Choose',
+          component: Choose
+        }
+      ]
     }
   ]
 })
