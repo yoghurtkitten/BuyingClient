@@ -1,5 +1,6 @@
 <template>
     <div class="detail-list m-0 mt-3 search-mode" id="busi_list">
+        <button @click="comeback">返回</button>
         <ul>
             <li v-for="(obj, index) in businessList" :key="index">
                 <h4>{{obj.foods[0].shop_name}}</h4>
@@ -39,45 +40,29 @@
 </template>
 <script>
     export default {
+        props:['parentuser','parentaddress','parentbusiness'],
+        created() {
+            this.address = this.parentaddress;
+            this.business = this.parentbusiness;
+        },
         data() {
             return {
-                user: '',
-                address: '',
+                user: this.parentuser,
+                address: this.parentaddress,
                 business: '',
                 businessList: []
             }
-        },
-        created() {
-            this.getUser();
-            this.getAdderss();
         },
         mounted() {
             this.getBusiness();
         },
         methods: {
-            getUser() {
-                $.ajax({
-                    type: "GET",
-                    url: "/user/session",
-                    dataType: "json",
-                }).then((data) => {
-                    if (data.code == 200) {
-                        this.user = data.msg.name;
-                        console.log(this.user)
-                        $('.login_user').click(function () {
-                            return false;
-                        })
-                    }
-                });
-            },
-            getAdderss() {
-                var urlParams = new URLSearchParams(location.search);
-                this.address = urlParams.get('address');
-                this.business = urlParams.get('business');
+            comeback(){
+                this.$emit('comeback')
             },
             getBusiness() {
                 $.ajax({
-                    url: '/user/searchByBusiness',
+                    url: 'http://127.0.0.1:5050/user/searchByBusiness',
                     data: {
                         address: this.address,
                         business: this.business
@@ -88,6 +73,8 @@
                     this.businessList = data;
                     console.log(data);
                 })
+                console.log(this.address);
+                console.log(this.business);
             },
             toShop(sid, user) {
                 location.href = `${location.origin}/shop.html?sid=${sid}&user=${user}`

@@ -32,7 +32,9 @@
                             </div>
                         </div>
                     </div>
-                    <my-choose :data="data"></my-choose>
+                    <my-choose v-if="!issearch" :parentdata="data" @search="currentSearch"></my-choose>
+                    <!-- <button @click="change">change</button> -->
+                    <my-search v-if="issearch" :parentuser="user" :parentaddress="address" :parentbusiness="business" @comeback="comeback"></my-search>
                 </div>
             </div>
         </div>
@@ -40,13 +42,17 @@
 </template>
 <script>
     import store from '../store/store.js';
-    import myChoose from './shop_search/Choose.vue'
+    import myChoose from './shop_search/Choose.vue';
+    import mySearch from './shop_search/UserSearch.vue';
     export default {
         data() {
             return {
                 user: store.state.user,
                 data: '',
                 pageAddress: '',
+                address:'',
+                issearch:false,
+                business:''
                 // shop_item: [],
                 // search_shop: '',
                 // loading: ''
@@ -58,9 +64,21 @@
             // this.loading = this.loadMore();
         },
         methods: {
+            currentSearch(val){
+                console.log('parent'+val);
+                this.business = val;
+                this.issearch = true;
+            },
+            change(){
+                this.issearch=true;
+            },
+            comeback(){
+                this.issearch=false;
+            },
             setData: function () {
                 this.data = this.$route.query.address;
                 var title_address = this.data.split('-');
+                this.address = this.data;
                 this.pageAddress = title_address[1] + ' ' + title_address[2]
             },
             choose_shop: function (sid) {
@@ -71,7 +89,7 @@
                 }
             }
         },
-        components:{myChoose}
+        components:{myChoose,mySearch}
     }
 </script>
 <style scoped>

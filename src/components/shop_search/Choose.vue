@@ -54,11 +54,11 @@
     import store from '../../store/store.js';
 
     export default {
-        props: ['data'],
+        props: ['parentdata'],
         data() {
             return {
                 user: store.state.user,
-                // data: '',
+                data: this.parentdata,
                 pageAddress: '',
                 shop_item: [],
                 search_shop: '',
@@ -89,8 +89,7 @@
             },
             search: function () {
                 var business = this.search_shop;
-                // location.href = `${location.origin}/user_sheach.html?address=${this.data}&business=${business}`;
-                // this.$router.push(`/UserSearch?address=${this.data}&business=${business}`)
+                this.$emit('search',this.search_shop)
             },
             setData: function () {
                 // var urlParams = new URLSearchParams(location.search);
@@ -120,7 +119,6 @@
                     dataType: 'json',
                     type: 'get'
                 }).then(function (result) {
-                    console.log(result)
                     _self.shop_item = _self.shop_item.concat(result)
                 })
             },
