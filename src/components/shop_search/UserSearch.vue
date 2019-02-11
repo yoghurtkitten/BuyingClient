@@ -1,11 +1,12 @@
 <template>
     <div class="detail-list m-0 mt-3 search-mode" id="busi_list">
-        <button @click="comeback">返回</button>
+        <!-- <button @click="comeback">返回</button> -->
+        <p @click="comeback" class="comeback"> < 返回</p>
         <ul>
             <li v-for="(obj, index) in businessList" :key="index">
                 <h4>{{obj.foods[0].shop_name}}</h4>
                 <div class="star">
-                    <i class="iconfont" v-for="item in obj.foods[0].shop_start">&#xec43;</i>
+                    <i class="iconfont" v-for="(item, index) in obj.foods[0].shop_start" :key="index">&#xec43;</i>
                     <span>
                         平均{{obj.foods[0].deliver_time}}分钟送达
                     </span>
@@ -85,7 +86,8 @@
 </script>
 <style scoped>
     ul {
-        list-style: none
+        list-style: none;
+        padding: 0;
     }
 
     .detail-btn div a {
@@ -385,5 +387,11 @@
 
     [v-cloak] {
         display: none;
+    }
+
+    .comeback{
+        cursor: pointer;
+        margin-left: 2%;
+        margin-top: 1%;
     }
 </style>

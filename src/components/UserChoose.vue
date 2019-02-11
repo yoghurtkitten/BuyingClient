@@ -1,401 +1,416 @@
 <template>
-    <div>
-        <my-header :toggleFixed="false"></my-header>
-        <div class="container-fluid" id="app" v-cloak>
-            <div class="container">
-                <div class="section">
-                    <div class="business-type">
-                        <div class="row m-0 mt-5">
-                            <div class="col-lg-9 col-md-6 row m-0 position-relative">
-                                <div class="col-lg-2 col-md-5 d-flex align-items-center pr-0">
-                                    <i class="address-icon"></i>
-                                    <span class="ml-2">{{pageAddress}}</span>
-                                </div>
-                                <div class="col-lg-2 col-md-5 d-flex align-items-center p-0">
-
-                                    <a href="user_index.html" class="ml-3 mr-4 select-address">
-                                        [切换地址]
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="col-lg-3 col-md-6 row detail-btn m-0">
-                                <div class="col-md-6 col-sm-3 col-xs-6 offset-6 p-0 m-0">
-                                    <a href="login.html" class="btn mr-1 login_user" v-if="user.length==0">注册/登录</a>
-                                    <a href="javascript:;" class="btn mr-1 login_user" v-else @click="{return false;}">
-                                        {{user}}</a>
-                                </div>
-                                <div class="col-md-6 col-sm-3 col-xs-6 p-0 ">
-                                    <a href="#" class="new-list-btn fr btn">
-                                        我的订单
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <my-choose v-if="!issearch" :parentdata="data" @search="currentSearch"></my-choose>
-                    <!-- <button @click="change">change</button> -->
-                    <my-search v-if="issearch" :parentuser="user" :parentaddress="address" :parentbusiness="business" @comeback="comeback"></my-search>
+  <div>
+    <my-header :toggleFixed="false"></my-header>
+    <div class="container-fluid" id="app" v-cloak>
+      <div class="container">
+        <div class="section">
+          <div class="business-type">
+            <div class="row m-0 mt-5">
+              <div class="col-lg-9 col-md-6 row m-0 position-relative">
+                <div class="col-lg-2 col-md-5 d-flex align-items-center pr-0">
+                  <i class="address-icon"></i>
+                  <span class="ml-2">{{pageAddress}}</span>
                 </div>
+                <div class="col-lg-2 col-md-5 d-flex align-items-center p-0">
+                  <a href="user_index.html" class="ml-3 mr-4 select-address">[切换地址]</a>
+                </div>
+              </div>
+              <div class="col-lg-3 col-md-6 row detail-btn m-0">
+                <div class="col-md-6 col-sm-3 col-xs-6 offset-6 p-0 m-0">
+                  <a href="login.html" class="btn mr-1 login_user" v-if="user.length==0">注册/登录</a>
+                  <a
+                    href="javascript:;"
+                    class="btn mr-1 login_user"
+                    v-else
+                    @click="{return false;}"
+                  >{{user}}</a>
+                </div>
+                <div class="col-md-6 col-sm-3 col-xs-6 p-0">
+                  <a href="#" class="new-list-btn fr btn">我的订单</a>
+                </div>
+              </div>
             </div>
+          </div>
+          <my-choose v-if="!issearch" :parentdata="data" @search="currentSearch"></my-choose>
+          <!-- <button @click="change">change</button> -->
+          <my-search
+            v-if="issearch"
+            :parentuser="user"
+            :parentaddress="address"
+            :parentbusiness="business"
+            @comeback="comeback"
+          ></my-search>
         </div>
+      </div>
     </div>
+  </div>
 </template>
 <script>
-    import store from '../store/store.js';
-    import myChoose from './shop_search/Choose.vue';
-    import mySearch from './shop_search/UserSearch.vue';
-    export default {
-        data() {
-            return {
-                user: store.state.user,
-                data: '',
-                pageAddress: '',
-                address:'',
-                issearch:false,
-                business:''
-                // shop_item: [],
-                // search_shop: '',
-                // loading: ''
-            }
-        },
-        mounted: function () {
-            this.setData();
-            // this.ajax_get_data('getlist', this.data, 0);
-            // this.loading = this.loadMore();
-        },
-        methods: {
-            currentSearch(val){
-                console.log('parent'+val);
-                this.business = val;
-                this.issearch = true;
-            },
-            change(){
-                this.issearch=true;
-            },
-            comeback(){
-                this.issearch=false;
-            },
-            setData: function () {
-                this.data = this.$route.query.address;
-                var title_address = this.data.split('-');
-                this.address = this.data;
-                this.pageAddress = title_address[1] + ' ' + title_address[2]
-            },
-            choose_shop: function (sid) {
-                if ($(".login_user").text() == '注册/登录') {
-                    alert('请登录')
-                } else {
-                    location.href = `${location.origin}/shop.html?sid=${sid}&user=${this.user}`;
-                }
-            }
-        },
-        components:{myChoose,mySearch}
+import store from "../store/store.js";
+import myChoose from "./shop_search/Choose.vue";
+import mySearch from "./shop_search/UserSearch.vue";
+export default {
+  data() {
+    return {
+      user: "",
+      data: "",
+      pageAddress: "",
+      address: "",
+      issearch: false,
+      business: ""
+    };
+  },
+  mounted: function() {
+    this.setData();
+    this.getUser();
+  },
+  methods: {
+    getUser: function() {
+      var url = "http://127.0.0.1:5050/user/session";
+      this.axios.get(url).then(result => {
+        var data = result.data.msg.name;
+        this.user = result.data.msg.name;
+      });
+    },
+    currentSearch(val) {
+      console.log("parent" + val);
+      this.business = val;
+      this.issearch = true;
+    },
+    change() {
+      this.issearch = true;
+    },
+    comeback() {
+      this.issearch = false;
+    },
+    setData: function() {
+      this.data = this.$route.query.address;
+      var title_address = this.data.split("-");
+      this.address = this.data;
+      this.pageAddress = title_address[1] + " " + title_address[2];
+    },
+    choose_shop: function(sid) {
+      if ($(".login_user").text() == "注册/登录") {
+        alert("请登录");
+      } else {
+        location.href = `${location.origin}/shop.html?sid=${sid}&user=${
+          this.user
+        }`;
+      }
     }
+  },
+  components: { myChoose, mySearch }
+};
 </script>
 <style scoped>
-    ul {
-        list-style: none
-    }
+ul {
+  list-style: none;
+}
 
-    .detail-btn div a {
-        background: #fff;
-        box-sizing: border-box;
-        color: #333;
+.detail-btn div a {
+  background: #fff;
+  box-sizing: border-box;
+  color: #333;
 
+  height: 34px;
+}
 
+.new-list-btn {
+  width: 96px;
+  background: #fff url("http://127.0.0.1:5050/img/small_img/order-list.png")
+    no-repeat 10px 6px / 15px 18px !important;
+  padding-left: 30px;
+  box-sizing: border-box;
+  font-size: 13px;
+}
 
-        height: 34px;
-    }
+.row {
+  width: 100%;
+}
 
-    .new-list-btn {
-        width: 96px;
-        background: #fff url("http://127.0.0.1:5050/img/small_img/order-list.png") no-repeat 10px 6px / 15px 18px !important;
-        padding-left: 30px;
-        box-sizing: border-box;
-    }
+.address-icon {
+  display: block;
+  width: 14px !important;
+  height: 30px !important;
+  background: url("http://127.0.0.1:5050/img/small_img/address-icon.png")
+    no-repeat center center;
+  background-size: 100%;
+  float: left;
+}
 
-    .row {
-        width: 100%;
-    }
+a {
+  text-decoration: none !important;
+}
 
-    .address-icon {
-        display: block;
-        width: 14px !important;
-        height: 30px !important;
-        background: url("http://127.0.0.1:5050/img/small_img/address-icon.png")no-repeat center center;
-        background-size: 100%;
-        float: left;
-    }
+a:hover {
+  text-decoration: none;
+}
 
-    a {
-        text-decoration: none !important;
-    }
+.select-address {
+  width: 60%;
+  color: #e54c2a;
+}
 
-    a:hover {
-        text-decoration: none;
-    }
+.select-address:hover,
+.select-address:focus,
+.select-address:visited {
+  color: #e54c2a;
+  text-decoration: none;
+}
 
-    .select-address {
-        width: 60%;
-        color: #e54c2a;
-    }
+.list-group-item {
+  z-index: 2;
+}
 
-    .select-address:hover,
-    .select-address:focus,
-    .select-address:visited {
-        color: #e54c2a;
-        text-decoration: none;
-    }
+.type-detail {
+  background: #fff;
+}
 
-    .list-group-item {
-        z-index: 2;
-    }
+.business-type-title {
+  width: 88px;
+  height: 30px;
+  padding-left: 32px;
+  background: url("http://127.0.0.1:5050/img/small_img/new-icon-sort.png")
+    no-repeat;
+  background-position-y: center;
+  background-size: 28%;
+  font-size: 14px;
+  margin-right: 1.5%;
+  line-height: 30px;
+}
 
-    .type-detail {
-        background: #fff;
-    }
+.type-detail p {
+  margin-right: 1.5%;
+  height: 30px;
+  line-height: 30px;
+}
 
-    .business-type-title {
-        width: 88px;
-        height: 30px;
-        padding-left: 32px;
-        background: url("http://127.0.0.1:5050/img/small_img/new-icon-sort.png") no-repeat;
-        background-position-y: center;
-        background-size: 28%;
-        font-size: 14px;
-        margin-right: 1.5%;
-        line-height: 30px;
-    }
+.type-detail ul {
+  height: 30px;
+  display: flex;
+  align-items: center;
+}
 
-    .type-detail p {
-        margin-right: 1.5%;
-        height: 30px;
-        line-height: 30px;
-    }
+.type-detail ul li {
+  float: left;
+  margin-right: 5%;
+}
 
-    .type-detail ul {
-        height: 30px;
-        display: flex;
-        align-items: center;
-    }
+.type-detail ul li a {
+  color: #333;
+}
 
-    .type-detail ul li {
-        float: left;
-        margin-right: 5%;
-    }
+.type-detail ul li .active {
+  color: #e54c2a;
+}
 
-    .type-detail ul li a {
-        color: #333;
-    }
+.type-detail > div > input {
+  width: 234px;
+  height: 38px;
+  border: 1px solid #e5e5e5;
+  margin-left: 20%;
+}
 
-    .type-detail ul li .active {
-        color: #e54c2a;
-    }
+.type-detail > div > a {
+  width: 49px;
+  height: 38px;
+  border: 1px solid #e5e5e5;
+}
 
-    .type-detail>div>input {
-        width: 234px;
-        height: 38px;
-        border: 1px solid #e5e5e5;
-        margin-left: 20%;
-    }
+.type-detail a span {
+  display: inline-block;
+  color: #101010;
+}
 
-    .type-detail>div>a {
-        width: 49px;
-        height: 38px;
-        border: 1px solid #e5e5e5;
-    }
+@media screen and (max-width: 1200px) {
+  .container {
+    padding: 0;
+    margin: 0;
+    max-width: 100% !important;
+    width: 100%;
+  }
+}
 
-    .type-detail a span {
-        display: inline-block;
-        color: #101010;
-    }
+/* 765px */
+@media screen and (max-width: 765px) {
+  .select-address {
+    background: url("http://127.0.0.1:5050/img/small_img/up-icon.png") no-repeat
+      60px center;
+    background-size: 10px 5px;
+    width: 60%;
+    color: #e54c2a;
+  }
+}
 
-    @media screen and (max-width:1200px) {
-        .container {
-            padding: 0;
-            margin: 0;
-            max-width: 100% !important;
-            width: 100%;
-        }
-    }
+/* 499 */
+@media screen and (max-width: 499px) {
+  .type-detail ul li {
+    margin-right: 1.4%;
+  }
+}
 
-    /* 765px */
-    @media screen and (max-width:765px) {
-        .select-address {
-            background: url("http://127.0.0.1:5050/img/small_img/up-icon.png") no-repeat 60px center;
-            background-size: 10px 5px;
-            width: 60%;
-            color: #e54c2a;
-        }
-    }
+.star i {
+  color: #e54c2a;
+}
 
-    /* 499 */
-    @media screen and (max-width:499px) {
-        .type-detail ul li {
-            margin-right: 1.4%;
-        }
-    }
+.detail-list {
+  width: 100%;
+  box-shadow: 0px 0px 5px #ccc;
 
-    .star i {
-        color: #e54c2a;
-    }
+  background: #fff;
+  overflow: auto;
+}
 
-    .detail-list {
-        width: 100%;
-        box-shadow: 0px 0px 5px #ccc;
+.detail-list > ul > li {
+  width: 210px;
+  height: 288px;
+  display: list-item;
+  float: left;
+  margin: 1.5%;
+  margin-left: 4%;
+}
 
-        background: #fff;
-        overflow: auto;
-    }
+.detail-list > ul > li:nth-child(4n + 1) {
+  margin-left: 2.2% !important;
+}
 
-    .detail-list>ul>li {
-        width: 210px;
-        height: 288px;
-        display: list-item;
-        float: left;
-        margin: 1.5%;
-        margin-left: 4%;
-    }
+.detail-list li img {
+  width: 100%;
+  border: 1px solid #eaeaea;
+}
 
-    .detail-list>ul>li:nth-child(4n+1) {
-        margin-left: 2.2% !important;
-    }
+.detail-list > ul > li .business-title {
+  font-size: 16px;
+  color: #313131;
+  width: 80%;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  margin-top: 5%;
+  margin-bottom: 3%;
+}
 
-    .detail-list li img {
-        width: 100%;
-        border: 1px solid #eaeaea;
-    }
+.descript,
+.star {
+  margin-bottom: 1%;
+}
 
-    .detail-list>ul>li .business-title {
-        font-size: 16px;
-        color: #313131;
-        width: 80%;
-        text-overflow: ellipsis;
-        overflow: hidden;
-        white-space: nowrap;
-        margin-top: 5%;
-        margin-bottom: 3%;
-    }
+.descript,
+.star span {
+  font-size: 12px;
+  color: #707070;
+}
 
-    .descript,
-    .star {
-        margin-bottom: 1%;
-    }
+.descript span:last-child {
+  margin-left: auto;
+}
 
-    .descript,
-    .star span {
-        font-size: 12px;
-        color: #707070;
-    }
+.load {
+  height: 54px;
+  /* border: 1px solid #ccc; */
+  border-top: 1px solid transparent;
+  box-shadow: 0 2px 5px #ccc;
+  text-align: center;
+  background-image: linear-gradient(to bottom, #f5f2f2, #e8e3e3);
+  color: #777;
+}
 
-    .descript span:last-child {
-        margin-left: auto;
-    }
+.load p {
+  margin: 0;
+  padding: 0;
+  line-height: 54px;
+  cursor: pointer;
+}
 
-    .load {
-        height: 54px;
-        /* border: 1px solid #ccc; */
-        border-top: 1px solid transparent;
-        box-shadow: 0 2px 5px #ccc;
-        text-align: center;
-        background-image: linear-gradient(to bottom, #f5f2f2, #e8e3e3);
-        color: #777;
-    }
+.search-mode {
+  margin-bottom: 200px !important;
+}
 
-    .load p {
-        margin: 0;
-        padding: 0;
-        line-height: 54px;
-        cursor: pointer;
-    }
+.search-mode > ul > li {
+  display: block;
+  clear: both;
+  width: 100%;
+  /* border: 1px solid #000; */
+  margin: 0;
+  padding: 0;
+  margin-bottom: 1em;
+  /* padding-left: 2%; */
+  height: auto !important;
+  background: #f5f5f5;
+  box-shadow: 0px 0px 5px #ccc;
+}
 
-    .search-mode {
-        margin-bottom: 200px !important;
-    }
+.search-mode > ul > li:nth-child(4n + 1) {
+  margin-left: 0 !important;
+}
 
-    .search-mode>ul>li {
-        display: block;
-        clear: both;
-        width: 100%;
-        /* border: 1px solid #000; */
-        margin: 0;
-        padding: 0;
-        margin-bottom: 1em;
-        /* padding-left: 2%; */
-        height: auto !important;
-        background: #f5f5f5;
-        box-shadow: 0px 0px 5px #ccc;
-    }
+.search-mode > ul > li > div {
+  margin-bottom: 10px !important;
+  padding-left: 2%;
+}
 
-    .search-mode>ul>li:nth-child(4n+1) {
-        margin-left: 0 !important;
-    }
+.search-mode > ul > li > div > span {
+  margin-left: 3%;
+}
 
-    .search-mode>ul>li>div {
-        margin-bottom: 10px !important;
-        padding-left: 2%;
-    }
+.search-mode > ul > li > h4 {
+  margin-top: 15px;
+  margin-bottom: 5px !important;
+  padding-left: 2%;
+  font-family: "PingFang SC", "Lantinghei SC", "Helvetica Neue",
+    "Microsoft Yahei", "Hiragino Sans GB", "Microsoft Sans Serif",
+    "WenQuanYi Micro Hei", sans;
+  font-size: 16px;
+}
 
-    .search-mode>ul>li>div>span {
-        margin-left: 3%;
-    }
+.search-mode > ul > li > ul {
+  border-top: 1px solid #e4e3e3;
+}
 
-    .search-mode>ul>li>h4 {
-        margin-top: 15px;
-        margin-bottom: 5px !important;
-        padding-left: 2%;
-        font-family: "PingFang SC", "Lantinghei SC", "Helvetica Neue", "Microsoft Yahei", "Hiragino Sans GB", "Microsoft Sans Serif", "WenQuanYi Micro Hei", sans;
-        font-size: 16px;
-    }
+.search-mode > ul > li > ul > li {
+  background: #fff;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #ccc;
+  padding-left: 1.5%;
+  padding-right: 5%;
+  padding-top: 1%;
+  padding-bottom: 1%;
+  font-size: 14px;
+}
 
-    .search-mode>ul>li>ul {
-        border-top: 1px solid #e4e3e3;
-    }
+.search-mode > ul > li > ul > li > div > div > p {
+  margin: 0;
+  padding: 0;
+}
 
-    .search-mode>ul>li>ul>li {
-        background: #fff;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        border-bottom: 1px solid #ccc;
-        padding-left: 1.5%;
-        padding-right: 5%;
-        padding-top: 1%;
-        padding-bottom: 1%;
-        font-size: 14px;
-    }
+.search-mode > ul > li > ul > li > div > div > p:first-child {
+  color: #e54c2a;
+}
 
-    .search-mode>ul>li>ul>li>div>div>p {
-        margin: 0;
-        padding: 0;
-    }
+.search-mode > ul > li > ul > li > div > div {
+  text-align: center;
+}
 
-    .search-mode>ul>li>ul>li>div>div>p:first-child {
-        color: #e54c2a;
-    }
+.right-choose {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 30%;
+}
 
-    .search-mode>ul>li>ul>li>div>div {
-        text-align: center;
-    }
+.buying {
+  display: inline-block;
+  width: 40%;
+  color: #fff;
+  text-align: center;
+  line-height: 2.3em;
+  border-radius: 5px;
+  background: #e54c2a;
+}
 
-    .right-choose {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        width: 30%;
-    }
-
-    .buying {
-        display: inline-block;
-        width: 40%;
-        color: #fff;
-        text-align: center;
-        line-height: 2.3em;
-        border-radius: 5px;
-        background: #e54c2a;
-    }
-
-    [v-cloak] {
-        display: none;
-    }
+[v-cloak] {
+  display: none;
+}
 </style>
