@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import Index from '@/components/Index.vue'
 import UserIndex from '@/components/UserIndex.vue'
 import Login from '@/components/Login.vue'
+import Shop from '@/components/Shop.vue'
 import UserChoose from '@/components/UserChoose.vue'
 import Choose from '@/components/shop_search/Choose.vue'
 
@@ -35,6 +36,11 @@ export default new Router({
           component: Choose
         }
       ]
+    },
+    {
+      path: '/Shop',
+      name: 'Shop',
+      component: Shop
     }
   ]
 })
