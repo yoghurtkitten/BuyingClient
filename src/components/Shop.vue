@@ -1,13 +1,16 @@
 <template>
+<div>
+    <my-header :toggleFixed="false"></my-header>
   <div class="container" v-cloak>
     <div class="business-info row m-0 mt-3">
-      <div class="left-b col-md-6 pr-0">
-        <div class="left-inner d-flex align-items-center">
+      <div :class="{'left-b':true, 'col-md-6':true, 'pr-0':true, 'left-b-show-all':isTitle}"  @mouseenter="titleEnter" @mouseleave="titleEnter">
+        <div :class="{'left-inner':true, 'd-flex':true, 'align-items-center':true}">
           <img src="http://127.0.0.1:5050/img/business/business-icon.png" class="icon" alt>
           <div class="ml-2">
             <p class="busin-title" v-if="category[0]">
               <span>{{category[0].foods[0].shop_name}}</span>
-              <i class="iconfont">&#xeb6d;</i>
+              <i class="iconfont" v-if="!isTitle">&#xeb6d;</i>
+              <i class="iconfont" v-else>&#xeb6e;</i>
             </p>
             <div class="star" v-if="category[0]">
               <i
@@ -67,7 +70,8 @@
         <div class="save d-flex justify-content-center p-0 m-0">
           <div class="align-self-center">
             <p>收藏本店</p>
-            <i class="iconfont">&#xeca2;</i>
+            <i class="iconfont" v-if="!isCollect" @click="Collect">&#xeca2;</i>
+            <i class="iconfont red" v-else @click="Collect">&#xeca1;</i>
           </div>
         </div>
       </div>
@@ -202,6 +206,7 @@
       </div>
     </div>
   </div>
+</div>
 </template>
 <script>
 export default {
@@ -211,7 +216,9 @@ export default {
       user: "15072772685",
       category: [],
       foods_type: [],
-      shop_car: []
+      shop_car: [],
+      isTitle: false,
+      isCollect: false,
     };
   },
   mounted() {
@@ -220,6 +227,12 @@ export default {
     this.load_shop_car();
   },
   methods: {
+    Collect: function () {
+      this.isCollect = !this.isCollect;
+    },
+    titleEnter: function () {
+      this.isTitle = !this.isTitle;
+    },
     getCount: function(food_id) {
       for (const key in this.shop_car) {
         if (this.shop_car.hasOwnProperty(key)) {
@@ -381,28 +394,6 @@ export default {
 };
 var title = $(".left-inner");
 var heart = $(".save>div>i");
-
-title.hover(
-  function() {
-    $(".left-b").addClass("left-b-show-all");
-    $(".busin-title>.iconfont").html("&#xeb6e;");
-  },
-  function() {
-    $(".left-b").removeClass("left-b-show-all");
-    $(".busin-title>.iconfont").html("&#xeb6d;");
-  }
-);
-
-$(".right-b div i").click(function() {
-  if ($(".right-b div i").css("color") == "rgb(106, 106, 106)") {
-    $(".right-b div i").html("&#xeca1;");
-    $(".right-b div i").css("color", "#e54c2a");
-  } else {
-    $(".right-b div i").html("&#xeca2;");
-    $(".right-b div i").css("color", "#6a6a6a");
-  }
-});
-
 $(".taggle-btn").click(function() {
   if ($(".right-b").css("display") == "none") {
     $(".right-b").css("border-width", "1px");
@@ -496,6 +487,7 @@ ul {
   height: 200%;
   background: #fff;
   box-shadow: 1px 1px 5px #ccc;
+  overflow:inherit!important;
 }
 
 .icon {
@@ -509,6 +501,10 @@ ul {
 
 .star i {
   color: #e54c2a;
+}
+
+.red{
+  color: #e54c2a!important;
 }
 
 .left-inner + div p span {
