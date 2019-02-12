@@ -20,6 +20,9 @@ Vue.prototype.axios = axios;
 Vue.component('my-header',MyHeader)
 Vue.component('my-footer',MyFooter)
 
+Vue.filter('changeGender', function (value) {
+  return value ? '先生' : '女士';
+})
 new Vue({
   el: '#app',
   router,

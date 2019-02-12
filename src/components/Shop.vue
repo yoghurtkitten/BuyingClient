@@ -1,236 +1,249 @@
 <template>
-<div>
+  <div>
     <my-header :toggleFixed="false"></my-header>
-  <div class="container" v-cloak>
-    <div class="business-info row m-0 mt-3">
-      <div :class="{'left-b':true, 'col-md-6':true, 'pr-0':true, 'left-b-show-all':isTitle}"  @mouseenter="titleEnter" @mouseleave="titleEnter">
-        <div :class="{'left-inner':true, 'd-flex':true, 'align-items-center':true}">
-          <img src="http://127.0.0.1:5050/img/business/business-icon.png" class="icon" alt>
-          <div class="ml-2">
-            <p class="busin-title" v-if="category[0]">
-              <span>{{category[0].foods[0].shop_name}}</span>
-              <i class="iconfont" v-if="!isTitle">&#xeb6d;</i>
-              <i class="iconfont" v-else>&#xeb6e;</i>
+    <div class="container" v-cloak>
+      <div class="business-info row m-0 mt-3">
+        <div
+          :class="{'left-b':true, 'col-md-6':true, 'pr-0':true, 'left-b-show-all':isTitle}"
+          @mouseenter="titleEnter"
+          @mouseleave="titleEnter"
+        >
+          <div :class="{'left-inner':true, 'd-flex':true, 'align-items-center':true}">
+            <img src="http://127.0.0.1:5050/img/business/business-icon.png" class="icon" alt>
+            <div class="ml-2">
+              <p class="busin-title" v-if="category[0]">
+                <span>{{category[0].foods[0].shop_name}}</span>
+                <i class="iconfont" v-if="!isTitle">&#xeb6d;</i>
+                <i class="iconfont" v-else>&#xeb6e;</i>
+              </p>
+              <div class="star" v-if="category[0]">
+                <i
+                  class="iconfont"
+                  v-for="(item, index) in category[0].foods[0].shop_start"
+                  :key="index"
+                >&#xec43;</i>
+                <span>{{category[0].foods[0].shop_start}}分</span>
+              </div>
+            </div>
+          </div>
+          <div class="mt-3 pl-2">
+            <p>
+              <i class="iconfont">&#xe68f;</i>
+              <span>营业时间</span>
+              <span>07:00-20:15</span>
             </p>
-            <div class="star" v-if="category[0]">
-              <i
-                class="iconfont"
-                v-for="(item, index) in category[0].foods[0].shop_start"
-                :key="index"
-              >&#xec43;</i>
-              <span>{{category[0].foods[0].shop_start}}分</span>
+            <p>
+              <i class="iconfont">&#xec3f;</i>
+              <span>商家地址</span>
+              <span class="shop_address" v-if="category[0]">{{category[0].foods[0].shop_name}}</span>
+            </p>
+            <p>
+              <i class="iconfont">&#xe678;</i>
+              <span>商家电话</span>
+              <span class="shop_tel" v-if="category[0]">{{category[0].foods[0].shop_phone}}</span>
+            </p>
+          </div>
+        </div>
+        <div class="taggle-btn" @click="mediaTitle">
+          <i class="iconfont">&#xec0b;</i>
+        </div>
+        <div
+          :class="{'right-b':true, 'col-md-6':true, 'col-sm-5':true, 'p-0':true, 'media-title':isShowMedia}"
+        >
+          <div
+            class="d-flex justify-content-between align-items-center detail-info"
+            v-if="category[0]"
+          >
+            <div class="deliver_time">
+              <p>平均送餐时间</p>
+              <p>
+                <span>{{category[0].foods[0].deliver_time}}</span>分钟
+              </p>
+            </div>
+            <div class="deliver_cost">
+              <p>起送</p>
+              <p>
+                <span>{{category[0].foods[0].deliver_cost}}</span>元
+              </p>
+            </div>
+            <div class="deliver_fee">
+              <p>配送费</p>
+              <p>
+                <span>{{category[0].foods[0].deliver_fee}}</span>元
+              </p>
+            </div>
+          </div>
+          <div class="save d-flex justify-content-center p-0 m-0">
+            <div class="align-self-center">
+              <p>收藏本店</p>
+              <i class="iconfont" v-if="!isCollect" @click="Collect">&#xeca2;</i>
+              <i class="iconfont red" v-else @click="Collect">&#xeca1;</i>
             </div>
           </div>
         </div>
-        <div class="mt-3 pl-2">
-          <p>
-            <i class="iconfont">&#xe68f;</i>
-            <span>营业时间</span>
-            <span>07:00-20:15</span>
-          </p>
-          <p>
-            <i class="iconfont">&#xec3f;</i>
-            <span>商家地址</span>
-            <span class="shop_address" v-if="category[0]">{{category[0].foods[0].shop_name}}</span>
-          </p>
-          <p>
-            <i class="iconfont">&#xe678;</i>
-            <span>商家电话</span>
-            <span class="shop_tel" v-if="category[0]">{{category[0].foods[0].shop_phone}}</span>
-          </p>
-        </div>
       </div>
-      <div class="taggle-btn">
-        <i class="iconfont">&#xec0b;</i>
-      </div>
-      <div class="right-b col-md-6 col-sm-5 p-0">
-        <div
-          class="d-flex justify-content-between align-items-center detail-info"
-          v-if="category[0]"
-        >
-          <div class="deliver_time">
-            <p>平均送餐时间</p>
-            <p>
-              <span>{{category[0].foods[0].deliver_time}}</span>分钟
-            </p>
-          </div>
-          <div class="deliver_cost">
-            <p>起送</p>
-            <p>
-              <span>{{category[0].foods[0].deliver_cost}}</span>元
-            </p>
-          </div>
-          <div class="deliver_fee">
-            <p>配送费</p>
-            <p>
-              <span>{{category[0].foods[0].deliver_fee}}</span>元
-            </p>
-          </div>
-        </div>
-        <div class="save d-flex justify-content-center p-0 m-0">
-          <div class="align-self-center">
-            <p>收藏本店</p>
-            <i class="iconfont" v-if="!isCollect" @click="Collect">&#xeca2;</i>
-            <i class="iconfont red" v-else @click="Collect">&#xeca1;</i>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="tabber m-0 p-0 mt-3 row">
-      <ul class="d-flex justify-content-around col-xl-4 col-lg-4 col-md-4 col-sm-5 p-0">
-        <li>
-          <a href="#">所有商品</a>
-        </li>
-        <li>
-          <a href="#">评价</a>
-        </li>
-        <li>
-          <a href="#">商家资质</a>
-        </li>
-      </ul>
-      <div class="offset-xl-3 col-xl-5 offset-lg-1 col-lg-7 offset-md-2 col-md-6 col-sm-7 p-0">
-        <ul class="d-flex sort-info m-0">
+      <div class="tabber m-0 p-0 mt-3 row">
+        <ul class="d-flex justify-content-around col-xl-4 col-lg-4 col-md-4 col-sm-5 p-0">
           <li>
-            <a href="#" class="rank">
-              <i class="iconfont">&#xe73f;</i>
-              <i class="iconfont">&#xe742;</i>
-            </a>
+            <a href="#">所有商品</a>
+          </li>
+          <li>
+            <a href="#">评价</a>
+          </li>
+          <li>
+            <a href="#">商家资质</a>
           </li>
         </ul>
-      </div>
-    </div>
-    <div class="food_item" v-if="category[0]">
-      <div class="d-flex">
-        <div class="category mt-3">
-          <ul class="d-flex flex-wrap pt-3 pl-4 m-0" v-if="category[0]">
-            <li v-for="(obj, index) in category[0].catagory" :key="index">
-              <a href="javascript:;" :data-target="'#item'+(index+1)">{{obj.type_name}}</a>
+        <div class="offset-xl-3 col-xl-5 offset-lg-1 col-lg-7 offset-md-2 col-md-6 col-sm-7 p-0">
+          <ul class="d-flex sort-info m-0">
+            <li>
+              <a href="#" class="rank">
+                <i class="iconfont">&#xe73f;</i>
+                <i class="iconfont">&#xe742;</i>
+              </a>
             </li>
           </ul>
         </div>
-        <div class="mt-3 concat">
-          <p>商家公告</p>
-          <div>
-            <h4>配送说明</h4>
-            <p v-if="category[0]">配送费 ￥{{category[0].foods[0].deliver_fee}}</p>
+      </div>
+      <div class="food_item" v-if="category[0]">
+        <div class="d-flex">
+          <div class="category mt-3">
+            <ul class="d-flex flex-wrap pt-3 pl-4 m-0" v-if="category[0]">
+              <li v-for="(obj, index) in category[0].catagory" :key="index">
+                <a href="javascript:;" :data-target="'#item'+(index+1)">{{obj.type_name}}</a>
+              </li>
+            </ul>
+          </div>
+          <div class="mt-3 concat">
+            <p>商家公告</p>
+            <div>
+              <h4>配送说明</h4>
+              <p v-if="category[0]">配送费 ￥{{category[0].foods[0].deliver_fee}}</p>
+            </div>
+          </div>
+        </div>
+        <div
+          v-if="category[0]"
+          v-for="(obj, index) in category[0].catagory"
+          :key="index"
+          class="goods"
+          :id="'item'+(index+1)"
+        >
+          <div class="goods-type">
+            <p class="goods-title" id="item1">{{obj.type_name}}</p>
+            <ul>
+              <li
+                v-for="(food, index) in category[0].foods"
+                :key="index"
+                v-if="food.foot_type == obj.type_name"
+              >
+                <img :src="'http://127.0.0.1:5050/'+food.food_img" alt class="goods-img">
+                <div>
+                  <p>{{food.name}}</p>
+                  <p>{{food.ingredients}}</p>
+                  <div class="star">
+                    <i class="iconfont">&#xec43;</i>
+                    <i class="iconfont">&#xec43;</i>
+                    <i class="iconfont">&#xec43;</i>
+                    <i class="iconfont">&#xec43;</i>
+                    <i class="iconfont">&#xec43;</i>
+                    <span>({{food.food_start}}分)月售200+份</span>
+                  </div>
+                  <p v-if="getCount(food.food_id)<1">
+                    <span class="price">￥{{food.price}}</span>
+                    <a
+                      href="javascript:;"
+                      @click="add_to_shopCar($event,food.name,food.price,food.food_id)"
+                    >加入购物车</a>
+                    <input type="hidden" class="food_id" :value="food.food_id">
+                  </p>
+                  <div v-if="getCount(food.food_id)>=1" class="change_food_count">
+                    <span class="price">￥{{food.price}}</span>
+                    <p>
+                      <button @click="change(-1, food.food_id)">-</button>
+                      <input type="text" :value="getCount(food.food_id)">
+                      <button @click="change(+1, food.food_id)">+</button>
+                      <input type="hidden" class="food_id" :value="food.food_id">
+                    </p>
+                  </div>
+                </div>
+              </li>
+            </ul>
           </div>
         </div>
       </div>
-      <div
-        v-if="category[0]"
-        v-for="(obj, index) in category[0].catagory"
-        :key="index"
-        class="goods"
-        :id="'item'+(index+1)"
-      >
-        <div class="goods-type">
-          <p class="goods-title" id="item1">{{obj.type_name}}</p>
-          <ul>
-            <li
-              v-for="(food, index) in category[0].foods"
-              :key="index"
-              v-if="food.foot_type == obj.type_name"
-            >
-              <img :src="'http://127.0.0.1:5050/'+food.food_img" alt class="goods-img">
-              <div>
-                <p>{{food.name}}</p>
-                <p>{{food.ingredients}}</p>
-                <div class="star">
-                  <i class="iconfont">&#xec43;</i>
-                  <i class="iconfont">&#xec43;</i>
-                  <i class="iconfont">&#xec43;</i>
-                  <i class="iconfont">&#xec43;</i>
-                  <i class="iconfont">&#xec43;</i>
-                  <span>({{food.food_start}}分)月售200+份</span>
-                </div>
-                <p v-if="getCount(food.food_id)<1">
-                  <span class="price">￥{{food.price}}</span>
-                  <a
-                    href="javascript:;"
-                    @click="add_to_shopCar($event,food.name,food.price,food.food_id)"
-                  >加入购物车</a>
-                  <input type="hidden" class="food_id" :value="food.food_id">
+      <div class="shop-car">
+        <div>
+          <p>
+            <span>购物车</span>
+            <span @click="clear">
+              <a href="javascript:;">[清空]</a>
+            </span>
+          </p>
+          <i class="iconfont">&#xe640;</i>
+        </div>
+        <div v-for="(obj, index) in shop_car" :key="index">
+          <div class="shop-item">
+            <ul>
+              <li>
+                <span class="goods-name">{{obj.name}}</span>
+                <p>
+                  <button @click="change(-1, obj.fid)">-</button>
+                  <input type="text" v-model="obj.number">
+                  <button @click="change(+1, obj.fid)">+</button>
+                  <input type="hidden" :value="obj.fid">
                 </p>
-                <div v-if="getCount(food.food_id)>=1" class="change_food_count">
-                  <span class="price">￥{{food.price}}</span>
-                  <p>
-                    <button @click="change(-1, food.food_id)">-</button>
-                    <input type="text" :value="getCount(food.food_id)">
-                    <button @click="change(+1, food.food_id)">+</button>
-                    <input type="hidden" class="food_id" :value="food.food_id">
-                  </p>
-                </div>
-              </div>
-            </li>
-          </ul>
+                <span class="unprice">￥{{obj.un_price * obj.number}}</span>
+              </li>
+            </ul>
+          </div>
         </div>
-      </div>
-    </div>
-    <div class="shop-car">
-      <div>
-        <p>
-          <span>购物车</span>
-          <span @click="clear">
-            <a href="javascript:;">[清空]</a>
-          </span>
-        </p>
-        <i class="iconfont">&#xe640;</i>
-      </div>
-      <div v-for="(obj, index) in shop_car" :key="index">
-        <div class="shop-item">
-          <ul>
-            <li>
-              <span class="goods-name">{{obj.name}}</span>
-              <p>
-                <button @click="change(-1, obj.fid)">-</button>
-                <input type="text" v-model="obj.number">
-                <button @click="change(+1, obj.fid)">+</button>
-                <input type="hidden" :value="obj.fid">
-              </p>
-              <span class="unprice">￥{{obj.un_price * obj.number}}</span>
-            </li>
-          </ul>
+        <div>
+          <a href="#">
+            <i class="iconfont">&#xe63f;</i>
+            <i class="number">{{count_total}}</i>
+            <span>￥</span>
+            <span class="total">{{price_total}}</span>
+            <span></span>
+          </a>
+          <a href="#">
+            <span @click="toOrder">去结算 ></span>
+          </a>
         </div>
-      </div>
-      <div>
-        <a href="#">
-          <i class="iconfont">&#xe63f;</i>
-          <i class="number">{{count_total}}</i>
-          <span>￥</span>
-          <span class="total">{{price_total}}</span>
-          <span></span>
-        </a>
-        <a href="#">
-          <span @click="toOrder">去结算 ></span>
-        </a>
       </div>
     </div>
   </div>
-</div>
 </template>
 <script>
 export default {
   data() {
     return {
-      sid: "1",
-      user: "15072772685",
+      sid: "",
+      user: "",
       category: [],
       foods_type: [],
       shop_car: [],
       isTitle: false,
       isCollect: false,
+      isShowMedia: false
     };
   },
   mounted() {
-    // this.set_sid_user();
+    this.getSid();
     this.load_food().then(this.bandClick);
     this.load_shop_car();
   },
   methods: {
-    Collect: function () {
+    getSid: function(){
+      this.sid = this.$route.query.sid;
+    },
+    mediaTitle: function() {
+      this.isShowMedia = !this.isShowMedia;
+    },
+    Collect: function() {
       this.isCollect = !this.isCollect;
     },
-    titleEnter: function () {
+    titleEnter: function() {
       this.isTitle = !this.isTitle;
     },
     getCount: function(food_id) {
@@ -291,21 +304,26 @@ export default {
     },
     load_shop_car: function() {
       var _self = this;
-      $.ajax({
-        url: "http://127.0.0.1:5050/user/load_shop_car",
-        type: "get",
-        data: {
-          user: this.user
-        },
-        dataType: "json"
-      }).then(function(data) {
-        _self.shop_car = data;
+      var url = "http://127.0.0.1:5050/user/session";
+      this.axios.get(url).then(result => {
+        var data = result.data.msg.name;
+        this.user = result.data.msg.name;
+        url = "http://127.0.0.1:5050/user/load_shop_car";
+        this.axios.get(url, {
+          params:{
+            user: this.user
+          }
+        }).then(result => {
+          _self.shop_car = result.data;
+        })
       });
     },
     toOrder: function() {
-      location.href = `${location.origin}/order.html?sid=${this.sid}&user=${
+      /* location.href = `${location.origin}/order.html?sid=${this.sid}&user=${
         this.user
-      }`;
+      }`; */
+      this.$router.push(`/Order?sid=${this.sid}&user=${this.user}`);
+
     },
     clear: function() {
       this.shop_car = [];
@@ -392,20 +410,7 @@ export default {
     }
   }
 };
-var title = $(".left-inner");
-var heart = $(".save>div>i");
-$(".taggle-btn").click(function() {
-  if ($(".right-b").css("display") == "none") {
-    $(".right-b").css("border-width", "1px");
-    $(".right-b").css("border-style", "solid");
-    $(".right-b").css("border-color", "#ccc");
-    $(".right-b").css("border-top-color", "#fff");
-    $(".right-b").css("display", "inherit");
-  } else {
-    $(".right-b").css("display", "none");
-    $(".right-b").css("border", "none");
-  }
-});
+
 $(window).resize(function() {
   if ($(".taggle-btn").css("display") == "none") {
     $(".right-b").css("display", "inherit");
@@ -452,6 +457,10 @@ window.onscroll = function() {
 };
 </script>
 <style scoped>
+.media-title {
+  box-shadow: 0 0 5px #ccc;
+  display: inherit !important;
+}
 ul {
   list-style: none !important;
 }
@@ -487,7 +496,7 @@ ul {
   height: 200%;
   background: #fff;
   box-shadow: 1px 1px 5px #ccc;
-  overflow:inherit!important;
+  overflow: inherit !important;
 }
 
 .icon {
@@ -503,8 +512,8 @@ ul {
   color: #e54c2a;
 }
 
-.red{
-  color: #e54c2a!important;
+.red {
+  color: #e54c2a !important;
 }
 
 .left-inner + div p span {
