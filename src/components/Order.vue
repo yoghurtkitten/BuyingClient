@@ -212,7 +212,7 @@ export default {
       showFitst: true,
       isShowAdderss: true,
       order_descript: "",
-      deliver_time: "立即送达",
+      deliver_time: '立即送达',
       time: new Date().getTime(),
       dish_count: "无需餐具",
       show_time: false,
@@ -233,7 +233,7 @@ export default {
     address_id: function() {},
     show_time: function() {},
     address: function() {
-      console.log("addressAdd");
+      // console.log("addressAdd");
     }
   },
   methods: {
@@ -249,9 +249,10 @@ export default {
       this.show_dish = !this.show_dish;
     },
     chooseTime: function(time) {
-      console.log(time);
+      // console.log(time);
       if (time == "立即送达") {
         this.deliver_time = new Date().getTime();
+        // console.log(this.deliver_time)
       } else {
         this.deliver_time = time;
       }
@@ -272,6 +273,10 @@ export default {
       this.show_dish = false;
     },
     confirm_order: function() {
+      if (typeof(this.deliver_time)=='string') {
+        this.deliver_time = new Date().getTime();
+      }
+      // console.log(this.deliver_time);
       var _self = this;
       $.ajax({
         url: "http://127.0.0.1:5050/user/save_Order",
@@ -287,14 +292,9 @@ export default {
         },
         dataType: "json"
       }).then(function(data) {
-        // console.log(data[0].id);
+        // console.log(data);
         if (data) {
-          /* location.href = `${location.origin}/pay.html?sid=${_self.sid}&user=${
-            _self.user
-          }&address=${_self.address_id}&total=${_self.getTotal()}&order_id=${
-            data[0].id
-          }&order_no=${data[0].order_no}`; */
-          this.$router.push(`/Pay?sid=${_self.sid}&user=${_self.user}&address=${_self.address_id}&total=${_self.getTotal()}&order_id=${data[0].id}&order_no=${data[0].order_no}`)
+          _self.$router.push(`/Pay?sid=${_self.sid}&user=${_self.user}&address=${_self.address_id}&total=${_self.getTotal()}&order_id=${data[0].id}&order_no=${data[0].order_no}`);
         } else {
           alert("诶呀，服务器出了点小问题！");
         }
@@ -335,7 +335,7 @@ export default {
         dataType: "json"
       }).then(function(data) {
         _self.orderInfo = data;
-        console.log(data);
+        // console.log(data);
         if (data.length == 0) {
           _self.has_food = false;
         } else {
@@ -398,7 +398,7 @@ export default {
         },
         dataType: "json"
       }).then(function(data) {
-        console.log(data);
+        // console.log(data);
         $("#modal").hide();
         $(".modal-bg").hide();
         _self.load_adderss();
@@ -406,7 +406,7 @@ export default {
     },
     back_to_user_choose: function() {
       $.ajax({
-        url: "/user/getShopAddress",
+        url: "http://127.0.0.1:5050/user/getShopAddress",
         data: {
           sid: this.sid
         },
@@ -417,9 +417,7 @@ export default {
         address.push(data[0].province);
         address.push(data[0].city);
         address.push(data[0].county);
-        location.replace(
-          `${location.origin}/user_choose.html?address=${address.join("-")}`
-        );
+        this.$router.push(`/UserChoose/Choose?address=${address.join("-")}`)
       });
     }
   }

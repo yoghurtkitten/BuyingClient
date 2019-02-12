@@ -319,9 +319,6 @@ export default {
       });
     },
     toOrder: function() {
-      /* location.href = `${location.origin}/order.html?sid=${this.sid}&user=${
-        this.user
-      }`; */
       this.$router.push(`/Order?sid=${this.sid}&user=${this.user}`);
 
     },
