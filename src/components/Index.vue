@@ -492,7 +492,7 @@ ul li .main-title {
   padding-left: 4%;
 }
 .carousel {
-  z-index: -1;
+  z-index: 0;
 }
 .carousel-control-prev,
 .carousel-control-next {

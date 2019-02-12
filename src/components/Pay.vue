@@ -26,7 +26,8 @@
               {{pay_info[0].receiver}} ({{pay_info[0].phone | changeGender}}) {{pay_info[0].phone}}
               {{pay_info[0].address}} -
               <span
-                v-for="(obj, index) in pay_info" :key="index"
+                v-for="(obj, index) in pay_info"
+                :key="index"
               >{{obj.name}}*{{obj.number}}-</span>
             </span>
             <span @click="show_detail">查看详情</span>
@@ -123,7 +124,6 @@ export default {
   },
   created() {
     this.dataFromOrder();
-    // this.getOrderPage();
     this.getPayInfo();
     this.time();
     this.changeOrder();
@@ -139,19 +139,43 @@ export default {
     },
     close_model() {
       this.isModel = false;
+      $.ajax({
+        url: "http://127.0.0.1:5050/user/getShopAddress",
+        data: {
+          sid: this.sid
+        },
+        type: "get",
+        dataType: "json"
+      }).then(data => {
+        var address = [];
+        address.push(data[0].province);
+        address.push(data[0].city);
+        address.push(data[0].county);
+        this.$router.push(`/UserChoose/Choose?address=${address.join("-")}`);
+      });
     },
     confirmPayment() {
       if (this.payment == "支付宝") {
-       /*  window.open(
-          `${location.origin}/payment.html?total=${this.total}&order_id=${
-            this.order_id
-          }&order_no=${this.order_no}`
-        ); */
-        this.$router.push(`/PayMent?total=${this.total}&order_id=${this.order_id}&order_no=${this.order_no}`);
+        this.$router.push(
+          `/PayMent?total=${this.total}&order_id=${this.order_id}&order_no=${
+            this.order_no
+          }`
+        );
       } else {
         this.isModel = true;
         this.iswechat = true;
         this.isClose = false;
+        $.ajax({
+          url: "http://127.0.0.1:5050/user/changeStatu",
+          data: {
+            order_no: this.order_id,
+            pay_method: "微信"
+          },
+          type: "get",
+          dataType: "json"
+        }).then(data => {
+          console.log(data);
+        });
       }
     },
     pay(payment) {
@@ -166,6 +190,7 @@ export default {
       }
     },
     time() {
+      // clearInterval(timer);
       var time_count = 900;
       var timer = setInterval(() => {
         time_count--;
@@ -223,14 +248,6 @@ export default {
 };
 </script>
 <style scoped>
-* {
-  padding: 0;
-  margin: 0;
-}
-
-body {
-  background: #f7f7f7;
-}
 
 header {
   display: flex;
@@ -254,6 +271,7 @@ header > div:last-child {
 
 section {
   padding: 0 !important;
+  margin: 0 auto;
   margin-top: 5%;
   color: #666;
   font-size: 14px;
@@ -389,7 +407,7 @@ div[data-pay] button {
 }
 
 .active::after {
-  content: url(http://127.0.0.1:5050/img/payway.082e2f.png);
+  content: url(http://127.1:5050/img/payway.082e2f.png);
   display: inline-block;
   position: absolute;
   right: -1px;

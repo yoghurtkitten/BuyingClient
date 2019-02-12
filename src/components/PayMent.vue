@@ -75,7 +75,8 @@ export default {
       $.ajax({
         url: "http://127.0.0.1:5050/user/changeStatu",
         data: {
-          order_no: this.order_id
+          order_no: this.order_id,
+          pay_method: '支付宝'
         },
         type: "get",
         dataType: "json"

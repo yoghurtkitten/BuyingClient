@@ -234,7 +234,7 @@ export default {
     this.load_shop_car();
   },
   methods: {
-    getSid: function(){
+    getSid: function() {
       this.sid = this.$route.query.sid;
     },
     mediaTitle: function() {
@@ -309,18 +309,19 @@ export default {
         var data = result.data.msg.name;
         this.user = result.data.msg.name;
         url = "http://127.0.0.1:5050/user/load_shop_car";
-        this.axios.get(url, {
-          params:{
-            user: this.user
-          }
-        }).then(result => {
-          _self.shop_car = result.data;
-        })
+        this.axios
+          .get(url, {
+            params: {
+              user: this.user
+            }
+          })
+          .then(result => {
+            _self.shop_car = result.data;
+          });
       });
     },
     toOrder: function() {
       this.$router.push(`/Order?sid=${this.sid}&user=${this.user}`);
-
     },
     clear: function() {
       this.shop_car = [];
@@ -420,11 +421,15 @@ window.onscroll = function() {
   var scrollTop = document.body.scrollTop || document.documentElement.scrollTop;
   if (scrollTop < 500) {
     var div = document.getElementsByClassName("category")[0];
-    div.classList.remove("fixed-div");
+    if (div) {
+      div.classList.remove("fixed-div");
+    }
   }
   if (scrollTop >= 500) {
     var div = document.getElementsByClassName("category")[0];
-    div.classList.add("fixed-div");
+    if (div) {
+      div.classList.add("fixed-div");
+    }
   }
   if ($(".goods").length > 0) {
     var windowTop = 500;
@@ -526,6 +531,7 @@ ul {
 }
 .right-b {
   min-width: 345px;
+  max-height: 120px;
   display: flex;
   justify-content: space-between;
 }
