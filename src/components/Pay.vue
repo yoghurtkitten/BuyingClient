@@ -127,8 +127,40 @@ export default {
     this.getPayInfo();
     this.time();
     this.changeOrder();
+    this.isPay();
   },
   methods: {
+    isPay() {
+      var url = "http://127.0.0.1:5050/user/orderStatu";
+      this.axios
+        .get(url, {
+          params: {
+            order_id: this.order_id
+          }
+        })
+        .then(result => {
+          // console.log(result.data[0].status);
+          var status = result.data[0].status;
+          if (status) {
+            $.ajax({
+              url: "http://127.0.0.1:5050/user/getShopAddress",
+              data: {
+                sid: this.sid
+              },
+              type: "get",
+              dataType: "json"
+            }).then(data => {
+              var address = [];
+              address.push(data[0].province);
+              address.push(data[0].city);
+              address.push(data[0].county);
+              this.$router.push(
+                `/UserChoose/Choose?address=${address.join("-")}`
+              );
+            });
+          }
+        });
+    },
     dataFromOrder() {
       this.sid = this.$route.query.sid;
       this.user = this.$route.query.user;
@@ -174,7 +206,7 @@ export default {
           type: "get",
           dataType: "json"
         }).then(data => {
-          console.log(data);
+          // console.log(data);
         });
       }
     },
@@ -226,7 +258,7 @@ export default {
         type: "post",
         dataType: "json"
       }).then(data => {
-        console.log(data);
+        // console.log(data);
         _self.pay_info = data;
       });
     },
@@ -241,14 +273,13 @@ export default {
           order_id: this.order_id
         }
       }).then(data => {
-        console.log(data);
+        // console.log(data);
       });
     }
   }
 };
 </script>
 <style scoped>
-
 header {
   display: flex;
   align-items: center;

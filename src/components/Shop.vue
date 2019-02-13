@@ -334,7 +334,7 @@ export default {
           user: this.user
         }
       }).then(function(data) {
-        console.log(data);
+        // console.log(data);
       });
     },
     add_to_shopCar: function(e, name, price, f_id) {
@@ -350,7 +350,7 @@ export default {
         },
         dataType: "json"
       }).then(function(data) {
-        console.log("重新加载");
+        // console.log("重新加载");
         _self.load_shop_car();
       });
       for (const key in this.category[0].foods) {
@@ -370,7 +370,7 @@ export default {
               element.number = 0;
               _self.load_shop_car();
             }
-            console.log(element.number);
+            // console.log(element.number);
             $.ajax({
               url: "http://127.0.0.1:5050/user/update_shopCar",
               type: "post",
