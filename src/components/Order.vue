@@ -191,10 +191,12 @@
         </div>
       </aside>
     </div>
+    <my-footer></my-footer>
   </div>
 </template>
 <script>
 import VDistpicker from "v-distpicker";
+import store from "../store/store.js";
 
 export default {
   components: { VDistpicker },
@@ -212,7 +214,7 @@ export default {
       showFitst: true,
       isShowAdderss: true,
       order_descript: "",
-      deliver_time: '立即送达',
+      deliver_time: "立即送达",
       time: new Date().getTime(),
       dish_count: "无需餐具",
       show_time: false,
@@ -273,7 +275,7 @@ export default {
       this.show_dish = false;
     },
     confirm_order: function() {
-      if (typeof(this.deliver_time)=='string') {
+      if (typeof this.deliver_time == "string") {
         this.deliver_time = new Date().getTime();
       }
       // console.log(this.deliver_time);
@@ -294,7 +296,14 @@ export default {
       }).then(function(data) {
         // console.log(data);
         if (data) {
-          _self.$router.push(`/Pay?sid=${_self.sid}&user=${_self.user}&address=${_self.address_id}&total=${_self.getTotal()}&order_id=${data[0].id}&order_no=${data[0].order_no}`);
+          store.commit("setTimer", 900);
+          _self.$router.push(
+            `/Pay?sid=${_self.sid}&user=${_self.user}&address=${
+              _self.address_id
+            }&total=${_self.getTotal()}&order_id=${data[0].id}&order_no=${
+              data[0].order_no
+            }&storeTime=${store.state.timerNumber}`
+          );
         } else {
           alert("诶呀，服务器出了点小问题！");
         }
@@ -417,7 +426,7 @@ export default {
         address.push(data[0].province);
         address.push(data[0].city);
         address.push(data[0].county);
-        this.$router.push(`/UserChoose/Choose?address=${address.join("-")}`)
+        this.$router.push(`/UserChoose/Choose?address=${address.join("-")}`);
       });
     }
   }

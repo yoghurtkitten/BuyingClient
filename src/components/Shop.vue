@@ -212,6 +212,7 @@
         </div>
       </div>
     </div>
+    <my-footer></my-footer>
   </div>
 </template>
 <script>
@@ -227,6 +228,12 @@ export default {
       isCollect: false,
       isShowMedia: false
     };
+  },
+  beforeRouteEnter(to, from, next) {
+    console.log(to);
+    console.log(from);
+    console.log(next);
+    next();
   },
   mounted() {
     this.getSid();

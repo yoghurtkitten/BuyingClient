@@ -1,84 +1,84 @@
 <template>
-<div>
-
-  <my-header :toggleFixed="isFixed"></my-header>
-  <div class="container-fluid">
-    <div class="main_img">
-      <div class="carousel" data-ride="carousel" id="demo">
-        <div class="carousel-inner">
-          <div class="carousel-item active">
-            <img src="http://127.0.0.1:5050/img/slider/1.jpg" class="img-fluid" alt>
+  <div>
+    <my-header :toggleFixed="isFixed"></my-header>
+    <div class="container-fluid">
+      <div class="main_img">
+        <div class="carousel" data-ride="carousel" id="demo">
+          <div class="carousel-inner">
+            <div class="carousel-item active">
+              <img src="http://127.0.0.1:5050/img/slider/1.jpg" class="img-fluid" alt>
+            </div>
+            <div class="carousel-item">
+              <img src="http://127.0.0.1:5050/img/slider/2.jpg" class="img-fluid" alt>
+            </div>
+            <div class="carousel-item">
+              <img src="http://127.0.0.1:5050/img/slider/3.jpg" class="img-fluid" alt>
+            </div>
           </div>
-          <div class="carousel-item">
-            <img src="http://127.0.0.1:5050/img/slider/2.jpg" class="img-fluid" alt>
-          </div>
-          <div class="carousel-item">
-            <img src="http://127.0.0.1:5050/img/slider/3.jpg" class="img-fluid" alt>
-          </div>
-        </div>
-        <ul class="carousel-indicators">
-          <li class="active" data-slide-to="0" data-target="#demo"></li>
-          <li class data-slide-to="1" data-target="#demo"></li>
-          <li class data-slide-to="2" data-target="#demo"></li>
-        </ul>
-      </div>
-      <div class="slider">
-        <p class="welcome">Welcome Resta Restawant</p>
-        <p class="loves">LOVES HEALTHY FOOD</p>
-        <p class="detail">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit.pellentesque vel volutpat felis, eu
-          codimentum.Lorem ipsum dolor sit amet.
-        </p>
-
-        <button type="button" class="btn btn-danger my-btn buying" @click="buying">我要点外卖</button>
-        <button type="button" class="btn btn-warning my-btn">我要入驻</button>
-      </div>
-    </div>
-
-    <div class="server">
-      <div class="sub-title">
-        <img
-          src="img/server.png"
-          alt
-          :class="{'img-responsive':true, 'server-img':true, 'addAnimate':isAddAnimate}"
-        >
-      </div>
-       <div class="row server-content">
-        <div class="col-md-6 server-left">
-          <div :class="{'server-title':true, 'col':true, 'addAnimate':isAddAnimate}">品类全覆盖，应有尽有</div>
-          <ul :class="{'server-list':true, 'addAnimate':isAddAnimate}">
-            <li
-              v-for="(item, index) in server_type"
-              :key="index"
-              @mouseenter="enter(item.id)"
-              @mouseleave="leave(item.id)"
-            >
-              <div
-                class="img"
-                :style="{'background-image':`url('${item.afterImg}')`}"
-                v-if="item.ismouse"
-              ></div>
-              <div class="img" :style="{'background-image':`url('${item.beforeImg}')`}" v-else></div>
-
-              <div>
-                <div :class="{'main-title':true,'main-title_hover':item.ismouse}">{{item.main}}</div>
-                <div :class="{'subTitle':item.ismouse}">{{item.sub}}</div>
-              </div>
-            </li>
+          <ul class="carousel-indicators">
+            <li class="active" data-slide-to="0" data-target="#demo"></li>
+            <li class data-slide-to="1" data-target="#demo"></li>
+            <li class data-slide-to="2" data-target="#demo"></li>
           </ul>
         </div>
-        <div :class="{'col-md-6':true,'addAnimate':isAddAnimate}">
-          <div class="out-phone">
-            <div
-              class="phone"
-              :style="{'background-image':`url('${server_type[index].phoneImg}')`}"
-            ></div>
+        <div class="slider">
+          <p class="welcome">Welcome Resta Restawant</p>
+          <p class="loves">LOVES HEALTHY FOOD</p>
+          <p class="detail">
+            Lorem ipsum dolor sit amet consectetur adipisicing elit.pellentesque vel volutpat felis, eu
+            codimentum.Lorem ipsum dolor sit amet.
+          </p>
+
+          <button type="button" class="btn btn-danger my-btn buying" @click="buying">我要点外卖</button>
+          <button type="button" class="btn btn-warning my-btn">我要入驻</button>
+        </div>
+      </div>
+
+      <div class="server">
+        <div class="sub-title">
+          <img
+            src="img/server.png"
+            alt
+            :class="{'img-responsive':true, 'server-img':true, 'addAnimate':isAddAnimate}"
+          >
+        </div>
+        <div class="row server-content">
+          <div class="col-md-6 server-left">
+            <div :class="{'server-title':true, 'col':true, 'addAnimate':isAddAnimate}">品类全覆盖，应有尽有</div>
+            <ul :class="{'server-list':true, 'addAnimate':isAddAnimate}">
+              <li
+                v-for="(item, index) in server_type"
+                :key="index"
+                @mouseenter="enter(item.id)"
+                @mouseleave="leave(item.id)"
+              >
+                <div
+                  class="img"
+                  :style="{'background-image':`url('${item.afterImg}')`}"
+                  v-if="item.ismouse"
+                ></div>
+                <div class="img" :style="{'background-image':`url('${item.beforeImg}')`}" v-else></div>
+
+                <div>
+                  <div :class="{'main-title':true,'main-title_hover':item.ismouse}">{{item.main}}</div>
+                  <div :class="{'subTitle':item.ismouse}">{{item.sub}}</div>
+                </div>
+              </li>
+            </ul>
+          </div>
+          <div :class="{'col-md-6':true,'addAnimate':isAddAnimate}">
+            <div class="out-phone">
+              <div
+                class="phone"
+                :style="{'background-image':`url('${server_type[index].phoneImg}')`}"
+              ></div>
+            </div>
           </div>
         </div>
       </div>
     </div>
+    <my-footer></my-footer>
   </div>
-</div>
 </template>
 
 <script>
@@ -112,8 +112,10 @@ export default {
           main: "水果生鲜 Fresh food",
           sub: "新鲜速达",
           ismouse: false,
-          beforeImg: "http://127.0.0.1:5050/img/small_img/Supermarket-nopick.png",
-          afterImg: "http://127.0.0.1:5050/img/small_img/Supermarket-picked.png",
+          beforeImg:
+            "http://127.0.0.1:5050/img/small_img/Supermarket-nopick.png",
+          afterImg:
+            "http://127.0.0.1:5050/img/small_img/Supermarket-picked.png",
           phoneImg: "http://127.0.0.1:5050/img/phone/fresh.png"
         },
         {
@@ -134,7 +136,7 @@ export default {
   },
   methods: {
     buying() {
-      this.$router.push(`/UserIndex`)
+      this.$router.push(`/UserIndex`);
     },
     handleScroll() {
       var scrollTop =

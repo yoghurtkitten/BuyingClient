@@ -46,7 +46,7 @@
         </div>
         <div data-pay>
           <p>
-            <span>请选择支付方式</span>
+            <span>请选择支付方式{{order_id}}</span>
             <span>
               剩余支付时间
               <i>15分00秒</i>，逾期订单将自动取消
@@ -104,6 +104,8 @@
   </div>
 </template>
 <script>
+import store from "../store/store.js";
+
 export default {
   data() {
     return {
@@ -119,7 +121,9 @@ export default {
       order_no: "",
       isModel: false,
       isClose: false,
-      iswechat: false
+      iswechat: false,
+      timer: null
+      // delive_time: 0,
     };
   },
   created() {
@@ -168,6 +172,7 @@ export default {
       this.add_id = this.$route.query.address;
       this.order_id = this.$route.query.order_id;
       this.order_no = this.$route.query.order_no;
+      // this.delive_time = this.$route.query.delive_time;
     },
     close_model() {
       this.isModel = false;
@@ -222,21 +227,22 @@ export default {
       }
     },
     time() {
-      // clearInterval(timer);
-      var time_count = 900;
-      var timer = setInterval(() => {
-        time_count--;
-        $("div[data-pay]>p>span>i").html(
-          `${parseInt(time_count / 60)}分${time_count % 60}秒`
-        );
-      }, 1000);
-
-      setTimeout(() => {
-        clearTimeout(timer);
-        this.isModel = true;
-        this.isClose = true;
-        this.iswechat = false;
-      }, 900000);
+      var time_count = store.state.timerNumber;
+      if (time_count == 900) {
+        this.timer = setInterval(() => {
+          time_count--;
+          $("div[data-pay]>p>span>i").html(
+            `${parseInt(time_count / 60)}分${time_count % 60}秒`
+          );
+          store.commit("setTimer", time_count);
+        }, 1000);
+        setTimeout(() => {
+          clearTimeout(this.timer);
+          this.isModel = true;
+          this.isClose = true;
+          this.iswechat = false;
+        }, 900000);
+      }
     },
     show_detail() {
       $("div[data-small]").hide();
@@ -253,12 +259,14 @@ export default {
         data: {
           sid: this.sid,
           user: this.user,
-          add_id: this.add_id
+          add_id: this.add_id,
+          order_id: this.order_id
         },
         type: "post",
         dataType: "json"
       }).then(data => {
-        // console.log(data);
+        // console.log('3')
+        console.log(data);
         _self.pay_info = data;
       });
     },
