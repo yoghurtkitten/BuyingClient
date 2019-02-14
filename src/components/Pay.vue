@@ -46,10 +46,10 @@
         </div>
         <div data-pay>
           <p>
-            <span>请选择支付方式{{order_id}}</span>
+            <span>请选择支付方式</span>
             <span>
               剩余支付时间
-              <i>15分00秒</i>，逾期订单将自动取消
+              <i></i>，逾期订单将自动取消
             </span>
           </p>
           <hr>
@@ -128,13 +128,17 @@ export default {
   },
   created() {
     this.dataFromOrder();
-    this.getPayInfo();
+    setTimeout(() => {
+      this.getPayInfo();
+    }, 100);
     this.time();
     this.changeOrder();
     this.isPay();
   },
   methods: {
     isPay() {
+      /* localStorage.setItem('indexUrl','#/IndexA');
+      console.log(localStorage.getItem('indexUrl')); */
       var url = "http://127.0.0.1:5050/user/orderStatu";
       this.axios
         .get(url, {
@@ -227,22 +231,21 @@ export default {
       }
     },
     time() {
-      var time_count = store.state.timerNumber;
-      if (time_count == 900) {
-        this.timer = setInterval(() => {
-          time_count--;
-          $("div[data-pay]>p>span>i").html(
-            `${parseInt(time_count / 60)}分${time_count % 60}秒`
-          );
-          store.commit("setTimer", time_count);
-        }, 1000);
-        setTimeout(() => {
-          clearTimeout(this.timer);
-          this.isModel = true;
-          this.isClose = true;
-          this.iswechat = false;
-        }, 900000);
-      }
+      var time_count = localStorage.getItem("timeNum");
+      this.timer = setInterval(() => {
+        time_count--;
+        $("div[data-pay]>p>span>i").html(
+          `${parseInt(time_count / 60)}分${time_count % 60}秒`
+        );
+        store.commit("setTimer", time_count);
+        localStorage.setItem("timeNum", time_count);
+      }, 1000);
+      setTimeout(() => {
+        clearTimeout(this.timer);
+        this.isModel = true;
+        this.isClose = true;
+        this.iswechat = false;
+      }, 900000);
     },
     show_detail() {
       $("div[data-small]").hide();
@@ -254,6 +257,7 @@ export default {
     },
     getPayInfo() {
       var _self = this;
+      console.log(this.sid, this.user, this.add_id, this.order_id);
       $.ajax({
         url: "http://127.0.0.1:5050/user/load_Order",
         data: {
@@ -265,7 +269,6 @@ export default {
         type: "post",
         dataType: "json"
       }).then(data => {
-        // console.log('3')
         console.log(data);
         _self.pay_info = data;
       });
@@ -283,6 +286,17 @@ export default {
       }).then(data => {
         // console.log(data);
       });
+    }
+  },
+  beforeRouteEnter(to, from, next) {
+    console.log("1223");
+    next();
+  },
+  beforeRouteLeave(to, from, next) {
+    var flag = confirm("确定要结束支付？");
+    if (flag) {
+      clearInterval(this.timer);
+      next();
     }
   }
 };

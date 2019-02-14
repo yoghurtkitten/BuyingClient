@@ -297,6 +297,7 @@ export default {
         // console.log(data);
         if (data) {
           store.commit("setTimer", 900);
+          localStorage.setItem('timeNum',store.state.timerNumber);
           _self.$router.push(
             `/Pay?sid=${_self.sid}&user=${_self.user}&address=${
               _self.address_id

@@ -229,12 +229,6 @@ export default {
       isShowMedia: false
     };
   },
-  beforeRouteEnter(to, from, next) {
-    console.log(to);
-    console.log(from);
-    console.log(next);
-    next();
-  },
   mounted() {
     this.getSid();
     this.load_food().then(this.bandClick);
