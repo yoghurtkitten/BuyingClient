@@ -231,6 +231,7 @@ export default {
       }
     },
     time() {
+      console.log(12);
       var time_count = localStorage.getItem("timeNum");
       this.timer = setInterval(() => {
         time_count--;
@@ -239,6 +240,7 @@ export default {
         );
         store.commit("setTimer", time_count);
         localStorage.setItem("timeNum", time_count);
+        console.log(time_count);
       }, 1000);
       setTimeout(() => {
         clearTimeout(this.timer);
@@ -293,10 +295,12 @@ export default {
     next();
   },
   beforeRouteLeave(to, from, next) {
-    var flag = confirm("确定要结束支付？");
+    clearInterval(this.timer);
+    var flag = confirm("请注意支付时间哦");
     if (flag) {
-      clearInterval(this.timer);
       next();
+    } else {
+      this.time();
     }
   }
 };
