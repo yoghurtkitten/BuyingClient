@@ -20,12 +20,12 @@
                       @mouseleave="leave"
                     >{{user}}</a>
                   </div>
-                  <div class="col-md-6 p-0 pl-4">
+                  <!-- <div class="col-md-6 p-0 pl-4">
                     <a href="#" class="new-list-btn fr btn">
                       <i class="iconfont">&#xe68d;</i>
                       我的订单
                     </a>
-                  </div>
+                  </div> -->
                   <div class="user-info" v-show="isToggle" @mouseenter="enter" @mouseleave="leave">
                     <ul>
                       <li>

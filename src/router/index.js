@@ -6,6 +6,7 @@ import Login from '@/components/Login.vue'
 import Shop from '@/components/Shop.vue'
 import Order from '@/components/Order.vue'
 import Pay from '@/components/Pay.vue'
+import UserCenter from '@/components/UserCenter.vue'
 import PayMent from '@/components/PayMent.vue'
 import UserChoose from '@/components/UserChoose.vue'
 import Choose from '@/components/shop_search/Choose.vue'
@@ -59,6 +60,11 @@ export default new Router({
       path: '/PayMent',
       name: 'PayMent',
       component: PayMent
+    },
+    {
+      path: '/UserCenter',
+      name: 'UserCenter',
+      component: UserCenter
     }
   ]
 })

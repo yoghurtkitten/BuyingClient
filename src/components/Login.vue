@@ -22,6 +22,8 @@
                 <button class="btn form-control" @click="login()">登录</button>
             </section>
         </div>
+    <my-footer></my-footer>
+
     </div>
 </template>
 <script>
