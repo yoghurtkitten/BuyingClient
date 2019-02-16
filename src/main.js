@@ -10,6 +10,9 @@ import MyFooter from './components/part/MyFooter'
 import '@/assets/css/iconfont.css'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap/dist/js/bootstrap.min.js'
+import ElementUi from 'element-ui'
+import '../node_modules/element-ui/lib/theme-chalk/index.css'
+Vue.use(ElementUi)
 
 Vue.config.productionTip = false
 
