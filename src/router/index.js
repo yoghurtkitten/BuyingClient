@@ -7,6 +7,9 @@ import Shop from '@/components/Shop.vue'
 import Order from '@/components/Order.vue'
 import Pay from '@/components/Pay.vue'
 import UserCenter from '@/components/UserCenter.vue'
+import Center from '@/components/center_part/Center.vue'
+import OrderPart from '@/components/center_part/Order.vue'
+import OrderDetail from '@/components/center_part/OrderDetail.vue'
 import PayMent from '@/components/PayMent.vue'
 import UserChoose from '@/components/UserChoose.vue'
 import Choose from '@/components/shop_search/Choose.vue'
@@ -64,7 +67,24 @@ export default new Router({
     {
       path: '/UserCenter',
       name: 'UserCenter',
-      component: UserCenter
+      component: UserCenter,
+      children: [
+        {
+          path: '/UserCenter/Center',
+          name: 'Center',
+          component: Center
+        },
+        {
+          path: '/UserCenter/Order',
+          name: 'OrderPart',
+          component: OrderPart
+        },
+        {
+          path: '/UserCenter/OrderDetail',
+          name:'OrderDetail',
+          component: OrderDetail
+        }
+      ]
     }
   ]
 })
