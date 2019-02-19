@@ -51,7 +51,7 @@
             </li>
             <li>
               <p class="pay">
-                实际支付
+                实际支付：
                 <span>29.10</span>
               </p>
             </li>
@@ -82,7 +82,7 @@
             </li>
             <li>
               <p>
-                <span>备注：</span>
+                <span>备注:</span>
                 <span>无备注</span>
               </p>
             </li>
@@ -241,7 +241,7 @@
 .title {
   font-weight: 700;
   padding-top: 20px;
-  padding-bottom: 16px;
+  /* padding-bottom: 16px; */
 }
 .order-info {
   background: #fff;
@@ -258,5 +258,40 @@
   font-size: 1.625rem;
   font-weight: 700;
   color: #f74342;
+}
+.order-info ul li {
+  padding-left: 8%;
+}
+.order-info ul li:not(:last-child):not(:first-child) {
+  border-bottom: 1px solid #eee;
+}
+/* .order-info ul li p {
+  margin-bottom: 5%;
+} */
+.order-info ul li p:first-child {
+  margin-top: 5%;
+}
+.order-info ul li p span:first-child {
+  display: inline-block;
+  width: 21%;
+  text-align: justify;
+  text-align-last: justify;
+}
+.order-info ul li p span:first-child::after {
+  display: inline-block;
+  overflow: hidden;
+  width: 100%;
+  height: 12px;
+  content: "";
+}
+.order-info ul li p span:last-child{
+  display: inline-block;
+}
+.order-info ul li p span:last-child::after{
+  display: inline-block;
+  overflow: hidden;
+  width: 100%;
+  height: 12px;
+  content: "";
 }
 </style>
