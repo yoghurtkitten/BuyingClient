@@ -133,6 +133,7 @@ export default {
 .row {
   padding: 0;
   margin: 0;
+  width: 100%;
 }
 
 ul {

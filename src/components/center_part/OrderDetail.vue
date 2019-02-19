@@ -7,20 +7,20 @@
         <li>订单已取消</li>
       </ul>
     </div>
-    <div class="detail">
+    <div class="detail" v-if="shop_info">
       <div class="shop-info">
         <div class="shop-img"></div>
         <div>
           <p>
-            <span class="shop-title">醉得意（杨家湾）</span>
+            <span class="shop-title">{{shop_info.shop_name}}</span>
             <span>
               <i class="iconfont">&#xeb9a;</i>
               收藏
             </span>
           </p>
           <p>
-            <span class="order-no">订单号：2104080127576158444</span>
-            <span>商家电话：18162938906</span>
+            <span class="order-no">订单号：{{order_no}}</span>
+            <span>商家电话：{{shop_info.shop_phone}}</span>
           </p>
         </div>
       </div>
@@ -33,26 +33,21 @@
               <span>小计（元）</span>
             </li>
             <li class="foods">
-              <p>
-                <span>得意糍粑鱼排</span>
-                <span>1</span>
-                <span>9.00</span>
-              </p>
-              <p>
-                <span>得意糍粑鱼排</span>
-                <span>1</span>
-                <span>9.00</span>
+              <p v-for="(item, index) in shop_car" :key="index">
+                <span>{{item.name}}</span>
+                <span>{{item.number}}</span>
+                <span>{{item.price.toFixed(2)}}</span>
               </p>
             </li>
-            <li>
+            <li v-if="shop_info.deliver_fee">
               <span>配送费</span>
               <span></span>
-              <span>6.10</span>
+              <span>￥{{shop_info.deliver_fee.toFixed(2)}}</span>
             </li>
             <li>
               <p class="pay">
                 实际支付：
-                <span>29.10</span>
+                <span>{{total.toFixed(2)}}</span>
               </p>
             </li>
           </ul>
@@ -62,28 +57,29 @@
             <li class="title">配送信息</li>
             <li>
               <p>
-                <span>送达时间：</span>
-                <span>尽快送出</span>
+                <span>配送时间：</span>
+                <span>{{address.order_time|dateFormat}} {{address.order_time|timeFormat}}</span>
               </p>
             </li>
             <li>
               <p>
                 <span>联系人：</span>
-                <span>邓多多（先生）</span>
+                <span>{{address.receiver}}</span>
               </p>
               <p>
                 <span>联系电话：</span>
-                <span>15072772685</span>
+                <span>{{address.phone}}</span>
               </p>
               <p>
                 <span>收货地址：</span>
-                <span>保利华16栋A栋</span>
+                <span>{{address.address}}</span>
               </p>
             </li>
             <li>
               <p>
                 <span>备注:</span>
-                <span>无备注</span>
+                <span v-if="!address.message">无备注</span>
+                <span v-else>{{address.message}}</span>
               </p>
             </li>
           </ul>
@@ -92,6 +88,94 @@
     </div>
   </div>
 </template>
+<script>
+export default {
+  data() {
+    return {
+      order_no: "",
+      shop_info: {},
+      shop_car: [],
+      address: []
+    };
+  },
+  created() {
+    this.getData();
+    this.getShop_info();
+    this.getShopCarInfo();
+    this.getAddressInfo();
+  },
+  computed: {
+    total() {
+      var sum = 0;
+      for (const item of this.shop_car) {
+        sum += item.price;
+      }
+      sum += this.shop_info.deliver_fee;
+      return sum;
+    }
+  },
+  methods: {
+    getData() {
+      this.order_no = this.$route.query.order_no;
+    },
+    getShop_info() {
+      var url = "http://127.0.0.1:5050/user/getShopInfo";
+      this.axios(url, {
+        params: {
+          order_no: this.order_no
+        }
+      }).then(result => {
+        this.shop_info = result.data.data[0];
+      });
+    },
+    getShopCarInfo() {
+      var url = "http://127.0.0.1:5050/user/getShopCarInfo";
+      this.axios(url, {
+        params: {
+          order_no: this.order_no
+        }
+      }).then(result => {
+        this.shop_car = result.data.data;
+      });
+    },
+    getAddressInfo() {
+      var url = "http://127.0.0.1:5050/user/getAddressInfo";
+      this.axios(url, {
+        params: {
+          order_no: this.order_no
+        }
+      }).then(result => {
+        this.address = result.data.data[0];
+        console.log(this.address);
+      });
+    }
+  },
+  filters: {
+    dateFormat: function(val) {
+      return `${new Date(val).getFullYear()}-${
+        new Date(val).getMonth() + 1 > 10
+          ? new Date(val).getMonth() + 1
+          : "0" + (new Date(val).getMonth() + 1)
+      }-${
+        new Date(val).getDate() > 10
+          ? new Date(val).getDate()
+          : "0" + new Date(val).getDate()
+      }`;
+    },
+    timeFormat: function(val) {
+      return `${
+        new Date(val).getHours() > 10
+          ? new Date(val).getHours()
+          : "0" + new Date(val).getHours()
+      }:${
+        new Date(val).getMinutes() > 10
+          ? new Date(val).getMinutes()
+          : "0" + new Date(val).getMinutes()
+      }`;
+    }
+  }
+};
+</script>
 <style scoped>
 .order-detail {
   width: 80%;
@@ -284,10 +368,10 @@
   height: 12px;
   content: "";
 }
-.order-info ul li p span:last-child{
+.order-info ul li p span:last-child {
   display: inline-block;
 }
-.order-info ul li p span:last-child::after{
+.order-info ul li p span:last-child::after {
   display: inline-block;
   overflow: hidden;
   width: 100%;

@@ -36,7 +36,7 @@
               <p class="state" v-if="item.content[0]">{{item.content[0].status|statuFormat}}</p>
             </td>
             <td>
-              <a href="javascript:;">订单详情</a>
+              <router-link v-if="item.content[0]" :to="`/UserCenter/OrderDetail?order_no=${item.content[0].order_no}`">订单详情</router-link>
             </td>
           </tr>
         </tbody>
@@ -93,6 +93,7 @@ export default {
           user: this.user
         }
       }).then(data => {
+        console.log(data.data)
         var index = 0;
         var myList = [];
         for (let i = 0; i < data.data.length; i++) {
