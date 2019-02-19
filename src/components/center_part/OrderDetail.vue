@@ -64,7 +64,7 @@
             <li>
               <p>
                 <span>联系人：</span>
-                <span>{{address.receiver}}</span>
+                <span>{{address.receiver}}({{address.gender|changeGender}})</span>
               </p>
               <p>
                 <span>联系电话：</span>

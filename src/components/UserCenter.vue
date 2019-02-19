@@ -31,7 +31,7 @@
                   <span>我的资料</span>
                 </div>
                 <p>个人资料</p>
-                <p>地址管理</p>
+                <p @click="toAddress">地址管理</p>
               </li>
               <li>
                 <div>
@@ -58,6 +58,9 @@ export default {
     },
     toOrder() {
       this.$router.push('/UserCenter/Order');
+    },
+    toAddress() {
+      this.$router.push('/UserCenter/Address');
     }
   },
 }
