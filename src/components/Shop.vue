@@ -9,7 +9,7 @@
           @mouseleave="titleEnter"
         >
           <div :class="{'left-inner':true, 'd-flex':true, 'align-items-center':true}">
-            <img src="http://127.0.0.1:5050/img/business/business-icon.png" class="icon" alt>
+            <img :src="baseUrl+'/img/business/business-icon.png'" class="icon" alt>
             <div class="ml-2">
               <p class="busin-title" v-if="category[0]">
                 <span>{{category[0].foods[0].shop_name}}</span>
@@ -137,7 +137,7 @@
                 :key="index"
                 v-if="food.foot_type == obj.type_name"
               >
-                <img :src="'http://127.0.0.1:5050/'+food.food_img" alt class="goods-img">
+                <img :src="baseUrl+'/'+food.food_img" alt class="goods-img">
                 <div>
                   <p>{{food.name}}</p>
                   <p>{{food.ingredients}}</p>
@@ -219,6 +219,7 @@
 export default {
   data() {
     return {
+      baseUrl: this.$store.getters.getBaseUrl,      
       sid: "",
       user: "",
       category: [],
@@ -262,7 +263,7 @@ export default {
       var _self = this;
       return new Promise(function(open) {
         $.ajax({
-          url: "http://127.0.0.1:5050/user/getFoodsCatagory",
+          url: `${_self.baseUrl}/user/getFoodsCatagory`,
           type: "get",
           data: {
             sid: _self.sid
@@ -305,11 +306,11 @@ export default {
     },
     load_shop_car: function() {
       var _self = this;
-      var url = "http://127.0.0.1:5050/user/session";
+      var url = `${_self.baseUrl}/user/session`;
       this.axios.get(url).then(result => {
         var data = result.data.msg.name;
         this.user = result.data.msg.name;
-        url = "http://127.0.0.1:5050/user/load_shop_car";
+        url = `${_self.baseUrl}/user/load_shop_car`;
         this.axios
           .get(url, {
             params: {
@@ -341,7 +342,7 @@ export default {
     add_to_shopCar: function(e, name, price, f_id) {
       var _self = this;
       $.ajax({
-        url: "http://127.0.0.1:5050/user/setShopCar",
+        url: `${_self.baseUrl}/user/setShopCar`,
         type: "post",
         data: {
           foods_id: f_id,
@@ -373,7 +374,7 @@ export default {
             }
             // console.log(element.number);
             $.ajax({
-              url: "http://127.0.0.1:5050/user/update_shopCar",
+              url: `${_self.baseUrl}/user/update_shopCar`,
               type: "post",
               data: {
                 foods_id: f_id,

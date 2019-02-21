@@ -1,7 +1,7 @@
 <template>
   <div class="right-aside">
     <div>
-      <img src="http://127.0.0.1:5050/img/user/default-avatar.38e40d.png" alt>
+      <img :src="baseUrl+'/img/user/default-avatar.38e40d.png'" alt>
       <div>
         <p>
           晚上好，
@@ -28,7 +28,7 @@
               <div v-if="item.content[0]">
                 <div
                   class="order_img"
-                  :style="'background-image:url(http://127.0.0.1:5050/'+item.content[0].shop_img+');'"
+                  :style="'background-image:url('+baseUrl+'/'+item.content[0].shop_img+');'"
                 ></div>
                 <p class="order_title">{{item.content[0].shop_name}}</p>
                 <p class="detail">{{getShopCar(item.content)}}</p>
@@ -61,6 +61,7 @@
 export default {
   data() {
     return {
+      baseUrl: this.$store.getters.getBaseUrl,
       user: "",
       allOrder: [],
       order: []
@@ -71,7 +72,7 @@ export default {
   },
   methods: {
     getUser: function() {
-      var url = "http://127.0.0.1:5050/user/session";
+      var url = `${this.baseUrl}/user/session`;
       this.axios.get(url).then(result => {
         var data = result.data.msg.name;
         this.user = result.data.msg.name;
@@ -83,7 +84,7 @@ export default {
       var index = 0;
       $.ajax({
         type: "GET",
-        url: "http://127.0.0.1:5050/user/getUserOrder",
+        url: `${this.baseUrl}/user/getUserOrder`,
         dataType: "json",
         data: {
           user: this.user
@@ -302,7 +303,6 @@ ul {
 .order_img {
   width: 4.375rem;
   height: 4.375rem;
-  /* background: url("http://127.0.0.1:5050/img/business/order.webp") no-repeat; */
   background-repeat: no-repeat;
   background-size: cover;
   float: left;

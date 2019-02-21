@@ -71,7 +71,8 @@ export default {
       city: "武汉",
       area: "武昌区",
       isToggle: false,
-      user: store.state.user
+      user: store.state.user,
+      baseUrl: this.$store.getters.getBaseUrl,
     };
   },
   mounted: function() {
@@ -98,7 +99,7 @@ export default {
     },
     getUser() {
       var _self = this;
-      var url = "http://127.0.0.1:5050/user/session";
+      var url = `${this.baseUrl}/user/session`;
       this.axios.get(url).then(result => {
         var data = result.data.msg.name;
         store.commit("setUser", data);

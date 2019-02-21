@@ -20,7 +20,7 @@
               <i class="iconfont">&#xe78c;</i>
             </td>
             <td v-if="item.content[0]">
-              <img :src="'http://127.0.0.1:5050/'+item.content[0].shop_img" alt srcset>
+              <img :src="baseUrl+'/'+item.content[0].shop_img" alt srcset>
             </td>
             <td>
               <p class="food-details">
@@ -52,6 +52,7 @@
 export default {
   data() {
     return {
+      baseUrl: this.$store.getters.getBaseUrl,
       user: "",
       allOrder: [],
       order: [],
@@ -75,7 +76,7 @@ export default {
       return sum.toFixed(2);
     },
     getUser: function() {
-      var url = "http://127.0.0.1:5050/user/session";
+      var url = `${this.baseUrl}/user/session`;
       this.axios.get(url).then(result => {
         var data = result.data.msg.name;
         this.user = result.data.msg.name;
@@ -87,7 +88,7 @@ export default {
       var index = 0;
       $.ajax({
         type: "GET",
-        url: "http://127.0.0.1:5050/user/getUserOrder",
+        url: `${this.baseUrl}/user/getUserOrder`,
         dataType: "json",
         data: {
           user: this.user

@@ -3,7 +3,7 @@
         <div class="login">
             <section>
                 <div class="logo">
-                    <img src="http://127.0.0.1:5050/img/login-logo.png" alt="" class="">
+                    <img :src="baseUrl+'/img/login-logo.png'" alt="" class="">
                 </div>
                 <div class="input-group mb-3 phone-div">
                     <input type="text" class="form-control phone-number" placeholder="手机号" maxlength="11" v-model="phone">
@@ -38,6 +38,7 @@
                 code_span: '获取验证码',
                 time: 30,
                 isDisabled: true,
+                baseUrl: this.$store.getters.getBaseUrl,
             }
         },
         watch: {
@@ -59,7 +60,7 @@
             getCode() {
                 if (this.codeStyle) {
                     $.ajax({
-                        url: 'http://127.0.0.1:5050/user/getVCode',
+                        url: `${this.baseUrl}/user/getVCode`,
                         type: 'post',
                         data: {
                             phone: this.phone
@@ -91,7 +92,7 @@
                 }, 30000)
             },
             login() {
-                var url = 'http://127.0.0.1:5050/user/login';
+                var url = `${this.baseUrl}/user/login`;
                 var data = qs.stringify({phone: this.phone, user_code: this.code, code: this.pwd});
                 this.axios.post(url, data).then(result => {
                     // console.log(result.data)
@@ -100,7 +101,6 @@
                 })
             }
         },
-
     }
 </script>
 <style scoped>

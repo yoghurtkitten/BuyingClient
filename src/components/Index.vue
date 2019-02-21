@@ -6,13 +6,13 @@
         <div class="carousel" data-ride="carousel" id="demo">
           <div class="carousel-inner">
             <div class="carousel-item active">
-              <img src="http://127.0.0.1:5050/img/slider/1.jpg" class="img-fluid" alt>
+              <img :src="baseUrl+'/img/slider/1.jpg'" class="img-fluid" alt>
             </div>
             <div class="carousel-item">
-              <img src="http://127.0.0.1:5050/img/slider/2.jpg" class="img-fluid" alt>
+              <img :src="baseUrl+'/img/slider/2.jpg'" class="img-fluid" alt>
             </div>
             <div class="carousel-item">
-              <img src="http://127.0.0.1:5050/img/slider/3.jpg" class="img-fluid" alt>
+              <img :src="baseUrl+'/img/slider/3.jpg'" class="img-fluid" alt>
             </div>
           </div>
           <ul class="carousel-indicators">
@@ -86,6 +86,7 @@ export default {
   name: "Index",
   data() {
     return {
+      baseUrl: this.$store.getters.getBaseUrl,
       isFixed: false,
       isAddAnimate: false,
       server_type: [
@@ -93,18 +94,18 @@ export default {
           id: 0,
           main: "美食 Delicacy",
           sub: "大牌优惠",
-          beforeImg: "http://127.0.0.1:5050/img/small_img/Delicacy-nopick.png",
-          afterImg: "http://127.0.0.1:5050/img/small_img/Delicacy-picked.png",
-          phoneImg: "http://127.0.0.1:5050/img/phone/delicacy.png",
+          beforeImg: `${this.$store.getters.getBaseUrl}/img/small_img/Delicacy-nopick.png`,
+          afterImg: `${this.$store.getters.getBaseUrl}/img/small_img/Delicacy-picked.png`,
+          phoneImg: `${this.$store.getters.getBaseUrl}/img/phone/delicacy.png`,
           ismouse: true
         },
         {
           id: 1,
           main: "甜点饮品 Desserts&Drinks",
           sub: "幸福甜蜜",
-          beforeImg: "http://127.0.0.1:5050/img/small_img/Desserts-nopick.png",
-          afterImg: "http://127.0.0.1:5050/img/small_img/Desserts-picked.png",
-          phoneImg: "http://127.0.0.1:5050/img/phone/desserts.png",
+          beforeImg: `${this.$store.getters.getBaseUrl}/img/small_img/Desserts-nopick.png`,
+          afterImg: `${this.$store.getters.getBaseUrl}/img/small_img/Desserts-picked.png`,
+          phoneImg: `${this.$store.getters.getBaseUrl}/img/phone/desserts.png`,
           ismouse: false
         },
         {
@@ -113,25 +114,26 @@ export default {
           sub: "新鲜速达",
           ismouse: false,
           beforeImg:
-            "http://127.0.0.1:5050/img/small_img/Supermarket-nopick.png",
+            `${this.$store.getters.getBaseUrl}/img/small_img/Supermarket-nopick.png`,
           afterImg:
-            "http://127.0.0.1:5050/img/small_img/Supermarket-picked.png",
-          phoneImg: "http://127.0.0.1:5050/img/phone/fresh.png"
+            `${this.$store.getters.getBaseUrl}/img/small_img/Supermarket-picked.png`,
+          phoneImg: `${this.$store.getters.getBaseUrl}/img/phone/fresh.png`
         },
         {
           id: 3,
           main: "超市便利 Supermarket",
           sub: "优惠促销",
           ismouse: false,
-          beforeImg: "http://127.0.0.1:5050/img/small_img/fruit-nopick.png",
-          afterImg: "http://127.0.0.1:5050/img/small_img/fruit-picked.png",
-          phoneImg: "http://127.0.0.1:5050/img/phone/supermarket.png"
+          beforeImg: `${this.$store.getters.getBaseUrl}/img/small_img/fruit-nopick.png`,
+          afterImg: `${this.$store.getters.getBaseUrl}/img/small_img/fruit-picked.png`,
+          phoneImg: `${this.$store.getters.getBaseUrl}/img/phone/supermarket.png`
         }
       ],
       index: 0
     };
   },
   mounted() {
+    
     window.addEventListener("scroll", this.handleScroll);
   },
   methods: {

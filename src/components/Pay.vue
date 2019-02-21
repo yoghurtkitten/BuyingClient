@@ -5,7 +5,7 @@
       <header>
         <div class="logo">
           <router-link to="/  ">
-            <img src="http://127.0.0.1:5050/img/logo.png" alt>
+            <img :src="baseUrl+'/img/logo.png'" alt>
           </router-link>
         </div>
         <div>收银台</div>
@@ -89,7 +89,7 @@
               使用微信支付
               <span>{{total}}</span>
             </p>
-            <img src="http://127.0.0.1:5050/img/pay/wechat.jpg" alt>
+            <img :src="baseUrl+'/img/pay/wechat.jpg'" alt>
             <div>
               <i class="iconfont">&#xe712;</i>
               <div>
@@ -109,6 +109,7 @@ import store from "../store/store.js";
 export default {
   data() {
     return {
+      baseUrl: this.$store.getters.getBaseUrl,
       sid: "",
       user: "",
       total: "",
@@ -135,11 +136,26 @@ export default {
     this.changeOrder();
     this.isPay();
   },
+  mounted() {
+    this.getCurrentStatu();
+  },
   methods: {
+    getCurrentStatu() {
+      var url = `${this.baseUrl}/user/getOrderStatu`;
+      this.axios(url, {
+        params: {
+          order_id: this.order_id
+        }
+      }).then(result => {
+        // console.log(result.data.code);
+        if (result.data.code == 1) {
+          this.close_model();
+        }
+      });
+    },
     isPay() {
-      /* localStorage.setItem('indexUrl','#/IndexA');
-      console.log(localStorage.getItem('indexUrl')); */
-      var url = "http://127.0.0.1:5050/user/orderStatu";
+      var _self = this;
+      var url = `${this.baseUrl}/user/orderStatu`;
       this.axios
         .get(url, {
           params: {
@@ -151,7 +167,7 @@ export default {
           var status = result.data[0].status;
           if (status) {
             $.ajax({
-              url: "http://127.0.0.1:5050/user/getShopAddress",
+              url: `${_self.baseUrl}/user/getShopAddress`,
               data: {
                 sid: this.sid
               },
@@ -181,7 +197,7 @@ export default {
     close_model() {
       this.isModel = false;
       $.ajax({
-        url: "http://127.0.0.1:5050/user/getShopAddress",
+        url: `${this.baseUrl}/user/getShopAddress`,
         data: {
           sid: this.sid
         },
@@ -207,7 +223,7 @@ export default {
         this.iswechat = true;
         this.isClose = false;
         $.ajax({
-          url: "http://127.0.0.1:5050/user/changeStatu",
+          url: `${this.baseUrl}/user/changeStatu`,
           data: {
             order_no: this.order_id,
             pay_method: "微信"
@@ -231,7 +247,7 @@ export default {
       }
     },
     time() {
-      console.log(12);
+      // console.log(12);
       var time_count = localStorage.getItem("timeNum");
       this.timer = setInterval(() => {
         time_count--;
@@ -240,7 +256,12 @@ export default {
         );
         store.commit("setTimer", time_count);
         localStorage.setItem("timeNum", time_count);
-        console.log(time_count);
+        if (time_count < 0) {
+          this.isModel = true;
+          this.isClose = true;
+          this.iswechat = false;
+          clearTimeout(this.timer);
+        }
       }, 1000);
       setTimeout(() => {
         clearTimeout(this.timer);
@@ -259,9 +280,9 @@ export default {
     },
     getPayInfo() {
       var _self = this;
-      console.log(this.sid, this.user, this.add_id, this.order_id);
+      // console.log(this.sid, this.user, this.add_id, this.order_id);
       $.ajax({
-        url: "http://127.0.0.1:5050/user/load_Order",
+        url: `${this.baseUrl}/user/load_Order`,
         data: {
           sid: this.sid,
           user: this.user,
@@ -271,13 +292,13 @@ export default {
         type: "post",
         dataType: "json"
       }).then(data => {
-        console.log(data);
+        // console.log(data);
         _self.pay_info = data;
       });
     },
     changeOrder() {
       $.ajax({
-        url: "http://127.0.0.1:5050/user/change_order",
+        url: `${this.baseUrl}/user/change_order`,
         type: "get",
         dataType: "json",
         data: {
@@ -291,7 +312,7 @@ export default {
     }
   },
   beforeRouteEnter(to, from, next) {
-    console.log("1223");
+    // console.log("1223");
     next();
   },
   beforeRouteLeave(to, from, next) {

@@ -251,7 +251,6 @@ section > div > span {
 .order_img {
   width: 4.375rem;
   height: 4.375rem;
-  /* background: url("http://127.0.0.1:5050/img/business/order.webp") no-repeat; */
   background-repeat: no-repeat;
   background-size: cover;
   float: left;

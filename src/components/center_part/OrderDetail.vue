@@ -92,6 +92,7 @@
 export default {
   data() {
     return {
+      baseUrl: this.$store.getters.getBaseUrl,
       order_no: "",
       shop_info: {},
       shop_car: [],
@@ -119,7 +120,7 @@ export default {
       this.order_no = this.$route.query.order_no;
     },
     getShop_info() {
-      var url = "http://127.0.0.1:5050/user/getShopInfo";
+      var url = `${this.baseUrl}/user/getShopInfo`;
       this.axios(url, {
         params: {
           order_no: this.order_no
@@ -129,7 +130,7 @@ export default {
       });
     },
     getShopCarInfo() {
-      var url = "http://127.0.0.1:5050/user/getShopCarInfo";
+      var url = `${this.baseUrl}/user/getShopCarInfo`;
       this.axios(url, {
         params: {
           order_no: this.order_no
@@ -139,7 +140,7 @@ export default {
       });
     },
     getAddressInfo() {
-      var url = "http://127.0.0.1:5050/user/getAddressInfo";
+      var url = `${this.baseUrl}/user/getAddressInfo`;
       this.axios(url, {
         params: {
           order_no: this.order_no

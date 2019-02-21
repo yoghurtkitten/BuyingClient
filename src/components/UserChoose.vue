@@ -58,7 +58,8 @@ export default {
       pageAddress: "",
       address: "",
       issearch: false,
-      business: ""
+      business: "",
+      baseUrl: this.$store.getters.getBaseUrl,
     };
   },
   mounted: function() {
@@ -67,7 +68,7 @@ export default {
   },
   methods: {
     getUser: function() {
-      var url = "http://127.0.0.1:5050/user/session";
+      var url = `${this.baseUrl}/user/session`;
       this.axios.get(url).then(result => {
         var data = result.data.msg.name;
         this.user = result.data.msg.name;

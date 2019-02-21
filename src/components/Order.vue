@@ -150,7 +150,7 @@
         </section>
         <section v-else>
           <div class="empty">
-            <img src="http://127.0.0.1:5050/img/nodata.6477c5.png" alt>
+            <img :src="baseUrl+'/img/nodata.6477c5.png'" alt>
             <p>
               你的购物车是空的，去
               <a href="javascript:;" @click="back_to_user_choose">下单</a>吧
@@ -202,6 +202,7 @@ export default {
   components: { VDistpicker },
   data() {
     return {
+      baseUrl: this.$store.getters.getBaseUrl,
       sid: "",
       user: "",
       orderInfo: [],
@@ -281,7 +282,7 @@ export default {
       // console.log(this.deliver_time);
       var _self = this;
       $.ajax({
-        url: "http://127.0.0.1:5050/user/save_Order",
+        url: `${_self.baseUrl}/user/save_Order`,
         type: "post",
         data: {
           u_phone: this.user,
@@ -336,7 +337,7 @@ export default {
     load_orderInfo: function() {
       var _self = this;
       $.ajax({
-        url: "http://127.0.0.1:5050/user/getOrderInfo",
+        url: `${_self.baseUrl}/user/getOrderInfo`,
         type: "post",
         data: {
           sid: this.sid,
@@ -374,7 +375,7 @@ export default {
     load_adderss: function() {
       var _self = this;
       $.ajax({
-        url: "http://127.0.0.1:5050/user/valiAddress",
+        url: `${_self.baseUrl}/user/valiAddress`,
         type: "get",
         data: {
           user: this.user
@@ -394,7 +395,7 @@ export default {
       var addr = `${this.province}-${this.city}-${this.area}`;
       var _self = this;
       $.ajax({
-        url: "http://127.0.0.1:5050/user/save_address",
+        url: `${_self.baseUrl}/user/save_address`,
         type: "post",
         data: {
           u_phone: this.user,
@@ -416,7 +417,7 @@ export default {
     },
     back_to_user_choose: function() {
       $.ajax({
-        url: "http://127.0.0.1:5050/user/getShopAddress",
+        url: `${this.baseUrl}/user/getShopAddress`,
         data: {
           sid: this.sid
         },
@@ -761,7 +762,7 @@ div[data-right] {
   color: #666;
   padding: 2%;
   margin-left: 23%;
-  margin-top: 15%;
+  margin-top: 9%;
   display: none;
 }
 #modal > div {

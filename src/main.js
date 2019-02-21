@@ -12,6 +12,7 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap/dist/js/bootstrap.min.js'
 import ElementUi from 'element-ui'
 import '../node_modules/element-ui/lib/theme-chalk/index.css'
+import store from './store/store.js'
 Vue.use(ElementUi)
 
 Vue.config.productionTip = false
@@ -30,5 +31,6 @@ new Vue({
   el: '#app',
   router,
   components: { App },
-  template: '<App/>'
+  template: '<App/>',
+  store
 })

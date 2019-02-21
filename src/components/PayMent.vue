@@ -8,7 +8,7 @@
         </span>
       </p>
       <div>
-        <img src="http://127.0.0.1:5050/img/pay/T1HHFgXXVeXXXXXXXX.png" alt>
+        <img :src="baseUrl+'/img/pay/T1HHFgXXVeXXXXXXXX.png'" alt>
       </div>
     </header>
     <section>
@@ -16,7 +16,7 @@
         <div class="main-div">
           <div>
             <p>扫码支付</p>
-            <img src="http://127.0.0.1:5050/img/pay/pay.jpg" alt>
+            <img :src="baseUrl+'/img/pay/pay.jpg'" alt>
             <div class="pay_info">
               <p>使用手机支付宝扫码完成付款</p>
               <p>
@@ -46,7 +46,7 @@
         <p>ICP证：沪B2-20150087</p>
       </div>
       <div>
-        <img src="http://127.0.0.1:5050/img/pay/2R3cKfrKqS.png" alt>
+        <img :src="baseUrl+'/img/pay/2R3cKfrKqS.png'" alt>
       </div>
     </footer>
   </div>
@@ -55,6 +55,7 @@
 export default {
   data() {
     return {
+      baseUrl: this.$store.getters.getBaseUrl,
       total: "",
       order_id: "",
       order_no: ""
@@ -73,7 +74,7 @@ export default {
     },
     changeOrderStatu() {
       $.ajax({
-        url: "http://127.0.0.1:5050/user/changeStatu",
+        url: `${this.baseUrl}/user/changeStatu`,
         data: {
           order_no: this.order_id,
           pay_method: '支付宝'
