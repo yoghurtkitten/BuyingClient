@@ -176,7 +176,6 @@ export default {
       if ($(".login_user").text() == "注册/登录") {
         alert("请登录");
       } else {
-        // location.href = `${location.origin}/shop.html?sid=${sid}&user=${this.user}`;
         this.$router.push(`/Shop?sid=${sid}`);
       }
     }

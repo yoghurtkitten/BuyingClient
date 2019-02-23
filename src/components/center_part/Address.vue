@@ -100,17 +100,16 @@ export default {
       this.isAdd = false;
     },
     selected(data) {
-      this.province = data.province.value.slice(0, -1);
-      this.city = data.city.value.slice(0, -1);
+      this.city = data.city.value;
       this.area = data.area.value;
+      this.province = data.province.value;
     },
     saveAddre() {
       if(this.isUpdate){
-        // console.log(this.updateId)
         var addr = `${this.province}-${this.city}-${this.area}`;
         var _self = this;
         var data = qs.stringify( {
-          id:id,
+          id:this.updateId,
           receiver: this.receiver,
           province: this.province,
           city: this.city,
@@ -124,6 +123,7 @@ export default {
           if(result.data.code == 200){
             _self.isAdd = false;
             this.isUpdate = false;
+            this.getAddress();
           }
         })
       } else {
@@ -186,9 +186,9 @@ export default {
           var res = result.data.data[0];
           this.receiver = res.receiver;
           this.gender = res.gender;
-          this.province = '省';
-          this.city = '市';
-          this.are = '区';
+          this.province = res.province;
+          this.city = res.city;
+          this.area = res.country;
           this.datail_address = res.address;
           this.phone = res.phone;
           

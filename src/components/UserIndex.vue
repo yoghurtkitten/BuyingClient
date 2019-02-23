@@ -20,12 +20,6 @@
                       @mouseleave="leave"
                     >{{user}}</a>
                   </div>
-                  <!-- <div class="col-md-6 p-0 pl-4">
-                    <a href="#" class="new-list-btn fr btn">
-                      <i class="iconfont">&#xe68d;</i>
-                      我的订单
-                    </a>
-                  </div> -->
                   <div class="user-info" v-show="isToggle" @mouseenter="enter" @mouseleave="leave">
                     <ul>
                       <li>
@@ -67,8 +61,8 @@ export default {
   components: { VDistpicker },
   data() {
     return {
-      province: "湖北",
-      city: "武汉",
+      province: "湖北省",
+      city: "武汉市",
       area: "武昌区",
       isToggle: false,
       user: store.state.user,
@@ -86,15 +80,13 @@ export default {
       this.isToggle = false;
     },
     search: function() {
-      // var data = txt_city.value.replace(/\s*/gi, "");
-      // location.href = `${location.origin}/user_choose.html?address=${data}`;
       console.log(`${this.province}-${this.city}-${this.area}`);
       var address = `${this.province}-${this.city}-${this.area}`;
       this.$router.push(`/UserChoose/Choose?address=${address}`);
     },
     selected(data) {
-      this.province = data.province.value.slice(0, -1);
-      this.city = data.city.value.slice(0, -1);
+      this.province = data.province.value;
+      this.city = data.city.value;
       this.area = data.area.value;
     },
     getUser() {
