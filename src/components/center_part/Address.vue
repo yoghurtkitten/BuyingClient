@@ -2,21 +2,21 @@
   <div class="address">
     <div class="top">订单详情</div>
     <div class="main">
-      <div>
+      <div v-for="(item, index) in addressList" :key="index">
         <div>
-          <p>张三 &nbsp;先生</p>
+          <p>{{item.receiver}} &nbsp;{{item.gender | changeGender}}</p>
           <p>
-            <a href="javascript:;">修改</a>
-            <a href="javascript:;" @click="del">删除</a>
+            <a href="javascript:;" @click="updataAddress" :data-index="index" :data-id="item.id">修改</a>
+            <a href="javascript:;" @click="del" :data-index="index">删除</a>
           </p>
         </div>
-        <div>旋木音乐教室 实验小学1</div>
-        <div>15912345678</div>
-        <div class="del" v-if="isdel">
+        <div>{{item.address}}</div>
+        <div>{{item.phone}}</div>
+        <div class="del" v-if="item.showDel">
           <p>确定要删除收货地址？</p>
           <div>
-            <button>确定</button>
-            <button @click="cancel">取消</button>
+            <button @click="confirm" :data-index="index" :data-id="item.id">确定</button>
+            <button @click="cancel" :data-index="index">取消</button>
           </div>
         </div>
       </div>
@@ -27,7 +27,8 @@
     </div>
     <div class="modal-bg" v-if="isAdd"></div>
     <aside id="modal" v-if="isAdd">
-      <h2>添加新地址</h2>
+      <h2 v-if="!isUpdate">添加新地址</h2>
+      <h2 v-else>编辑地址</h2>
       <div>
         <label>姓名</label>
         <input type="text" name id="uname" placeholder="请输入您的姓名" v-model="receiver">
@@ -41,7 +42,7 @@
       </div>
       <div data-address>
         <label>位置</label>
-        <v-distpicker province="省" city="市" area="区" @selected="selected"></v-distpicker>
+        <v-distpicker :province="province" :city="city" :area="area" @selected="selected"></v-distpicker>
       </div>
       <div>
         <label>详细地址</label>
@@ -52,36 +53,50 @@
         <input type="text" name id="user_phone" placeholder="请输入您的手机号" v-model="phone">
       </div>
       <div>
-        <button @click="getAddre">保存</button>
-        <span data-cancal @click="cancel">取消</span>
+        <button @click="saveAddre">保存</button>
+        <span data-cancal @click="cancelAdd">取消</span>
       </div>
     </aside>
   </div>
 </template>
 <script>
 import VDistpicker from "v-distpicker";
+import qs from 'qs'
 export default {
   components: { VDistpicker },
   data() {
     return {
       baseUrl: this.$store.getters.getBaseUrl,
-      isdel: false,
       datail_address: "",
       phone: "",
       receiver: "",
       gender: "",
-      province: "",
-      city: "",
-      area: "",
-      isAdd: false
+      province: "省",
+      city: "市",
+      area: "区",
+      isAdd: false,
+      addressList: [],
+      isUpdate: false,
+      updateId: '',
     };
   },
+  created() {
+    this.getAddress();
+  },
   methods: {
-    del() {
-      this.isdel = true;
+    del(e) {
+      var index = e.target.dataset.index;
+      var newObj = this.addressList[index];
+      newObj.showDel = true;
+      this.addressList.splice(index, 1, newObj)
     },
-    cancel() {
-      this.isdel = false;
+    cancel(e) {
+      var index = e.target.dataset.index;
+      var newObj = this.addressList[index];
+      newObj.showDel = false;
+      this.addressList.splice(index, 1, newObj)
+    },
+    cancelAdd(){
       this.isAdd = false;
     },
     selected(data) {
@@ -89,13 +104,13 @@ export default {
       this.city = data.city.value.slice(0, -1);
       this.area = data.area.value;
     },
-    getAddre() {
-      var addr = `${this.province}-${this.city}-${this.area}`;
-      var _self = this;
-      $.ajax({
-        url: `${_self.baseUrl}/user/save_address`,
-        type: "post",
-        data: {
+    saveAddre() {
+      if(this.isUpdate){
+        // console.log(this.updateId)
+        var addr = `${this.province}-${this.city}-${this.area}`;
+        var _self = this;
+        var data = qs.stringify( {
+          id:id,
           receiver: this.receiver,
           province: this.province,
           city: this.city,
@@ -103,16 +118,90 @@ export default {
           address: this.datail_address,
           phone: this.phone,
           gender: this.gender
-        },
-        dataType: "json"
-      }).then(function(data) {
-        console.log(data);
-      });
+          })
+        var url = `${_self.baseUrl}/user/update_address`;
+        this.axios.post(url, data).then(result => {
+          if(result.data.code == 200){
+            _self.isAdd = false;
+            this.isUpdate = false;
+          }
+        })
+      } else {
+        var addr = `${this.province}-${this.city}-${this.area}`;
+        var _self = this;
+        var data = qs.stringify( {
+            receiver: this.receiver,
+            province: this.province,
+            city: this.city,
+            country: this.area,
+            address: this.datail_address,
+            phone: this.phone,
+            gender: this.gender
+          })
+        var url = `${_self.baseUrl}/user/save_address`;
+        this.axios.post(url, data).then(result => {
+          if(result.data.code == 200){
+            _self.isAdd = false;
+            this.isUpdate = false;
+          }
+        })
+      }
     },
     addAddress() {
       this.isAdd = true;
+    },
+    getAddress() {
+      var url = `${this.baseUrl}/user/get_address`;
+      this.axios(url).then(result => {
+        this.addressList = result.data.data;
+        for(var item of this.addressList){
+          item.showDel = false;
+        }
+        console.log(result.data.data);
+      })
+    },
+    confirm(e) {
+      var index = e.target.dataset.index;
+      var id = e.target.dataset.id;
+        var url = `${this.baseUrl}/user/delAddress`;
+        this.axios(url, {
+          params: {
+            id: id
+          }
+        }).then(result => {
+          console.log(result.data.msg)
+        })
+        this.addressList.splice(index,1);
+    },
+    updataAddress(e) {
+      var index = e.target.dataset.index;
+      var id = e.target.dataset.id;
+      this.isAdd = true;
+      var url = `${this.baseUrl}/user/selectAddress`;
+        this.axios(url,{
+          params: {
+            id: id
+          }
+        }).then(result => {
+          var res = result.data.data[0];
+          this.receiver = res.receiver;
+          this.gender = res.gender;
+          this.province = '省';
+          this.city = '市';
+          this.are = '区';
+          this.datail_address = res.address;
+          this.phone = res.phone;
+          
+          this.isUpdate = true;
+          this.updateId = id;
+        })
     }
-  }
+  },
+  watch: {
+    are(newName, oldName){
+      this.are = newName;
+    }
+  },
 };
 </script>
 <style scoped>
@@ -148,7 +237,7 @@ export default {
 }
 .address .main > div,
 .addAddress {
-  width: 32%;
+  min-width: 32%;
   border: 1px solid #ccc;
   margin-top: 1.8%;
   font-size: 14px;
@@ -226,6 +315,9 @@ export default {
 #modal > h2 {
   margin-top: 0;
   margin-bottom: 4%;
+  font-size:18px;
+  color: #333;
+  font-weight: 700;
 }
 #modal > div > label {
   width: 8%;
