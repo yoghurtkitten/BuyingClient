@@ -175,7 +175,7 @@
         <div data-address>
           <label>位置</label>
           <!-- <input type="text" name id="txt_city" placeholder="请输入小区、大厦或者学校"> -->
-          <v-distpicker province="湖北省" city="武汉市" area="武昌区" @selected="selected"></v-distpicker>
+          <v-distpicker :province="province" :city="city" :area="area" @selected="selected"></v-distpicker>
         </div>
         <div>
           <label>详细地址</label>
@@ -197,6 +197,7 @@
 <script>
 import VDistpicker from "v-distpicker";
 import store from "../store/store.js";
+import qs from "qs";
 
 export default {
   components: { VDistpicker },
@@ -221,8 +222,8 @@ export default {
       show_time: false,
       show_dish: false,
       has_food: false,
-      province: "湖北",
-      city: "武汉",
+      province: "湖北省",
+      city: "武汉市",
       area: "武昌区"
     };
   },
@@ -241,8 +242,8 @@ export default {
   },
   methods: {
     selected(data) {
-      this.province = data.province.value.slice(0, -1);
-      this.city = data.city.value.slice(0, -1);
+      this.province = data.province.value;
+      this.city = data.city.value;
       this.area = data.area.value;
     },
     toggleTime: function() {
@@ -298,7 +299,7 @@ export default {
         // console.log(data);
         if (data) {
           store.commit("setTimer", 900);
-          localStorage.setItem('timeNum',store.state.timerNumber);
+          localStorage.setItem("timeNum", store.state.timerNumber);
           _self.$router.push(
             `/Pay?sid=${_self.sid}&user=${_self.user}&address=${
               _self.address_id
@@ -394,22 +395,18 @@ export default {
     getAddre: function(e) {
       var addr = `${this.province}-${this.city}-${this.area}`;
       var _self = this;
-      $.ajax({
-        url: `${_self.baseUrl}/user/save_address`,
-        type: "post",
-        data: {
-          u_phone: this.user,
-          receiver: this.receiver,
-          province: this.province,
-          city: this.city,
-          country: this.area,
-          address: this.datail_address,
-          phone: this.phone,
-          gender: this.gender
-        },
-        dataType: "json"
-      }).then(function(data) {
-        // console.log(data);
+      var data = qs.stringify({
+        u_phone: this.user,
+        receiver: this.receiver,
+        province: this.province,
+        city: this.city,
+        country: this.area,
+        address: this.datail_address,
+        phone: this.phone,
+        gender: this.gender
+      });
+      var url = `${_self.baseUrl}/user/save_address`;
+      this.axios.post(url, data).then(result => {
         $("#modal").hide();
         $(".modal-bg").hide();
         _self.load_adderss();

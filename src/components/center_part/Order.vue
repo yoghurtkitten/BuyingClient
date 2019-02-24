@@ -124,7 +124,6 @@ export default {
         myList[count++] = data[index];
       }
       this.allOrder = myList;
-      // console.log(myList);
       this.page = start;
 
       if (index >= data.length) {

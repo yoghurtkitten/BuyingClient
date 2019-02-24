@@ -11,6 +11,7 @@ import Center from '@/components/center_part/Center.vue'
 import OrderPart from '@/components/center_part/Order.vue'
 import OrderDetail from '@/components/center_part/OrderDetail.vue'
 import Address from '@/components/center_part/Address.vue'
+import UserInfo from '@/components/center_part/UserInfo.vue'
 import PayMent from '@/components/PayMent.vue'
 import UserChoose from '@/components/UserChoose.vue'
 import Choose from '@/components/shop_search/Choose.vue'
@@ -89,6 +90,11 @@ export default new Router({
           path: '/UserCenter/Address',
           name: 'Address',
           component: Address
+        },
+        {
+          path: '/UserCenter/UserInfo',
+          name: 'UserInfo',
+          component: UserInfo
         }
       ]
     }

@@ -30,7 +30,7 @@
                   <i class="iconfont">&#xe645;</i>
                   <span>我的资料</span>
                 </div>
-                <p>个人资料</p>
+                <p @click="toUserInfo">个人资料</p>
                 <p @click="toAddress">地址管理</p>
               </li>
               <li>
@@ -61,6 +61,9 @@ export default {
     },
     toAddress() {
       this.$router.push('/UserCenter/Address');
+    },
+    toUserInfo() {
+      this.$router.push('/UserCenter/UserInfo')
     }
   },
 }
