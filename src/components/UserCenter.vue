@@ -36,7 +36,7 @@
               <li>
                 <div>
                   <i class="iconfont">&#xeb9a;</i>
-                  <span>我的收藏</span>
+                  <span @click="toSave">我的收藏</span>
                 </div>
               </li>
             </ul>
@@ -64,7 +64,10 @@ export default {
     },
     toUserInfo() {
       this.$router.push('/UserCenter/UserInfo')
-    }
+    },
+    toSave() {
+      this.$router.push('/UserCenter/Save')
+    },
   },
 }
 </script>

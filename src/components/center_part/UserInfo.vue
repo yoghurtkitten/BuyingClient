@@ -3,7 +3,7 @@
     <div class="top">个人资料</div>
     <div>
       <p>头像</p>
-      <img :src="baseUrl+'/img/user/default-avatar.38e40d.png'" >
+      <img :src="baseUrl+'/img/user/default-avatar.38e40d.png'">
     </div>
     <div class="name">
       <span>用户名</span>
@@ -20,7 +20,7 @@ export default {
     };
   },
   created() {
-      this.getUser();
+    this.getUser();
   },
   methods: {
     getUser() {
@@ -52,17 +52,24 @@ export default {
   margin-top: 10px;
   margin-bottom: 5%;
 }
-.UserInfo img{
-    width: 100px;
-    height: 100px;
-    margin-left: 2%;
+.UserInfo img {
+  width: 100px;
+  height: 100px;
+  margin-left: 2%;
 }
-.UserInfo .top+div{
-    display: flex;
-    padding-left: 8%;
+.UserInfo .top + div {
+  display: flex;
+  padding-left: 8%;
+  font-size: 14px;
+  color: #333;
 }
 .UserInfo .name {
-    margin-top: 3%;
-    padding-left: 5%;
+  margin-top: 5%;
+  padding-left: 5%;
+}
+.UserInfo .name span:first-child {
+  margin-right: 3%;
+  font-size: 14px;
+  color: #333;
 }
 </style>
