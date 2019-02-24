@@ -77,7 +77,7 @@
             <div class="align-self-center">
               <p>收藏本店</p>
               <i class="iconfont" v-if="!isCollect" @click="Collect">&#xeca2;</i>
-              <i class="iconfont red" v-else @click="Collect">&#xeca1;</i>
+              <i class="iconfont red" v-else @click="unCollect">&#xeca1;</i>
             </div>
           </div>
         </div>
@@ -216,10 +216,11 @@
   </div>
 </template>
 <script>
+import qs from "qs";
 export default {
   data() {
     return {
-      baseUrl: this.$store.getters.getBaseUrl,      
+      baseUrl: this.$store.getters.getBaseUrl,
       sid: "",
       user: "",
       category: [],
@@ -227,15 +228,33 @@ export default {
       shop_car: [],
       isTitle: false,
       isCollect: false,
-      isShowMedia: false
+      isShowMedia: false,
+      saveId: ""
     };
   },
   mounted() {
     this.getSid();
     this.load_food().then(this.bandClick);
     this.load_shop_car();
+    this.isSave();
   },
   methods: {
+    isSave: function() {
+      var url = `${this.baseUrl}/user/isSave`;
+      this.axios(url, {
+        params: {
+          sid: this.sid
+        }
+      }).then(result => {
+        // console.log(result.data)
+        if (result.data.code == 200) {
+          this.isCollect = true;
+          this.saveId = result.data.data[0].id;
+        } else if (result.data.code == 201) {
+          this.saveId = result.data.data[0].id;
+        }
+      });
+    },
     getSid: function() {
       this.sid = this.$route.query.sid;
     },
@@ -243,7 +262,50 @@ export default {
       this.isShowMedia = !this.isShowMedia;
     },
     Collect: function() {
-      this.isCollect = !this.isCollect;
+      this.isCollect = true;
+      var url = `${this.baseUrl}/user/isSave`;
+      this.axios(url, {
+        params: {
+          sid: this.sid
+        }
+      }).then(result => {
+        if (result.data.code == 201) {
+          url = `${this.baseUrl}/user/UnSave`;
+          this.axios(url, {
+            params: {
+              id: this.saveId,
+              isDel: 1
+            }
+          }).then(result => {
+            if (result.data.code == 200) {
+              this.saveId = result.data.data;
+            }
+          });
+        } else {
+          url = `${this.baseUrl}/user/SaveShop`;
+          var data = qs.stringify({
+            sid: this.sid
+          });
+          this.axios.post(url, data).then(result => {
+            this.saveId = result.data.data[0].id;
+          });
+        }
+      });
+    },
+    unCollect: function() {
+      var url = `${this.baseUrl}/user/UnSave`;
+      this.axios(url, {
+        params: {
+          id: this.saveId,
+          isDel: 0
+        }
+      }).then(result => {
+        /* console.log(result.data)
+        console.log(this.saveId) */
+        if (result.data.code == 200) {
+          this.isCollect = false;
+        }
+      });
     },
     titleEnter: function() {
       this.isTitle = !this.isTitle;
