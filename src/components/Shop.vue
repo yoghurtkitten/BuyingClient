@@ -135,7 +135,7 @@
               <li
                 v-for="(food, index) in category[0].foods"
                 :key="index"
-                v-if="food.foot_type == obj.type_name"
+                v-if="food.type_name == obj.type_name"
               >
                 <img :src="baseUrl+'/'+food.food_img" alt class="goods-img">
                 <div>

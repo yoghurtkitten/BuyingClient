@@ -15,7 +15,7 @@
               <li>
                 <div>
                   <i class="iconfont">&#xe603;</i>
-                  <span @click="toCenter">个人中心</span>
+                  <span @click="toCenter" class="pointer">个人中心</span>
                 </div>
               </li>
               <li>
@@ -36,7 +36,7 @@
               <li>
                 <div>
                   <i class="iconfont">&#xeb9a;</i>
-                  <span @click="toSave">我的收藏</span>
+                  <span @click="toSave" class="pointer">我的收藏</span>
                 </div>
               </li>
             </ul>
@@ -264,5 +264,8 @@ section > div > span {
 }
 .order_info > ul > li > div > div:first-child {
   width: 50%;
+}
+.pointer{
+  cursor: pointer;
 }
 </style>

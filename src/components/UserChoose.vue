@@ -26,7 +26,7 @@
                   >{{user}}</a>
                 </div>
                 <div class="col-md-6 col-sm-3 col-xs-6 p-0">
-                  <a href="#" class="new-list-btn fr btn">我的订单</a>
+                  <router-link to="/UserCenter/Center" class="new-list-btn fr btn">我的订单</router-link>
                 </div>
               </div>
             </div>

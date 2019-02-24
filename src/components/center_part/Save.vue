@@ -3,38 +3,20 @@
     <div class="top">我的收藏</div>
     <div class="detail-list m-0 mt-3" id="busi_list">
       <ul>
-        <li>
-          <img :src="baseUrl+'/img/business/hualaishi.jpg'">
+        <li v-for="(item, index) in saveList" :key="index">
+          <img :src="baseUrl+'/'+item.shop_img" @click="toShop" :data-sid="item.id">
           <div class="right">
-            <p class="business-title">华莱士</p>
+            <p class="business-title">{{item.shop_name}}</p>
             <div class="star">
-              <i class="iconfont">&#xec43;</i>
-              <span>5分</span>
+              <i class="iconfont" v-for="(o, i) in item.shop_start" :key="i">&#xec43;</i>
+              <span>{{item.shop_start}}分</span>
             </div>
             <p class="descript d-flex align-items-center">
-              <span>起送:5</span>
-              <span class="pl-3 pr-3">配送费:￥5</span>
+              <span>起送:{{item.deliver_cost}}</span>
+              <span class="pl-3 pr-3">配送费:￥{{item.deliver_fee}}</span>
               <span>
                 <i class="iconfont">&#xe784;</i>
-                30分钟
-              </span>
-            </p>
-          </div>
-        </li>
-        <li>
-          <img :src="baseUrl+'/img/business/hualaishi.jpg'">
-          <div class="right">
-            <p class="business-title">华莱士</p>
-            <div class="star">
-              <i class="iconfont">&#xec43;</i>
-              <span>5分</span>
-            </div>
-            <p class="descript d-flex align-items-center">
-              <span>起送:5</span>
-              <span class="pl-3 pr-3">配送费:￥5</span>
-              <span>
-                <i class="iconfont">&#xe784;</i>
-                30分钟
+                {{item.deliver_time}}分钟
               </span>
             </p>
           </div>
@@ -47,10 +29,27 @@
 export default {
   data() {
     return {
-      baseUrl: this.$store.getters.getBaseUrl
+      baseUrl: this.$store.getters.getBaseUrl,
+      saveList: []
     };
   },
-  methods: {}
+  created() {
+    this.getSave();
+  },
+  methods: {
+    getSave() {
+      var url = `${this.baseUrl}/user/getSave`;
+      this.axios(url).then(result => {
+        console.log(result.data.data);
+        this.saveList = result.data.data;
+      });
+    },
+    toShop(e) {
+      var sid = e.target.dataset.sid;
+    //   console.log(sid);
+      this.$router.push(`/Shop?sid=${sid}`);
+    }
+  }
 };
 </script>
 <style scoped>
@@ -76,21 +75,27 @@ export default {
   margin-top: 10px;
   margin-bottom: 5%;
 }
-.detail-list ul{
-    display: flex;
+.detail-list ul {
+  display: flex;
+  flex-wrap: wrap;
 }
 .detail-list ul li {
   display: flex;
   width: 50%;
+  margin-bottom: 3%;
 }
 .detail-list ul li img {
   width: 100px;
   height: 80px;
   margin-right: 2%;
+  cursor: pointer;
 }
 .right {
   display: flex;
   flex-direction: column;
   justify-content: center;
+}
+.star i {
+  color: #e54c2a;
 }
 </style>
