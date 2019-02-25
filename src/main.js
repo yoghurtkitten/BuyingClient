@@ -7,6 +7,8 @@ import axios from 'axios'
 import 'jquery'
 import MyHeader from './components/part/MyHeader'
 import MyFooter from './components/part/MyFooter'
+import BLoginHeader from './components/part/BLoginHeader'
+import BHeader from './components/part/BHeader'
 import '@/assets/css/iconfont.css'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap/dist/js/bootstrap.min.js'
@@ -23,6 +25,8 @@ Vue.prototype.axios = axios;
 /* eslint-disable no-new */
 Vue.component('my-header',MyHeader)
 Vue.component('my-footer',MyFooter)
+Vue.component('login-header',BLoginHeader)
+Vue.component('business-header',BHeader)
 
 Vue.filter('changeGender', function (value) {
   return value ? '先生' : '女士';

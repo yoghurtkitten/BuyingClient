@@ -5,7 +5,7 @@
         <div class="col-md-2 col-sm-3 col-xs-6">
           <div class="logo">
             <a href="index.html">
-              <img src="http://127.0.0.1:5050/img/logo.png" alt>
+              <img :src="baseUrl+'/img/logo.png'" alt>
             </a>
           </div>
         </div>
@@ -58,6 +58,7 @@ export default {
   data() {
     return {
       isShow: false,
+      baseUrl: this.$store.getters.getBaseUrl,
     };
   },
   mounted() {
