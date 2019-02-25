@@ -4,7 +4,8 @@
     <div class="steps">
       <ul>
         <li>订单已提交</li>
-        <li>订单已取消</li>
+        <li v-if="!status">订单已取消</li>
+        <li v-else>订单已付款</li>
       </ul>
     </div>
     <div class="detail" v-if="shop_info">
@@ -96,7 +97,8 @@ export default {
       order_no: "",
       shop_info: {},
       shop_car: [],
-      address: []
+      address: [],
+      status: '',
     };
   },
   created() {
@@ -104,6 +106,7 @@ export default {
     this.getShop_info();
     this.getShopCarInfo();
     this.getAddressInfo();
+    this.getOrderStatus();
   },
   computed: {
     total() {
@@ -147,8 +150,18 @@ export default {
         }
       }).then(result => {
         this.address = result.data.data[0];
-        console.log(this.address);
       });
+    },
+    getOrderStatus() {
+      var url = `${this.baseUrl}/user/getOrderStatus`;
+      this.axios(url, {
+        params: {
+          order_no: this.order_no
+        }
+      }).then(result => {
+        this.status = result.data.data[0].status;
+        // console.log(this.status);
+      })
     }
   },
   filters: {
