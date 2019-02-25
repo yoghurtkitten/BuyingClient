@@ -24,6 +24,7 @@ export default {
   display: flex;
   align-items: center;
   padding-left: 10%;
+  min-width: 472px;
 }
 .header > img {
   height: 41px;
@@ -46,4 +47,5 @@ p::before {
   display: flex;
   margin-top: 1%;
 }
+
 </style>
