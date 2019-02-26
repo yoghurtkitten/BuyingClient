@@ -6,7 +6,8 @@ const store = new vuex.Store({
     state: {
       user: '',
       timerNumber: 0,
-      baseUrl: 'http://127.0.0.1:5050'
+      baseUrl: 'http://127.0.0.1:5050',
+      business: localStorage.getItem('business')||''
     },
     mutations: {
       //所有mutations中的方法的第一个参数一定是state变量，用来进行对state中的状态的操作
@@ -25,6 +26,9 @@ const store = new vuex.Store({
     getters: {
       getBaseUrl: state => {
         return state.baseUrl;
+      },
+      getBusiness: state => {
+        return state.business;
       }
     }
   })

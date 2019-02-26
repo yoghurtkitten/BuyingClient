@@ -13,10 +13,11 @@ import OrderDetail from '@/components/center_part/OrderDetail.vue'
 import Address from '@/components/center_part/Address.vue'
 import UserInfo from '@/components/center_part/UserInfo.vue'
 import Save from '@/components/center_part/Save.vue'
-import BusiLogin from '@/components/business/Login.vue'
 import PayMent from '@/components/PayMent.vue'
 import UserChoose from '@/components/UserChoose.vue'
 import Choose from '@/components/shop_search/Choose.vue'
+import BusiLogin from '@/components/business/Login.vue'
+import Register from '@/components/business/Register.vue'
 
 Vue.use(Router)
 
@@ -109,6 +110,11 @@ export default new Router({
       path:'/Business',
       name:'BusiLogin',
       component: BusiLogin
+    },
+    {
+      path: '/register',
+      name: 'Register',
+      component: Register
     }
   ]
 })
