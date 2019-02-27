@@ -14,6 +14,7 @@
     "bootstrap": "^4.2.1",
     "element-ui": "^2.5.4",
     "jquery": "^3.3.1",
+    "lrz": "^4.9.40",
     "popper.js": "^1.14.7",
     "v-distpicker": "^1.1.0",
     "vue": "^2.5.2",
