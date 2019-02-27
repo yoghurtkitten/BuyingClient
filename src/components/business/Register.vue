@@ -48,7 +48,7 @@
           </li>
         </ul>
         <div class="toLogin">
-          <button>我要开店</button>
+          <button @click="toAppli">我要开店</button>
         </div>
       </div>
     </div>
@@ -117,18 +117,22 @@
         <v-distpicker province="省" city="市" area="区" @selected="selected"></v-distpicker>
         <el-button type="primary" :disabled="notLogin" @click="confirm">确定</el-button>
       </div>
-      <div class="appli">
-        <p>申请入驻
-          <i class="iconfont">&#xe661;</i>
+      <div class="appli" v-if="appliForm">
+        <p>
+          申请入驻
+          <i class="iconfont" @click="close">&#xe661;</i>
         </p>
         <div class="form">
           <el-input v-model="phone" placeholder="联系人手机号" clear="phone"></el-input>
-          <el-button type="primary" :disabled="disVali" class="sendCode">发送验证码</el-button>
-          <el-input v-model="code" placeholder="验证码"></el-input>
-          <el-button type="primary" :disabled="disVali">立即入驻</el-button>
+          <el-button type="primary" :disabled="disSend" class="sendCode" @click="sendCode">{{text}}</el-button>
+          <el-input v-model="mycode" placeholder="验证码"></el-input>
+          <el-button type="primary" :disabled="disVali" @click="appli">立即入驻</el-button>
         </div>
         <p>
-            <el-checkbox label="我已阅读并已同意" name="type"></el-checkbox><a href="javascript:;">《饿了么网上订餐平台服务协议》</a>
+          <!-- <el-checkbox label="我已阅读并已同意" name="type"></el-checkbox> -->
+          <input type="checkbox" v-model="ck" id="ck">
+          <label for="ck" class="read">我已阅读并已同意</label>
+          <a href="javascript:;">《饿了么网上订餐平台服务协议》{{code}}</a>
         </p>
       </div>
     </div>
@@ -145,16 +149,25 @@ export default {
       province: "",
       city: "",
       area: "",
-      notLogin: true,
       isShade: true,
-      chooseAddre: false,
+      chooseAddre: true,
+      appliForm: false,
       baseUrl: this.$store.getters.getBaseUrl,
       phone: "",
+      mycode: "",
+      notLogin: false,
+      disVali: true,
+      disSend: true,
       code: "",
-      disVali: true
+      ck: false,
+      text: "发送验证码",
     };
   },
   methods: {
+    close() {
+      this.isShade = false;
+      this.appliForm = false;
+    },
     selected(data) {
       if (
         data.province.value != "" &&
@@ -171,6 +184,62 @@ export default {
     },
     confirm() {
       this.isShade = false;
+      this.chooseAddre = false;
+    },
+    sendCode() {
+      var i = 10;
+      this.text = `${i}S`;
+      var timer = setInterval(() => {
+        i--;
+        this.text = `${i}S`;
+        this.disSend = true;
+      }, 1000);
+      setTimeout(() => {
+        this.text = "重新发送";
+        this.disSend = false;
+        this.disVali = true;
+        clearInterval(timer);
+      }, 10000);
+
+      var url = `${this.baseUrl}/user/getVCode`;
+      this.axios.post(url).then(res => {
+        this.code = res.data.vcode;
+      });
+    },
+    appli() {
+      if (this.mycode == this.code) {
+        console.log(this.phone, this.province, this.city, this.area);
+      }
+    },
+    toAppli() {
+      this.isShade = true;
+      this.appliForm = true;
+    }
+  },
+  watch: {
+    phone: function(newValue) {
+      var reg = /^1[3-9]\d{9}$/;
+      if (reg.test(newValue)) {
+        this.disSend = false;
+      } else {
+        this.disSend = true;
+      }
+    },
+    mycode: function(newValue) {
+      var reg = /^\d{6}$/;
+      if (reg.test(newValue) && this.ck) {
+        this.disVali = false;
+      } else {
+        this.disVali = true;
+      }
+    },
+    ck: function(newValue) {
+      var reg = /^\d{6}$/;
+      if (reg.test(this.mycode) && newValue) {
+        this.disVali = false;
+      } else {
+        this.disVali = true;
+      }
     }
   }
 };
@@ -377,7 +446,7 @@ ul {
   margin-right: 5%;
 }
 .appli {
-  width: 28%;
+  width: 26.5%;
   background: #fff;
   margin: 0 auto;
   margin-top: 15%;
@@ -404,6 +473,7 @@ ul {
   top: 20%;
   font-weight: bold;
   font-size: 12px;
+  cursor: pointer;
 }
 .form {
   position: relative;
@@ -411,6 +481,10 @@ ul {
   padding-left: 10%;
   padding-right: 10%;
 }
+.form div {
+  margin-bottom: 8%;
+}
+
 .form > button {
   width: 100%;
 }
@@ -422,11 +496,19 @@ ul {
   top: 0;
   height: 40px;
   text-align: center;
-  padding: 0!important;
+  padding: 0 !important;
   border-radius: 0 4px 4px 0;
 }
-.appli a{
-    font-size: 12px;
+.appli a {
+  font-size: 12px;
 }
-
+.read {
+  font-size: 12px;
+  margin-right: 0;
+  color: #9a9a9a;
+  font-weight: 700;
+  letter-spacing: -0.4px;
+  margin-top: 5%;
+  margin-bottom: 5%;
+}
 </style>
