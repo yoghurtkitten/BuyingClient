@@ -30,7 +30,7 @@
           </p>
 
           <button type="button" class="btn btn-danger my-btn buying" @click="buying">我要点外卖</button>
-          <button type="button" class="btn btn-warning my-btn">我要入驻</button>
+          <button type="button" class="btn btn-warning my-btn" @click="regist">我要入驻</button>
         </div>
       </div>
 
@@ -137,6 +137,9 @@ export default {
     window.addEventListener("scroll", this.handleScroll);
   },
   methods: {
+    regist() {
+      this.$router.push(`/register`);
+    },
     buying() {
       this.$router.push(`/UserIndex`);
     },

@@ -208,7 +208,8 @@ export default {
     },
     appli() {
       if (this.mycode == this.code) {
-        console.log(this.phone, this.province, this.city, this.area);
+        // console.log(this.phone, this.province, this.city, this.area);
+        this.$router.push(`/AppliFrom?phone=${this.phone}&province=${this.province}&city=${this.city}&area=${this.area}`)
       }
     },
     toAppli() {

@@ -19,6 +19,8 @@ import Choose from '@/components/shop_search/Choose.vue'
 import BusiLogin from '@/components/business/Login.vue'
 import Register from '@/components/business/Register.vue'
 import AppliFrom from '@/components/business/AppliFrom.vue'
+import AppliFrom2 from '@/components/business/AppliFrom2.vue'
+import AppliFrom3 from '@/components/business/AppliFrom3.vue'
 
 Vue.use(Router)
 
@@ -121,6 +123,16 @@ export default new Router({
       path: '/AppliFrom',
       name: 'AppliFrom',
       component: AppliFrom
+    },
+    {
+      path: '/AppliFrom2',
+      name: 'AppliFrom2',
+      component: AppliFrom2
+    },
+    {
+      path: '/AppliFrom3',
+      name: 'AppliFrom3',
+      component: AppliFrom3
     }
   ]
 })
