@@ -11,7 +11,7 @@
         label-width="100px"
         class="demo-ruleForm"
       >
-        <el-form-item label="用户" >
+        <el-form-item label="用户">
           <el-input type="text" :value="phone" readonly disabled></el-input>
         </el-form-item>
         <el-form-item label="密码" prop="pass">
@@ -62,14 +62,15 @@ export default {
         checkPass: [{ validator: validatePass2, trigger: "blur" }]
       },
       step: 3,
-      phone: '18873662738',
+      phone: this.$route.query.phone
     };
   },
   methods: {
     submitForm(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
-          alert("submit!");
+          console.log(this.$route.query)
+          console.log(this.ruleForm2.pass)
         } else {
           console.log("error submit!!");
           return false;
@@ -78,7 +79,13 @@ export default {
     },
     resetForm(formName) {
       this.$refs[formName].resetFields();
+    },
+    getAppli2() {
+      console.log(this.$route.query);
     }
+  },
+  created() {
+    this.getAppli2();
   }
 };
 </script>
@@ -90,10 +97,7 @@ export default {
   padding-right: 3%;
   padding-bottom: 5%;
 }
-.container form{
+.container form {
   padding-right: 30%;
 }
-
-
-
 </style>

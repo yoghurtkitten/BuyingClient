@@ -20,8 +20,9 @@
           <el-form-item label="身份证照片">
             <input
               type="file"
-              name="file"
-              id="file_more1"
+              name="mypic"
+              id="avatarInput"
+              ref="fileUpload"
               value
               accept="image/jpeg, image/png, image/jpg, image/gif"
               multiple
@@ -35,10 +36,10 @@
               <el-input v-model="ruleForm.registId"></el-input>
             </el-form-item>
             <el-form-item label="名称" prop="registName">
-              <el-input v-model="ruleForm.registId"></el-input>
+              <el-input v-model="ruleForm.registName"></el-input>
             </el-form-item>
             <el-form-item label="地址" prop="registAddr">
-              <el-input v-model="ruleForm.registId"></el-input>
+              <el-input v-model="ruleForm.registAddr"></el-input>
             </el-form-item>
           </div>
           <el-form-item>
@@ -53,6 +54,7 @@
 <script>
 import lrz from "lrz";
 import MyStep from "@/components/single_comp/step.vue";
+import qs from "qs";
 export default {
   components: { MyStep },
   data() {
@@ -80,13 +82,41 @@ export default {
         registAddr: [
           { required: true, message: "请输入营业执照地址", trigger: "change" }
         ]
-      }
+      },
+      imgUrl: "",
+      base64: "",
+      baseUrl: this.$store.getters.getBaseUrl
     };
+  },
+  created() {
+    // console.log(this.$route.query)
   },
   methods: {
     submitForm(formName) {
+      var _self = this;
       this.$refs[formName].validate(valid => {
         if (valid) {
+          var obj2 = qs.stringify({
+            bname: this.ruleForm.bname,
+            idCard: this.ruleForm.idCard,
+            registId: this.ruleForm.registId,
+            registName: this.ruleForm.registName,
+            registAddr: this.ruleForm.registAddr,
+            imgUrl1: _self.base64
+          });
+          var obj1 = qs.stringify({
+            shopname: this.$route.query.shopname,
+            uname: this.$route.query.uname,
+            phone: this.$route.query.phone,
+            classify: this.$route.query.classify,
+            subclassify: this.$route.query.subclassify,
+            imgUrl2: this.$route.query.imgUrl,
+            province: this.$route.query.province,
+            city: this.$route.query.city,
+            area: this.$route.query.area,
+            detailAddress: this.$route.query.detailAddress
+          });
+          this.$router.push(`/AppliFrom3?obj1=${obj1}&obj2=${obj2}`);
         } else {
           console.log("error submit!!");
           return false;
@@ -124,7 +154,7 @@ export default {
               processData: false,
               data: form
             }).then(res => {
-              console.log(res.data);
+              vm.base64 = res.data.path;
             });
           }
           return rst;

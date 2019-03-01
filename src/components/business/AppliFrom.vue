@@ -18,7 +18,7 @@
             <el-input v-model="ruleForm.uname" placeholder="输入联系人姓名"></el-input>
           </el-form-item>
           <el-form-item label="联系人电话" prop="phone">
-            <el-input v-model="ruleForm.phone" placeholder="输入联系人电话"></el-input>
+            <el-input v-model="ruleForm.phone" placeholder="输入联系人电话" readonly disabled></el-input>
           </el-form-item>
           <el-form-item label="门店分类" prop="classify">
             <el-select v-model="ruleForm.classify" placeholder="主营分类，必选">
@@ -39,7 +39,9 @@
             </el-select>
           </el-form-item>
           <el-form-item label="城市">
-            <v-distpicker :province="province" :city="city" :area="area" @selected="selected"></v-distpicker>
+            <input type="text" v-model="province" class="myinput" disabled>
+            <input type="text" v-model="city" class="myinput" disabled>
+            <input type="text" v-model="area" class="myinput" disabled>
           </el-form-item>
           <el-form-item label="详细地址" prop="detailAddress">
             <el-input v-model="ruleForm.detailAddress" placeholder="应与营业执照地址一致"></el-input>
@@ -58,7 +60,7 @@
             <img :src="imgUrl" class="smallImg">
           </el-form-item>
           <el-form-item>
-            <el-button type="primary" @click="submitForm('ruleForm')">提交</el-button>
+            <el-button type="primary" @click="submitForm('ruleForm')">下一步</el-button>
             <el-button @click="resetForm('ruleForm')">重置</el-button>
           </el-form-item>
         </el-form>
@@ -80,6 +82,7 @@ export default {
         uname: "",
         phone: "",
         classify: "",
+        subclassify: "",
         logo: "",
         Address: "",
         detailAddress: ""
@@ -91,7 +94,7 @@ export default {
         ],
         uname: [
           { required: true, message: "请输入联系人姓名", trigger: "blur" },
-          { min: 3, max: 10, message: "长度在 3 到 10 个字符", trigger: "blur" }
+          { min: 2, max: 10, message: "长度在 3 到 10 个字符", trigger: "blur" }
         ],
         phone: [
           { required: true, message: "请输入联系人姓名", trigger: "blur" },
@@ -172,21 +175,31 @@ export default {
       mainType: "",
       subType: "",
       step: 1,
-      baseUrl: this.$store.getters.getBaseUrl
+      baseUrl: this.$store.getters.getBaseUrl,
+      base64: ''
     };
+  },
+  created: function() {
+    this.getRegister();
   },
   methods: {
     submitForm(formName) {
+      var _self = this;
       this.$refs[formName].validate(valid => {
         if (valid) {
-          /* console.log(
-            `${this.ruleForm.shopname}--${this.ruleForm.uname}
-            --${this.ruleForm.phone}--${this.ruleForm.classify}--${
-              this.ruleForm.subclassify
-            }
-            --${this.imgUrl}--${this.province}
-            --${this.city}--${this.area}--${this.ruleForm.detailAddress}`
-          ); */
+          var data = qs.stringify({
+            shopname: this.ruleForm.shopname,
+            uname: this.ruleForm.uname,
+            phone: this.ruleForm.phone,
+            classify: this.shopType[this.ruleForm.classify].name,
+            subclassify: this.shopType[this.ruleForm.subclassify].name,
+            imgUrl: this.base64,
+            province: _self.province,
+            city: _self.city,
+            area: _self.area,
+            detailAddress: this.ruleForm.detailAddress
+          })
+          this.$router.push(`/AppliFrom2?obj=${data}`)
         } else {
           console.log("error submit!!");
           return false;
@@ -195,11 +208,6 @@ export default {
     },
     resetForm(formName) {
       this.$refs[formName].resetFields();
-    },
-    selected(data) {
-      this.city = data.city.value;
-      this.area = data.area.value;
-      this.province = data.province.value;
     },
     onFileChange(e) {
       var file = e.target.files || e.dataTransfer.files;
@@ -224,7 +232,8 @@ export default {
               processData: false,
               data: form
             }).then(res => {
-              console.log(res.data)
+               vm.base64=res.data.path;
+               console.log(vm.base64)
             });
           }
           return rst;
@@ -234,7 +243,13 @@ export default {
           // e.target.value = null;
         });
     },
-  
+    getRegister() {
+      // console.log(this.$route.query)
+      this.ruleForm.phone = this.$route.query.phone;
+      this.province = this.$route.query.province;
+      this.city = this.$route.query.city;
+      this.area = this.$route.query.area;
+    }
   }
 };
 </script>
@@ -250,4 +265,10 @@ export default {
   width: 80px;
   height: 60px;
 }
+.myinput{
+  border: 1px solid #dcdfe6;
+  border-radius: 4px;
+  padding-left: 15px;
+}
+
 </style>

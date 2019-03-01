@@ -187,7 +187,7 @@ export default {
       this.chooseAddre = false;
     },
     sendCode() {
-      var i = 10;
+      var i = 60;
       this.text = `${i}S`;
       var timer = setInterval(() => {
         i--;
@@ -199,7 +199,7 @@ export default {
         this.disSend = false;
         this.disVali = true;
         clearInterval(timer);
-      }, 10000);
+      }, 60000);
 
       var url = `${this.baseUrl}/user/getVCode`;
       this.axios.post(url).then(res => {
