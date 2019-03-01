@@ -43,12 +43,13 @@
             </el-form-item>
           </div>
           <el-form-item>
-            <el-button type="primary" @click="submitForm('ruleForm')">提交</el-button>
+            <el-button type="primary" @click="submitForm('ruleForm')">下一步</el-button>
             <el-button @click="resetForm('ruleForm')">重置</el-button>
           </el-form-item>
         </el-form>
       </div>
     </div>
+    <my-footer></my-footer>
   </div>
 </template>
 <script>
@@ -89,13 +90,14 @@ export default {
     };
   },
   created() {
-    // console.log(this.$route.query)
+    console.log(this.$route.query);
   },
   methods: {
     submitForm(formName) {
       var _self = this;
       this.$refs[formName].validate(valid => {
         if (valid) {
+          // console.log(this.$route.query)
           var obj2 = qs.stringify({
             bname: this.ruleForm.bname,
             idCard: this.ruleForm.idCard,
@@ -116,7 +118,7 @@ export default {
             area: this.$route.query.area,
             detailAddress: this.$route.query.detailAddress
           });
-          this.$router.push(`/AppliFrom3?obj1=${obj1}&obj2=${obj2}`);
+          this.$router.push(`/AppliFrom3?${obj1}&${obj2}`);
         } else {
           console.log("error submit!!");
           return false;

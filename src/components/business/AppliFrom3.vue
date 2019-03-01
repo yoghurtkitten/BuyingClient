@@ -26,10 +26,12 @@
         </el-form-item>
       </el-form>
     </div>
+    <my-footer></my-footer>
   </div>
 </template>
 <script>
 import MyStep from "@/components/single_comp/step.vue";
+import qs from "qs";
 export default {
   components: { MyStep },
   data() {
@@ -62,15 +64,39 @@ export default {
         checkPass: [{ validator: validatePass2, trigger: "blur" }]
       },
       step: 3,
-      phone: this.$route.query.phone
+      phone: this.$route.query.phone,
+      baseUrl: this.$store.getters.getBaseUrl
     };
   },
   methods: {
     submitForm(formName) {
+      var vm = this;
       this.$refs[formName].validate(valid => {
         if (valid) {
-          console.log(this.$route.query)
-          console.log(this.ruleForm2.pass)
+          console.log(this.$route.query);
+          console.log(this.ruleForm2.pass);
+          var data = qs.stringify({
+            password: this.ruleForm2.pass,
+            phone: this.$route.query.phone,
+            shopman_name: this.$route.query.bname,
+            idCard: this.$route.query.idCard,
+            business_img: this.$route.query.imgUrl1,
+            contact: this.$route.query.uname,
+            shop_name: this.$route.query.shopname,
+            shop_type: this.$route.query.classify,
+            province: this.$route.query.province,
+            city: this.$route.query.city,
+            county: this.$route.query.area,
+            address: this.$route.query.detailAddress,
+            license: this.$route.query.registId,
+            shop_img: this.$route.query.imgUrl1,
+            shop_phone: this.$route.query.phone,
+            licenseName: this.$route.query.registName
+          });
+          var url = `${vm.baseUrl}/business/registe`;
+          this.axios.post(url, data).then(res => {
+            console.log(res.data);
+          });
         } else {
           console.log("error submit!!");
           return false;

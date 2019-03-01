@@ -12,7 +12,7 @@
       <div class="registe">
         <p>
           没有帐号？
-          <a href="javascript:;">去开店</a>
+          <router-link to="/register">去开店</router-link>
         </p>
       </div>
     </div>
@@ -47,9 +47,7 @@ export default {
       }).then(result => {
         if (result.data.code == 200) {
           localStorage.setItem('business', result.data.data[0].phone);
-          // console.log(localStorage.getItem('business'));
-          // console.log(this.$store.getters.getBusiness);
-
+          this.$router.push('/MainPage')
         } else {
           alert('帐号或密码有误，请重试');
           this.user = '';

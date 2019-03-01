@@ -21,6 +21,7 @@ import Register from '@/components/business/Register.vue'
 import AppliFrom from '@/components/business/AppliFrom.vue'
 import AppliFrom2 from '@/components/business/AppliFrom2.vue'
 import AppliFrom3 from '@/components/business/AppliFrom3.vue'
+import MainPage from '@/components/business/MainPage.vue'
 
 Vue.use(Router)
 
@@ -133,6 +134,11 @@ export default new Router({
       path: '/AppliFrom3',
       name: 'AppliFrom3',
       component: AppliFrom3
+    },
+    {
+      path: '/MainPage',
+      name: 'MainPage',
+      component: MainPage
     }
   ]
 })

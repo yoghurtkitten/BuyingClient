@@ -17,32 +17,32 @@
             <div class="header-info" v-if="isShow">
               <ul>
                 <li>
-                  <a href="#">首页</a>
+                  <router-link to="/">首页</router-link>
                 </li>
                 <li>
-                  <a href="#">加盟</a>
+                  <router-link to="/register">加盟</router-link>
                 </li>
                 <li>
                   <router-link to="/UserIndex">点外卖</router-link>
                 </li>
                 <li>
-                  <a href="#">关于我们</a>
+                  <router-link to="/Business">店家入口</router-link>
                 </li>
               </ul>
             </div>
             <div class="header-menu list-info">
               <ul>
                 <li>
-                  <a href="#">首页</a>
+                  <router-link to="/">首页</router-link>
                 </li>
                 <li>
-                  <a href="#">加盟</a>
+                  <router-link to="/register">加盟</router-link>
                 </li>
                 <li>
                   <router-link to="/UserIndex">点外卖</router-link>
                 </li>
                 <li>
-                  <a href="#">关于我们</a>
+                  <router-link to="/Business">店家入口</router-link>
                 </li>
               </ul>
             </div>

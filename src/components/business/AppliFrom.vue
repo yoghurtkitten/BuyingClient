@@ -66,6 +66,7 @@
         </el-form>
       </div>
     </div>
+    <my-footer></my-footer>
   </div>
 </template>
 <script>
@@ -129,54 +130,26 @@ export default {
       shopType: [
         {
           value: 0,
-          name: "披萨意面"
+          name: "正餐优选"
         },
         {
           value: 1,
-          name: "日韩料理"
+          name: "下午茶"
         },
         {
           value: 2,
-          name: "西餐"
+          name: "精选小吃"
         },
         {
           value: 3,
-          name: "面包"
-        },
-        {
-          value: 4,
-          name: "烧烤"
-        },
-        {
-          value: 5,
-          name: "地方小吃"
-        },
-        {
-          value: 6,
-          name: "零食"
-        },
-        {
-          value: 7,
-          name: "川湘菜"
-        },
-        {
-          value: 7,
-          name: "粤菜"
-        },
-        {
-          value: 7,
-          name: "甜品"
-        },
-        {
-          value: 7,
-          name: "烧腊饭"
+          name: "美食"
         }
       ],
       mainType: "",
       subType: "",
       step: 1,
       baseUrl: this.$store.getters.getBaseUrl,
-      base64: ''
+      base64: ""
     };
   },
   created: function() {
@@ -198,8 +171,8 @@ export default {
             city: _self.city,
             area: _self.area,
             detailAddress: this.ruleForm.detailAddress
-          })
-          this.$router.push(`/AppliFrom2?obj=${data}`)
+          });
+          this.$router.push(`/AppliFrom2?${data}`);
         } else {
           console.log("error submit!!");
           return false;
@@ -232,8 +205,8 @@ export default {
               processData: false,
               data: form
             }).then(res => {
-               vm.base64=res.data.path;
-               console.log(vm.base64)
+              vm.base64 = res.data.path;
+              console.log(vm.base64);
             });
           }
           return rst;
@@ -265,10 +238,9 @@ export default {
   width: 80px;
   height: 60px;
 }
-.myinput{
+.myinput {
   border: 1px solid #dcdfe6;
   border-radius: 4px;
   padding-left: 15px;
 }
-
 </style>
