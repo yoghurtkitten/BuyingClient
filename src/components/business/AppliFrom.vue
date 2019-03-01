@@ -179,14 +179,14 @@ export default {
     submitForm(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
-          console.log(
+          /* console.log(
             `${this.ruleForm.shopname}--${this.ruleForm.uname}
             --${this.ruleForm.phone}--${this.ruleForm.classify}--${
               this.ruleForm.subclassify
             }
             --${this.imgUrl}--${this.province}
             --${this.city}--${this.area}--${this.ruleForm.detailAddress}`
-          );
+          ); */
         } else {
           console.log("error submit!!");
           return false;
