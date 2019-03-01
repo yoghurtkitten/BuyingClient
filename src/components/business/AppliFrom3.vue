@@ -62,7 +62,7 @@ export default {
         checkPass: [{ validator: validatePass2, trigger: "blur" }]
       },
       step: 3,
-      phone: '15072772685',
+      phone: '18873662738',
     };
   },
   methods: {
