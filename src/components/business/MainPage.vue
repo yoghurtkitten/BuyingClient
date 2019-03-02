@@ -33,7 +33,6 @@
       </aside>
       <router-view></router-view>
     </article>
-    
   </div>
 </template>
 <script>
@@ -53,12 +52,12 @@ export default {
   color: #f5f5f5;
   padding: 2% 5%;
 }
-.business .header p{
-    margin: 0;
-    padding: 0;
-    font-size: 20px;
+.business .header p {
+  margin: 0;
+  padding: 0;
+  font-size: 20px;
 }
-.business .article {
+.business article {
   display: flex;
 }
 .business aside {
@@ -83,10 +82,9 @@ export default {
   padding: 0;
   color: #333;
 }
-.business ul li{
-    padding-top: 20%;
-    padding-bottom: 20%;
-    cursor: pointer;
+.business ul li {
+  padding-top: 20%;
+  padding-bottom: 20%;
+  cursor: pointer;
 }
-
 </style>
