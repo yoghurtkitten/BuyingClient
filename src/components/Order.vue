@@ -277,40 +277,44 @@ export default {
       this.show_dish = false;
     },
     confirm_order: function() {
-      if (typeof this.deliver_time == "string") {
-        this.deliver_time = new Date().getTime();
-      }
-      // console.log(this.deliver_time);
-      var _self = this;
-      $.ajax({
-        url: `${_self.baseUrl}/user/save_Order`,
-        type: "post",
-        data: {
-          u_phone: this.user,
-          shop_id: this.sid,
-          addr_id: this.address_id,
-          order_time: this.deliver_time,
-          message: this.order_descript,
-          dish_count: this.dish_count,
-          price: this.getTotal()
-        },
-        dataType: "json"
-      }).then(function(data) {
-        // console.log(data);
-        if (data) {
-          store.commit("setTimer", 900);
-          localStorage.setItem("timeNum", store.state.timerNumber);
-          _self.$router.push(
-            `/Pay?sid=${_self.sid}&user=${_self.user}&address=${
-              _self.address_id
-            }&total=${_self.getTotal()}&order_id=${data[0].id}&order_no=${
-              data[0].order_no
-            }&storeTime=${store.state.timerNumber}`
-          );
-        } else {
-          alert("诶呀，服务器出了点小问题！");
+      if (this.address_id) {
+        if (typeof this.deliver_time == "string") {
+          this.deliver_time = new Date().getTime();
         }
-      });
+        // console.log(this.deliver_time);
+        var _self = this;
+        $.ajax({
+          url: `${_self.baseUrl}/user/save_Order`,
+          type: "post",
+          data: {
+            u_phone: this.user,
+            shop_id: this.sid,
+            addr_id: this.address_id,
+            order_time: this.deliver_time,
+            message: this.order_descript,
+            dish_count: this.dish_count,
+            price: this.getTotal()
+          },
+          dataType: "json"
+        }).then(function(data) {
+          // console.log(data);
+          if (data) {
+            store.commit("setTimer", 900);
+            localStorage.setItem("timeNum", store.state.timerNumber);
+            _self.$router.push(
+              `/Pay?sid=${_self.sid}&user=${_self.user}&address=${
+                _self.address_id
+              }&total=${_self.getTotal()}&order_id=${data[0].id}&order_no=${
+                data[0].order_no
+              }&storeTime=${store.state.timerNumber}`
+            );
+          } else {
+            alert("诶呀，服务器出了点小问题！");
+          }
+        });
+      } else {
+        alert('请选择地址')
+      }
     },
     checkAddress: function(e, id) {
       if (e.target.nodeName == "DIV") {
