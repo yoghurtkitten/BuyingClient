@@ -9,7 +9,7 @@
               <div class="col-lg-9 col-md-6 row m-0 position-relative">
                 <div class="col-lg-2 col-md-5 d-flex align-items-center pr-0">
                   <i class="address-icon"></i>
-                  <span class="ml-2">{{pageAddress}}</span>
+                  <span class="ml-1">{{pageAddress}}</span>
                 </div>
                 <div class="col-lg-2 col-md-5 d-flex align-items-center p-0">
                   <a href="user_index.html" class="ml-3 mr-4 select-address">[切换地址]</a>
