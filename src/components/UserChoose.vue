@@ -90,15 +90,6 @@ export default {
       var title_address = this.data.split("-");
       this.address = this.data;
       this.pageAddress = title_address[1] + " " + title_address[2];
-    },
-    choose_shop: function(sid) {
-      if ($(".login_user").text() == "注册/登录") {
-        alert("请登录");
-      } else {
-        location.href = `${location.origin}/shop.html?sid=${sid}&user=${
-          this.user
-        }`;
-      }
     }
   },
   components: { myChoose, mySearch }

@@ -4,9 +4,9 @@
       <div class="nav container navbar-light">
         <div class="col-md-2 col-sm-3 col-xs-6">
           <div class="logo">
-            <a href="index.html">
+            <router-link to="/">
               <img :src="baseUrl+'/img/logo.png'" alt>
-            </a>
+            </router-link>
           </div>
         </div>
         <div class="col-md-10 col-sm-9 col-xs-6">

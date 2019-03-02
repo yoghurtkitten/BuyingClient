@@ -183,7 +183,15 @@
         </div>
         <div>
           <label>手机号</label>
-          <input type="text" name id="user_phone" placeholder="请输入您的手机号" v-model="phone">
+          <input
+            type="text"
+            name
+            id="user_phone"
+            placeholder="请输入您的手机号"
+            v-model="phone"
+            @blur="checkphone"
+          >
+          <span v-if="!checkPhone">手机号格式有误</span>
         </div>
         <div>
           <button @click="getAddre">保存</button>
@@ -213,8 +221,8 @@ export default {
       phone: "",
       address_id: "",
       gender: "",
-      showFitst: true,
-      isShowAdderss: true,
+      showFitst: false,
+      isShowAdderss: false,
       order_descript: "",
       deliver_time: "立即送达",
       time: new Date().getTime(),
@@ -224,7 +232,8 @@ export default {
       has_food: false,
       province: "湖北省",
       city: "武汉市",
-      area: "武昌区"
+      area: "武昌区",
+      checkPhone: true
     };
   },
   mounted() {
@@ -241,6 +250,14 @@ export default {
     }
   },
   methods: {
+    checkphone() {
+      var reg = /^1[3-9]\d{9}$/;
+      if (!reg.test(this.phone)) {
+        this.checkPhone = false;
+      } else {
+        this.checkPhone = true;
+      }
+    },
     selected(data) {
       this.province = data.province.value;
       this.city = data.city.value;
@@ -277,40 +294,43 @@ export default {
       this.show_dish = false;
     },
     confirm_order: function() {
-      if (typeof this.deliver_time == "string") {
-        this.deliver_time = new Date().getTime();
-      }
-      // console.log(this.address_id);
-       var _self = this;
-      $.ajax({
-        url: `${_self.baseUrl}/user/save_Order`,
-        type: "post",
-        data: {
-          u_phone: this.user,
-          shop_id: this.sid,
-          addr_id: this.address_id,
-          order_time: this.deliver_time,
-          message: this.order_descript,
-          dish_count: this.dish_count,
-          price: this.getTotal()
-        },
-        dataType: "json"
-      }).then(function(data) {
-        // console.log(data);
-        if (data) {
-          store.commit("setTimer", 900);
-          localStorage.setItem("timeNum", store.state.timerNumber);
-          _self.$router.push(
-            `/Pay?sid=${_self.sid}&user=${_self.user}&address=${
-              _self.address_id
-            }&total=${_self.getTotal()}&order_id=${data[0].id}&order_no=${
-              data[0].order_no
-            }&storeTime=${store.state.timerNumber}`
-          );
-        } else {
-          alert("诶呀，服务器出了点小问题！");
+      if (this.address_id) {
+        if (typeof this.deliver_time == "string") {
+          this.deliver_time = new Date().getTime();
         }
-      }); 
+        var _self = this;
+        $.ajax({
+          url: `${_self.baseUrl}/user/save_Order`,
+          type: "post",
+          data: {
+            u_phone: this.user,
+            shop_id: this.sid,
+            addr_id: this.address_id,
+            order_time: this.deliver_time,
+            message: this.order_descript,
+            dish_count: this.dish_count,
+            price: this.getTotal()
+          },
+          dataType: "json"
+        }).then(function(data) {
+          // console.log(data);
+          if (data) {
+            store.commit("setTimer", 900);
+            localStorage.setItem("timeNum", store.state.timerNumber);
+            _self.$router.push(
+              `/Pay?sid=${_self.sid}&user=${_self.user}&address=${
+                _self.address_id
+              }&total=${_self.getTotal()}&order_id=${data[0].id}&order_no=${
+                data[0].order_no
+              }&storeTime=${store.state.timerNumber}`
+            );
+          } else {
+            alert("诶呀，服务器出了点小问题！");
+          }
+        });
+      } else {
+        alert("请选择地址");
+      }
     },
     checkAddress: function(e, id) {
       if (e.target.nodeName == "DIV") {
@@ -408,7 +428,7 @@ export default {
       var url = `${_self.baseUrl}/user/save_address`;
       this.axios.post(url, data).then(result => {
         this.address_id = result.data.id[0].id;
-        console.log(this.address_id)
+        console.log(this.address_id);
         $("#modal").hide();
         $(".modal-bg").hide();
         _self.load_adderss();

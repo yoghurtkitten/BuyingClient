@@ -7,23 +7,30 @@
     <article>
       <aside>
         <ul>
-          <li>
-            <i class="iconfont">&#xe68d;</i>
-            <span>订单处理</span>
+          <li @click="toHome">
+            <i class="iconfont">&#xe603;</i>
+            <span>首页</span>
           </li>
           <li>
-            <i class="iconfont">&#xe74e;</i>
-            <span>订单查询</span>
+            <i class="iconfont">&#xe68d;</i>
+            <span @click="showOrder">订单</span>
+            <ul v-if="isorder">
+              <li>
+                订单处理</li>
+              <li>订单查询</li>
+            </ul>
           </li>
           <li>
             <i class="iconfont">&#xe602;</i>
-            <span>管理</span>
-            <i class="iconfont">&#xeb6d;</i>
+            <span>商品</span>
           </li>
           <li>
             <i class="iconfont">&#xe603;</i>
-            <span>设置</span>
-            <i class="iconfont">&#xeb6d;</i>
+            <span>财务</span>
+          </li>
+          <li>
+            <i class="iconfont">&#xe603;</i>
+            <span>门店</span>
           </li>
           <li>
             <i class="iconfont">&#xe603;</i>
@@ -39,25 +46,34 @@
 export default {
   data() {
     return {
-      searchInfo: ""
+      searchInfo: "",
+      isorder: false,
     };
+  },
+  methods: {
+    toHome() {
+      this.$router.push("/MainPage/index");
+    },
+    showOrder() {
+      this.isorder = !this.isorder;
+    }
   }
 };
 </script>
 <style>
-.business .header {
+.business > .header {
   display: flex;
   justify-content: space-between;
   background: #41403f;
   color: #f5f5f5;
   padding: 2% 5%;
 }
-.business .header p {
+.business > .header p {
   margin: 0;
   padding: 0;
   font-size: 20px;
 }
-.business article {
+.business > article {
   display: flex;
 }
 .business aside {
@@ -76,15 +92,19 @@ export default {
   border-radius: 50%;
   margin-bottom: 10%;
 }
-.business ul {
+.business > article > aside > ul {
   list-style: none;
   margin: 0;
   padding: 0;
   color: #333;
 }
-.business ul li {
+.business > article > aside > ul li {
   padding-top: 20%;
   padding-bottom: 20%;
   cursor: pointer;
+}
+.business > article > aside > ul li > ul {
+  list-style: none;
+  padding-left: 24%;
 }
 </style>

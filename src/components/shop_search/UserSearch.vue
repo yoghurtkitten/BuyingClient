@@ -72,7 +72,6 @@ export default {
       });
     },
     toShop(sid, user) {
-      // location.href = `${location.origin}/shop.html?sid=${sid}&user=${user}`; 
       this.$router.push(`/Shop?sid=${sid}&user=${user}`);
     }
   }
