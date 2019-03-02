@@ -247,10 +247,10 @@ export default {
         }
       }).then(result => {
         // console.log(result.data)
-        if (result.data.code == 200) {
+        if (result.data.code == 201) {
           this.isCollect = true;
           this.saveId = result.data.data[0].id;
-        } else if (result.data.code == 201) {
+        } else if (result.data.code == 200) {
           this.saveId = result.data.data[0].id;
         }
       });
@@ -269,14 +269,16 @@ export default {
           sid: this.sid
         }
       }).then(result => {
-        if (result.data.code == 201) {
+        console.log(result.data);
+        if (result.data.code == 200) {
           url = `${this.baseUrl}/user/UnSave`;
           this.axios(url, {
             params: {
               id: this.saveId,
-              isDel: 1
+              isDel: 0
             }
           }).then(result => {
+            // console.log(result.data)
             if (result.data.code == 200) {
               this.saveId = result.data.data;
             }
@@ -297,7 +299,7 @@ export default {
       this.axios(url, {
         params: {
           id: this.saveId,
-          isDel: 0
+          isDel: 1
         }
       }).then(result => {
         /* console.log(result.data)
