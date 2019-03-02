@@ -280,8 +280,8 @@ export default {
       if (typeof this.deliver_time == "string") {
         this.deliver_time = new Date().getTime();
       }
-      // console.log(this.deliver_time);
-      var _self = this;
+      // console.log(this.address_id);
+       var _self = this;
       $.ajax({
         url: `${_self.baseUrl}/user/save_Order`,
         type: "post",
@@ -310,7 +310,7 @@ export default {
         } else {
           alert("诶呀，服务器出了点小问题！");
         }
-      });
+      }); 
     },
     checkAddress: function(e, id) {
       if (e.target.nodeName == "DIV") {
@@ -407,6 +407,8 @@ export default {
       });
       var url = `${_self.baseUrl}/user/save_address`;
       this.axios.post(url, data).then(result => {
+        this.address_id = result.data.id[0].id;
+        console.log(this.address_id)
         $("#modal").hide();
         $(".modal-bg").hide();
         _self.load_adderss();
