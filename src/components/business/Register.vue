@@ -132,7 +132,7 @@
           <!-- <el-checkbox label="我已阅读并已同意" name="type"></el-checkbox> -->
           <input type="checkbox" v-model="ck" id="ck">
           <label for="ck" class="read">我已阅读并已同意</label>
-          <a href="javascript:;">《饿了么网上订餐平台服务协议》{{code}}</a>
+          <a href="javascript:;">《饿了么网上订餐平台服务协议》</a>
         </p>
       </div>
     </div>
@@ -141,7 +141,7 @@
 </template>
 <script>
 import VDistpicker from "v-distpicker";
-
+import qs from "qs";
 export default {
   components: { VDistpicker },
   data() {
@@ -160,7 +160,7 @@ export default {
       disSend: true,
       code: "",
       ck: false,
-      text: "发送验证码",
+      text: "发送验证码"
     };
   },
   methods: {
@@ -200,16 +200,24 @@ export default {
         this.disVali = true;
         clearInterval(timer);
       }, 60000);
+      console.log(this.phone);
 
+      var data = qs.stringify({
+        phone: this.phone
+      });
       var url = `${this.baseUrl}/user/getVCode`;
-      this.axios.post(url).then(res => {
+      this.axios.post(url, data).then(res => {
         this.code = res.data.vcode;
       });
     },
     appli() {
       if (this.mycode == this.code) {
         // console.log(this.phone, this.province, this.city, this.area);
-        this.$router.push(`/AppliFrom?phone=${this.phone}&province=${this.province}&city=${this.city}&area=${this.area}`)
+        this.$router.push(
+          `/AppliFrom?phone=${this.phone}&province=${this.province}&city=${
+            this.city
+          }&area=${this.area}`
+        );
       }
     },
     toAppli() {
