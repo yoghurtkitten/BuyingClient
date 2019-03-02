@@ -31,6 +31,7 @@
           </li>
         </ul>
       </aside>
+      <router-view></router-view>
     </article>
     
   </div>
@@ -67,6 +68,8 @@ export default {
   flex-direction: column;
   align-items: center;
   height: 675px;
+  padding-top: 2%;
+  box-shadow: 0 0 5px #ccc;
 }
 .business aside img {
   width: 80px;

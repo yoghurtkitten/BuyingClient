@@ -22,6 +22,7 @@ import AppliFrom from '@/components/business/AppliFrom.vue'
 import AppliFrom2 from '@/components/business/AppliFrom2.vue'
 import AppliFrom3 from '@/components/business/AppliFrom3.vue'
 import MainPage from '@/components/business/MainPage.vue'
+import BIndex from '@/components/business/part/BIndex.vue'
 
 Vue.use(Router)
 
@@ -138,7 +139,14 @@ export default new Router({
     {
       path: '/MainPage',
       name: 'MainPage',
-      component: MainPage
+      component: MainPage,
+      children: [
+        {
+          path:'/MainPage/index',
+          name:'BIndex',
+          component: BIndex
+        }
+      ]
     }
   ]
 })
