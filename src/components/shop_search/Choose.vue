@@ -176,7 +176,7 @@ export default {
       if ($(".login_user").text() == "注册/登录") {
         alert("请登录");
       } else {
-        this.$router.push(`/Shop?sid=${sid}`);
+        this.$router.push(`/Shop?sid=${sid}&user=${this.user}`);
       }
     }
   }

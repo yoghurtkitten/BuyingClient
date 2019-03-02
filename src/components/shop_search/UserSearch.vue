@@ -16,7 +16,7 @@
             </div>
             <div class="right-choose">
               <span>￥{{item.price.toFixed(2)}}</span>
-              <span class="buying" @click="toShop(obj.foods.id,user)">去购买</span>
+              <span class="buying" @click="toShop(obj.id,user)">去购买</span>
               <div>
                 <p>
                   <i class="iconfont">&#xec43;</i>
@@ -70,11 +70,10 @@ export default {
         this.businessList = data;
         console.log(data);
       });
-      console.log(this.address);
-      console.log(this.business);
     },
     toShop(sid, user) {
-      location.href = `${location.origin}/shop.html?sid=${sid}&user=${user}`;
+      // location.href = `${location.origin}/shop.html?sid=${sid}&user=${user}`; 
+      this.$router.push(`/Shop?sid=${sid}&user=${user}`);
     }
   }
 };

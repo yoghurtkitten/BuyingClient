@@ -12,12 +12,12 @@
                   <span class="ml-1">{{pageAddress}}</span>
                 </div>
                 <div class="col-lg-2 col-md-5 d-flex align-items-center p-0">
-                  <a href="user_index.html" class="ml-3 mr-4 select-address">[切换地址]</a>
+                  <router-link to="/UserIndex" class="ml-3 mr-4 select-address">[切换地址]</router-link>
                 </div>
               </div>
-              <div class="col-lg-3 col-md-6 row detail-btn m-0">
+              <div class="col-lg-3 col-md-6 row detail-btn m-0"> 
                 <div class="col-md-6 col-sm-3 col-xs-6 offset-6 p-0 m-0">
-                  <a href="login.html" class="btn mr-1 login_user" v-if="user.length==0">注册/登录</a>
+                  <router-link to="/Login" class="btn mr-1 login_user" v-if="user.length==0">注册/登录</router-link>
                   <a
                     href="javascript:;"
                     class="btn mr-1 login_user"

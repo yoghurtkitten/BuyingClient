@@ -194,7 +194,7 @@ i {
 
 .search-form {
   height: 10%;
-  width: 37%;
+  width: 50%;
   margin: 0 auto;
 }
 
@@ -251,7 +251,7 @@ i {
 @media screen and (max-width: 1380px) {
   .search-form,
   .login_list {
-    width: 50%;
+    width: 53%;
   }
 }
 
