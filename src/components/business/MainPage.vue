@@ -13,12 +13,7 @@
           </li>
           <li>
             <i class="iconfont">&#xe68d;</i>
-            <span @click="showOrder">订单</span>
-            <ul v-if="isorder">
-              <li>
-                订单处理</li>
-              <li>订单查询</li>
-            </ul>
+            <span @click="toOrderHandle">订单</span>
           </li>
           <li>
             <i class="iconfont">&#xe602;</i>
@@ -47,15 +42,15 @@ export default {
   data() {
     return {
       searchInfo: "",
-      isorder: false,
+      isorder: false
     };
   },
   methods: {
     toHome() {
       this.$router.push("/MainPage/index");
     },
-    showOrder() {
-      this.isorder = !this.isorder;
+    toOrderHandle() {
+      this.$router.push("/MainPage/order");
     }
   }
 };
@@ -76,7 +71,7 @@ export default {
 .business > article {
   display: flex;
 }
-.business aside {
+.business>article>aside {
   width: 12%;
   background: #fff;
   display: flex;

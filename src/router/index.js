@@ -23,6 +23,9 @@ import AppliFrom2 from '@/components/business/AppliFrom2.vue'
 import AppliFrom3 from '@/components/business/AppliFrom3.vue'
 import MainPage from '@/components/business/MainPage.vue'
 import BIndex from '@/components/business/part/BIndex.vue'
+import OrderHandle from '@/components/business/part/Order.vue'
+import CancelOrder from '@/components/business/part/CancelOrder.vue'
+import queryOrder from '@/components/business/part/queryOrder.vue'
 
 Vue.use(Router)
 
@@ -91,7 +94,7 @@ export default new Router({
         },
         {
           path: '/UserCenter/OrderDetail',
-          name:'OrderDetail',
+          name: 'OrderDetail',
           component: OrderDetail
         },
         {
@@ -112,8 +115,8 @@ export default new Router({
       ]
     },
     {
-      path:'/Business',
-      name:'BusiLogin',
+      path: '/Business',
+      name: 'BusiLogin',
       component: BusiLogin
     },
     {
@@ -142,9 +145,24 @@ export default new Router({
       component: MainPage,
       children: [
         {
-          path:'/MainPage/index',
-          name:'BIndex',
+          path: '/MainPage/index',
+          name: 'BIndex',
           component: BIndex
+        },
+        {
+          path: '/MainPage/order',
+          name: 'OrderHandle',
+          component: OrderHandle
+        },
+        {
+          path: '/MainPage/cancelOrder',
+          name: 'CancelOrder',
+          component: CancelOrder
+        },
+        {
+          path: '/MainPage/queryOrder',
+          name: 'queryOrder',
+          component: queryOrder
         }
       ]
     }
