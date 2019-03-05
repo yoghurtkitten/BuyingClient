@@ -90,26 +90,8 @@ ul {
   height: 34px;
 }
 
-.new-list-btn {
-  width: 96px;
-  background: #fff url("http://127.0.0.1:5050/img/small_img/order-list.png")
-    no-repeat 10px 6px / 15px 18px !important;
-  padding-left: 30px;
-  box-sizing: border-box;
-}
-
 .row {
   width: 100%;
-}
-
-.address-icon {
-  display: block;
-  width: 14px !important;
-  height: 30px !important;
-  background: url("http://127.0.0.1:5050/img/small_img/address-icon.png")
-    no-repeat center center;
-  background-size: 100%;
-  float: left;
 }
 
 a {
@@ -120,37 +102,12 @@ a:hover {
   text-decoration: none;
 }
 
-.select-address {
-  width: 60%;
-  color: #e54c2a;
-}
-
-.select-address:hover,
-.select-address:focus,
-.select-address:visited {
-  color: #e54c2a;
-  text-decoration: none;
-}
-
 .list-group-item {
   z-index: 2;
 }
 
 .type-detail {
   background: #fff;
-}
-
-.business-type-title {
-  width: 88px;
-  height: 30px;
-  padding-left: 32px;
-  background: url("http://127.0.0.1:5050/img/small_img/new-icon-sort.png")
-    no-repeat;
-  background-position-y: center;
-  background-size: 28%;
-  font-size: 14px;
-  margin-right: 1.5%;
-  line-height: 30px;
 }
 
 .type-detail p {
@@ -202,17 +159,6 @@ a:hover {
     margin: 0;
     max-width: 100% !important;
     width: 100%;
-  }
-}
-
-/* 765px */
-@media screen and (max-width: 765px) {
-  .select-address {
-    background: url("http://127.0.0.1:5050/img/small_img/up-icon.png") no-repeat
-      60px center;
-    background-size: 10px 5px;
-    width: 60%;
-    color: #e54c2a;
   }
 }
 

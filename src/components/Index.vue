@@ -37,7 +37,7 @@
       <div class="server">
         <div class="sub-title">
           <img
-            src="img/server.png"
+            :src="baseUrl+'/img/server.png'"
             alt
             :class="{'img-responsive':true, 'server-img':true, 'addAnimate':isAddAnimate}"
           >
@@ -67,7 +67,7 @@
             </ul>
           </div>
           <div :class="{'col-md-6':true,'addAnimate':isAddAnimate}">
-            <div class="out-phone">
+            <div class="out-phone" :style="{'background-image':`url('${baseUrl}'/img/phone.png)`}">
               <div
                 class="phone"
                 :style="{'background-image':`url('${server_type[index].phoneImg}')`}"
@@ -459,7 +459,8 @@ ul li .main-title {
 .out-phone {
   width: 346px;
   height: 708px;
-  background: url("http://127.0.0.1:5050/img/phone.png") no-repeat center center;
+  background-repeat: no-repeat;
+  background-position: center;
   background-size: 100%;
 }
 .phone {

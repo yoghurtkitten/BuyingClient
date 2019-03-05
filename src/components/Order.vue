@@ -41,7 +41,7 @@
                   </span>
                 </li>
               </ul>
-              <div></div>
+              <div :style="`background-image:url(${baseUrl}/img/order-bot-bg1.png)`"></div>
             </div>
             <div data-right>
               <h2 data-target="#modal" data-toggle="my-modal">
@@ -512,7 +512,7 @@ ul {
 section > div:nth-child(2) > div:first-child > div {
   width: 100%;
   height: 22px;
-  background: url("http://127.0.0.1:5050/img/order-bot-bg1.png") no-repeat;
+  background-repeat: no-repeat;
 }
 
 section > div:nth-child(2) > div:first-child > ul > li {

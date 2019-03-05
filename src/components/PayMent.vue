@@ -2,7 +2,7 @@
   <div class="container-fluid" id="app">
     <header>
       <p>
-        <span>
+        <span :style="`background-image:url(${baseUrl}/img/pay/OzUPukVET.png)`">
           你好，欢迎使用支付宝付款！
           <a href="javascript:;">常见问题</a>
         </span>
@@ -58,7 +58,8 @@ export default {
       baseUrl: this.$store.getters.getBaseUrl,
       total: "",
       order_id: "",
-      order_no: ""
+      order_no: "",
+      timer: null
     };
   },
   mounted() {
@@ -86,14 +87,17 @@ export default {
       });
     },
     time() {
-      setTimeout(() => {
+      this.timer = setTimeout(() => {
         var str = alert("支付超时，请重新下单支付");
         setTimeout(() => {
           window.close();
         }, 2000);
       }, 900000);
     }
-  }
+  },
+   beforeRouteLeave(to, from, next) {
+    clearInterval(this.timer);
+  } 
 };
 </script>
 <style scoped>
@@ -156,7 +160,8 @@ header > p > span {
   color: #fff;
   font-size: 0.75rem;
   line-height: 1.6875rem;
-  background: url("http://127.0.0.1:5050/img/pay/OzUPukVET.png") no-repeat 93.5% 59%;
+  background-repeat: no-repeat;
+  background-position: 93.5% 59%;
 }
 
 header > p > span > a {

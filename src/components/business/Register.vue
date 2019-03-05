@@ -2,7 +2,7 @@
   <div>
     <!-- <login-header></login-header> -->
     <div class="main">
-      <div class="bg">
+      <div class="bg" :style="`background-image:url(${baseUrl}/img/business/head-bg.jpg)`">
         <div class="title">
           <button>
             <i class="iconfont">&#xec43;</i>
@@ -305,7 +305,6 @@ ul {
   margin-top: 4%;
 }
 .bg {
-  background: url("http://127.0.0.1:5050/img/business/head-bg.jpg");
   background-repeat: no-repeat;
   background-size: cover;
   width: 100%;

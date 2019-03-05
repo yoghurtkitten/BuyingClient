@@ -7,8 +7,8 @@
           <div class="business-type">
             <div class="row m-0 mt-5">
               <div class="col-lg-9 col-md-6 row m-0 position-relative">
-                <div class="col-lg-2 col-md-5 d-flex align-items-center pr-0">
-                  <i class="address-icon"></i>
+                <div class="col-lg-3 col-md-5 d-flex align-items-center pr-0">
+                  <i class="iconfont">&#xec3f;</i>
                   <span class="ml-1">{{pageAddress}}</span>
                 </div>
                 <div class="col-lg-2 col-md-5 d-flex align-items-center p-0">
@@ -26,13 +26,14 @@
                   >{{user}}</a>
                 </div>
                 <div class="col-md-6 col-sm-3 col-xs-6 p-0">
-                  <router-link to="/UserCenter/Center" class="new-list-btn fr btn">我的订单</router-link>
+                  <router-link to="/UserCenter/Center" class="new-list-btn fr btn">
+                  <i class="iconfont">&#xe68d;</i>
+                  我的订单</router-link>
                 </div>
               </div>
             </div>
           </div>
           <my-choose v-if="!issearch" :parentdata="data" @search="currentSearch"></my-choose>
-          <!-- <button @click="change">change</button> -->
           <my-search
             v-if="issearch"
             :parentuser="user"
@@ -109,26 +110,16 @@ ul {
 }
 
 .new-list-btn {
-  width: 96px;
-  background: #fff url("http://127.0.0.1:5050/img/small_img/order-list.png")
-    no-repeat 10px 6px / 15px 18px !important;
-  padding-left: 30px;
+  width: 110px;
   box-sizing: border-box;
   font-size: 13px;
+}
+.new-list-btn>i{
+  color: #e54c2a;
 }
 
 .row {
   width: 100%;
-}
-
-.address-icon {
-  display: block;
-  width: 14px !important;
-  height: 30px !important;
-  background: url("http://127.0.0.1:5050/img/small_img/address-icon.png")
-    no-repeat center center;
-  background-size: 100%;
-  float: left;
 }
 
 a {
@@ -157,19 +148,6 @@ a:hover {
 
 .type-detail {
   background: #fff;
-}
-
-.business-type-title {
-  width: 88px;
-  height: 30px;
-  padding-left: 32px;
-  background: url("http://127.0.0.1:5050/img/small_img/new-icon-sort.png")
-    no-repeat;
-  background-position-y: center;
-  background-size: 28%;
-  font-size: 14px;
-  margin-right: 1.5%;
-  line-height: 30px;
 }
 
 .type-detail p {
@@ -227,8 +205,6 @@ a:hover {
 /* 765px */
 @media screen and (max-width: 765px) {
   .select-address {
-    background: url("http://127.0.0.1:5050/img/small_img/up-icon.png") no-repeat
-      60px center;
     background-size: 10px 5px;
     width: 60%;
     color: #e54c2a;
@@ -405,5 +381,9 @@ a:hover {
 
 [v-cloak] {
   display: none;
+}
+
+i+span{
+  font-size: 16px;
 }
 </style>

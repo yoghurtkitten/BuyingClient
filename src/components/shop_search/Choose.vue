@@ -2,7 +2,7 @@
   <div>
     <div class="type-detail row d-flex align-content-center m-0 pl-3 mt-2 pt-3 pb-3">
       <div class="col-lg-1 col-md-12 p-0">
-        <div class="business-type-title">商家分类</div>
+        <div class="business-type-title" :style="`background-image:url(${baseUrl}/img/small_img/new-icon-sort.png)`">商家分类</div>
       </div>
       <div class="col-lg-7 col-md-8 col-sm-12">
         <ul class="list-unstyled m-0">
@@ -194,45 +194,18 @@ ul {
   height: 34px;
 }
 
-.new-list-btn {
-  width: 96px;
-  background: #fff url("http://127.0.0.1:5050/img/small_img/order-list.png")
-    no-repeat 10px 6px / 15px 18px !important;
-  padding-left: 30px;
-  box-sizing: border-box;
-}
+
 
 .row {
   width: 100%;
 }
 
-.address-icon {
-  display: block;
-  width: 14px !important;
-  height: 30px !important;
-  background: url("http://127.0.0.1:5050/img/small_img/address-icon.png")
-    no-repeat center center;
-  background-size: 100%;
-  float: left;
-}
 
 a {
   text-decoration: none !important;
 }
 
 a:hover {
-  text-decoration: none;
-}
-
-.select-address {
-  width: 60%;
-  color: #e54c2a;
-}
-
-.select-address:hover,
-.select-address:focus,
-.select-address:visited {
-  color: #e54c2a;
   text-decoration: none;
 }
 
@@ -248,8 +221,7 @@ a:hover {
   width: 88px;
   height: 30px;
   padding-left: 32px;
-  background: url("http://127.0.0.1:5050/img/small_img/new-icon-sort.png")
-    no-repeat;
+  background-repeat: no-repeat;
   background-position-y: center;
   background-size: 28%;
   font-size: 14px;
@@ -309,16 +281,6 @@ a:hover {
   }
 }
 
-/* 765px */
-@media screen and (max-width: 765px) {
-  .select-address {
-    background: url("http://127.0.0.1:5050/img/small_img/up-icon.png") no-repeat
-      60px center;
-    background-size: 10px 5px;
-    width: 60%;
-    color: #e54c2a;
-  }
-}
 
 /* 499 */
 @media screen and (max-width: 499px) {

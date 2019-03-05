@@ -10,7 +10,7 @@
     </div>
     <div class="detail" v-if="shop_info">
       <div class="shop-info">
-        <div class="shop-img"></div>
+        <div class="shop-img" :style="`background-image:url(${baseUrl}/${shop_info.shop_img})`"></div>
         <div>
           <p>
             <span class="shop-title">{{shop_info.shop_name}}</span>
@@ -130,6 +130,7 @@ export default {
         }
       }).then(result => {
         this.shop_info = result.data.data[0];
+        console.log(this.shop_info);
       });
     },
     getShopCarInfo() {
@@ -260,7 +261,7 @@ export default {
 .order-detail .detail .shop-img {
   width: 44px;
   height: 44px;
-  background: url("http://127.0.0.1:5050/img/brand/miaomiao.jpg") no-repeat;
+  background-repeat: no-repeat;
   background-size: cover;
   margin-right: 2%;
 }

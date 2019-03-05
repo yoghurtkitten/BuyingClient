@@ -485,7 +485,7 @@ div[data-pay] button {
 }
 
 .active::after {
-  content: url(http://127.1:5050/img/payway.082e2f.png);
+  content: '';
   display: inline-block;
   position: absolute;
   right: -1px;

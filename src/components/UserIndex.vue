@@ -3,7 +3,7 @@
     <my-header :toggleFixed="false"></my-header>
 
     <div class="container-fluid">
-      <div class="main_img">
+      <div class="main_img" :style="`background-image:url(${baseUrl}/img/slider/3.jpg)`">
         <div class="address">
           <div class="inner-address p-0">
             <div class="row login_list">
@@ -118,8 +118,7 @@ export default {
   height: auto;
   width: 100%;
   overflow: hidden;
-  /* position: relative; */
-  background: url("http://127.0.0.1:5050/img/slider/3.jpg") no-repeat;
+  background-repeat: no-repeat;
   background-size: cover;
 }
 
@@ -218,7 +217,7 @@ i {
 }
 
 .login_list {
-  width: 37%;
+  width: 50%;
   margin: 0 auto;
 }
 

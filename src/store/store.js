@@ -1,4 +1,4 @@
-import vue from 'vue'
+﻿import vue from 'vue'
 import vuex from 'vuex'
 vue.use(vuex)
 
@@ -6,7 +6,7 @@ const store = new vuex.Store({
     state: {
       user: '',
       timerNumber: 0,
-      baseUrl: 'http://127.0.0.1:5050',
+      baseUrl: 'http://47.102.198.76:5050',
       business: localStorage.getItem('business')||''
     },
     mutations: {
