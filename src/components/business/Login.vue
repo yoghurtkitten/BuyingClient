@@ -46,8 +46,9 @@ export default {
         }
       }).then(result => {
         if (result.data.code == 200) {
+          // console.log(result.data.data[0]);
           localStorage.setItem('business', result.data.data[0].phone);
-          this.$router.push('/MainPage')
+          this.$router.push('/MainPage/index');
         } else {
           alert('帐号或密码有误，请重试');
           this.user = '';

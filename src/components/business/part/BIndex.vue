@@ -5,7 +5,7 @@
       <div>
         <ul>
           <li>
-            <p>3</p>
+            <p>{{newOrder}}</p>
             <p>新订单</p>
           </li>
           <li>
@@ -39,7 +39,7 @@
       <div>
         <ul>
           <li>
-            <p>324</p>
+            <p>{{allOrder}}</p>
             <p>今日订单</p>
           </li>
           <li>
@@ -51,6 +51,44 @@
     </div>
   </div>
 </template>
+<script>
+export default {
+  data() {
+    return {
+      baseUrl: this.$store.getters.getBaseUrl,
+      newOrder: '',
+      allOrder: '',
+    }
+  },
+  created() {
+    this.getNewOrder();
+    this.getAllCount();
+
+  },
+  methods: {
+    getNewOrder(){
+      var url = `${this.baseUrl}/business/getNewCount`;
+      this.axios.get(url, {
+        params: {
+          bphone: localStorage.getItem("business")
+        }
+      }).then(result => {
+        this.newOrder = result.data.data[0].count;
+      })
+    },
+    getAllCount(){
+      var url = `${this.baseUrl}/business/getAllOrder`;
+      this.axios.get(url, {
+        params: {
+          bphone: localStorage.getItem("business")
+        }
+      }).then(result => {
+        this.allOrder = result.data.data[0].count;
+      })
+    },
+  },
+}
+</script>
 <style scoped>
 .index {
   margin-top: 2%;
