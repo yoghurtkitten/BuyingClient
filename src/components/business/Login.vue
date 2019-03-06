@@ -6,7 +6,7 @@
         <h3>账号密码登录</h3>
         <el-input v-model="user" placeholder="请输入账号" @blur="vali"></el-input>
         <el-input v-model="pwd" placeholder="请输入密码" class="pwd" @blur="vali"></el-input>
-        <a href="javascript:;" class="forget">忘记密码？</a>
+        <router-link to="/forgetPwd" class="forget">忘记密码？</router-link>
         <el-button type="primary" :disabled="notLogin" @click="Login">登录</el-button>
       </div>
       <div class="registe">

@@ -36,7 +36,7 @@
                 codeStyle: false,
                 code: '',
                 code_span: '获取验证码',
-                time: 30,
+                time: 60,
                 isDisabled: true,
                 baseUrl: this.$store.getters.getBaseUrl,
             }

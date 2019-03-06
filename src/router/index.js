@@ -17,6 +17,8 @@ import PayMent from '@/components/PayMent.vue'
 import UserChoose from '@/components/UserChoose.vue'
 import Choose from '@/components/shop_search/Choose.vue'
 import BusiLogin from '@/components/business/Login.vue'
+import forgetPwd from '@/components/business/forgetPwd.vue'
+import changePwd from '@/components/business/changePwd.vue'
 import Register from '@/components/business/Register.vue'
 import AppliFrom from '@/components/business/AppliFrom.vue'
 import AppliFrom2 from '@/components/business/AppliFrom2.vue'
@@ -127,6 +129,16 @@ export default new Router({
       path: '/register',
       name: 'Register',
       component: Register
+    },
+    {
+      path: '/forgetPwd',
+      name: 'forgetPwd',
+      component: forgetPwd
+    },
+    {
+      path: '/changePwd',
+      name: 'changePwd',
+      component: changePwd
     },
     {
       path: '/AppliFrom',
