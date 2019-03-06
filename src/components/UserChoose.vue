@@ -15,9 +15,9 @@
                   <router-link to="/UserIndex" class="ml-3 mr-4 select-address">[切换地址]</router-link>
                 </div>
               </div>
-              <div class="col-lg-3 col-md-6 row detail-btn m-0"> 
+              <div class="col-lg-3 col-md-6 row detail-btn m-0">
                 <div class="col-md-6 col-sm-3 col-xs-6 offset-6 p-0 m-0">
-                  <router-link to="/Login" class="btn mr-1 login_user" v-if="user.length==0">注册/登录</router-link>
+                  <router-link to="/Login" class="btn mr-1 login_user" v-if="!user">注册/登录</router-link>
                   <a
                     href="javascript:;"
                     class="btn mr-1 login_user"
@@ -27,8 +27,9 @@
                 </div>
                 <div class="col-md-6 col-sm-3 col-xs-6 p-0">
                   <router-link to="/UserCenter/Center" class="new-list-btn fr btn">
-                  <i class="iconfont">&#xe68d;</i>
-                  我的订单</router-link>
+                    <i class="iconfont">&#xe68d;</i>
+                    我的订单
+                  </router-link>
                 </div>
               </div>
             </div>
@@ -60,7 +61,7 @@ export default {
       address: "",
       issearch: false,
       business: "",
-      baseUrl: this.$store.getters.getBaseUrl,
+      baseUrl: this.$store.getters.getBaseUrl
     };
   },
   mounted: function() {
@@ -114,7 +115,7 @@ ul {
   box-sizing: border-box;
   font-size: 13px;
 }
-.new-list-btn>i{
+.new-list-btn > i {
   color: #e54c2a;
 }
 
@@ -383,7 +384,7 @@ a:hover {
   display: none;
 }
 
-i+span{
+i + span {
   font-size: 16px;
 }
 </style>

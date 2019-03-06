@@ -95,9 +95,8 @@
                 var url = `${this.baseUrl}/user/login`;
                 var data = qs.stringify({phone: this.phone, user_code: this.code, code: this.pwd});
                 this.axios.post(url, data).then(result => {
-                    // console.log(result.data)
-                    this.$router.push('/UserIndex')
-
+                    localStorage.setItem('user',this.phone);
+                    this.$router.push('/UserIndex');
                 })
             }
         },

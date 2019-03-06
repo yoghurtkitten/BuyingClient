@@ -1,15 +1,22 @@
 <template>
   <div>
     <my-header :toggleFixed="false"></my-header>
-    <div class="container" v-cloak>
+    <div v-if="c==0" class="noFood">
+      <img :src="baseUrl+'/img/nodata.6477c5.png'" alt>
+      <p>该店铺尚未添加商品</p>
+    </div>
+    <div class="container" v-cloak v-if="category[0]">
       <div class="business-info row m-0 mt-3">
         <div
           :class="{'left-b':true, 'col-md-6':true, 'pr-0':true, 'left-b-show-all':isTitle}"
           @mouseenter="titleEnter"
           @mouseleave="titleEnter"
         >
-          <div :class="{'left-inner':true, 'd-flex':true, 'align-items-center':true}">
-            <img :src="baseUrl+'/img/business/business-icon.png'" class="icon" alt>
+          <div
+            :class="{'left-inner':true, 'd-flex':true, 'align-items-center':true}"
+            v-if="category[0]"
+          >
+            <img :src="baseUrl+'/'+category[0].foods[0].shop_img" class="icon" alt>
             <div class="ml-2">
               <p class="busin-title" v-if="category[0]">
                 <span>{{category[0].foods[0].shop_name}}</span>
@@ -229,14 +236,27 @@ export default {
       isTitle: false,
       isCollect: false,
       isShowMedia: false,
-      saveId: ""
+      saveId: "",
+      c: 1
     };
   },
   mounted() {
     this.getSid();
-    this.load_food().then(this.bandClick);
-    this.load_shop_car();
-    this.isSave();
+    var url = `${this.baseUrl}/user/hasFood`;
+    this.axios
+      .get(url, {
+        params: {
+          sid: this.sid
+        }
+      })
+      .then(result => {
+        this.c = result.data.data.c;
+        if (result.data.data.c) {
+          this.load_food().then(this.bandClick);
+          this.load_shop_car();
+          this.isSave();
+        }
+      });
   },
   methods: {
     isSave: function() {
@@ -246,7 +266,6 @@ export default {
           sid: this.sid
         }
       }).then(result => {
-        // console.log(result.data)
         if (result.data.code == 201) {
           this.isCollect = true;
           this.saveId = result.data.data[0].id;
@@ -335,6 +354,7 @@ export default {
           dataType: "json"
         }).then(function(data) {
           _self.category = _self.category.concat(data);
+          // console.log(data)
           open();
         });
       });
@@ -363,11 +383,11 @@ export default {
         );
       });
     },
-    set_sid_user: function() {
+    /*     set_sid_user: function() {
       var urlParams = new URLSearchParams(location.search);
       this.sid = urlParams.get("sid");
       this.user = urlParams.get("user");
-    },
+    }, */
     load_shop_car: function() {
       var _self = this;
       var url = `${_self.baseUrl}/user/session`;
@@ -473,6 +493,18 @@ export default {
       return sum.toFixed(2);
     }
   }
+  /*  beforeRouteEnter(to, from, next) {
+    var sid = to.query.sid;
+    var url = `${this.baseUrl}/user/hasFood`;
+    this.axios.get(url,{
+      params: {
+        sid: sid
+      }
+    }).then(result => {
+      console.log(result.data.data)
+    })
+    next();
+  } */
 };
 
 $(window).resize(function() {
@@ -525,6 +557,9 @@ window.onscroll = function() {
 };
 </script>
 <style scoped>
+[v-cloak] {
+  display: none;
+}
 .media-title {
   box-shadow: 0 0 5px #ccc;
   display: inherit !important;
@@ -1045,5 +1080,16 @@ a {
   width: 22%;
   text-align: center;
   color: #666;
+}
+.noFood {
+  width: 100%;
+  background: #fff;
+  height: 300px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.noFood>img{
+  margin-right: 5%;
 }
 </style>

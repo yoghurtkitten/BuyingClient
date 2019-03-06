@@ -10,8 +10,8 @@
           </button>
           <p>商户中心</p>
           <div class="title-right">
+            <p @click="toIndex">首页</p>
             <p>小程序入口</p>
-            <p>在线客服</p>
           </div>
         </div>
         <div class="concat">
@@ -164,6 +164,9 @@ export default {
     };
   },
   methods: {
+    toIndex() {
+      this.$router.push('/')
+    },
     close() {
       this.isShade = false;
       this.appliForm = false;
