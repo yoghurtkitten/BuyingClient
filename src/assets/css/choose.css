@@ -1,0 +1,167 @@
+ul {
+    list-style: none;
+  }
+  
+  .row {
+    width: 100%;
+  }
+  
+  a {
+    text-decoration: none !important;
+  }
+  
+  a:hover {
+    text-decoration: none;
+  }
+  
+  .type-detail {
+    background: #fff;
+  }
+  
+  .business-type-title {
+    width: 88px;
+    height: 30px;
+    padding-left: 32px;
+    background-repeat: no-repeat;
+    background-position-y: center;
+    background-size: 28%;
+    font-size: 14px;
+    margin-right: 1.5%;
+    line-height: 30px;
+  }
+  
+  .type-detail p {
+    margin-right: 1.5%;
+    height: 30px;
+    line-height: 30px;
+  }
+  
+  .type-detail ul {
+    height: 30px;
+    display: flex;
+    align-items: center;
+  }
+  
+  .type-detail ul li {
+    float: left;
+    margin-right: 5%;
+  }
+  
+  .type-detail ul li a {
+    color: #333;
+  }
+  
+  .type-detail ul li .active {
+    color: #e54c2a;
+  }
+  
+  .type-detail > div > input {
+    width: 234px;
+    height: 38px;
+    border: 1px solid #e5e5e5;
+    margin-left: 20%;
+  }
+  
+  .type-detail > div > a {
+    width: 49px;
+    height: 38px;
+    border: 1px solid #e5e5e5;
+  }
+  
+  .type-detail a span {
+    display: inline-block;
+    color: #101010;
+  }
+  
+  @media screen and (max-width: 1200px) {
+    .container {
+      padding: 0;
+      margin: 0;
+      max-width: 100% !important;
+      width: 100%;
+    }
+  }
+  
+  
+  /* 499 */
+  @media screen and (max-width: 499px) {
+    .type-detail ul li {
+      margin-right: 1.4%;
+    }
+  }
+  
+  .star i {
+    color: #e54c2a;
+  }
+  
+  .detail-list {
+    width: 100%;
+    box-shadow: 0px 0px 5px #ccc;
+  
+    background: #fff;
+    overflow: auto;
+  }
+  
+  .detail-list > ul > li {
+    width: 210px;
+    height: 288px;
+    display: list-item;
+    float: left;
+    margin: 1.5%;
+    margin-left: 4%;
+  }
+  
+  .detail-list > ul > li:nth-child(4n + 1) {
+    margin-left: 2.2% !important;
+  }
+  
+  .detail-list li img {
+    width: 100%;
+    border: 1px solid #eaeaea;
+  }
+  
+  .detail-list > ul > li .business-title {
+    font-size: 16px;
+    color: #313131;
+    width: 80%;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    margin-top: 5%;
+    margin-bottom: 3%;
+  }
+  
+  .descript,
+  .star {
+    margin-bottom: 1%;
+  }
+  
+  .descript,
+  .star span {
+    font-size: 12px;
+    color: #707070;
+  }
+  
+  .descript span:last-child {
+    margin-left: auto;
+  }
+  
+  .load {
+    height: 54px;
+    /* border: 1px solid #ccc; */
+    border-top: 1px solid transparent;
+    box-shadow: 0 2px 5px #ccc;
+    text-align: center;
+    background-image: linear-gradient(to bottom, #f5f2f2, #e8e3e3);
+    color: #777;
+  }
+  
+  .load p {
+    margin: 0;
+    padding: 0;
+    line-height: 54px;
+    cursor: pointer;
+  }
+  [v-cloak] {
+    display: none;
+  }

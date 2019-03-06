@@ -172,9 +172,9 @@ export default new Router({
       beforeEnter: (to, from, next) => {
         if (localStorage.getItem('business')) {
           next();
-        };
-        console.log('请登录');
-        alert('请登录')
+        }else {
+          alert('请登录')
+        }
       }
     }
   ]

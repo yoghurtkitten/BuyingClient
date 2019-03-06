@@ -1,0 +1,114 @@
+.order {
+    width: 80%;
+    box-shadow: 0 0 5px #ccc;
+    background: #fff;
+    padding: 1.5625rem;
+  }
+  .order .top {
+    font-size: 1.125rem;
+    font-weight: 700;
+  }
+  .order .top::after {
+    content: "";
+    display: block;
+    width: 100%;
+    height: 0.1875rem;
+    background: #f4f4f4;
+    margin-top: 10px;
+  }
+  .order td > img {
+    width: 4.375rem;
+    height: 4.375rem;
+    border-radius: 50%;
+    margin: 15px 15px 15px 25px;
+  }
+  .order p {
+    margin: 0;
+    padding: 0;
+  }
+  .order table {
+    width: 100%;
+  }
+  .order-item-line {
+    position: relative;
+  }
+  .order i {
+    position: absolute;
+    top: 70px;
+    right: -8px;
+  }
+  .order thead {
+    background: #eee;
+  }
+  .order thead > tr > th:not(:nth-child(2)) {
+    font-weight: normal;
+    text-align: center;
+    height: 30px;
+    color: #333;
+  }
+  .order thead > tr > th:nth-child(2) {
+    font-weight: normal;
+    padding-left: 34px;
+    width: 124px;
+  }
+  .order .order-item-line {
+    border-right: 1px solid #eee;
+    text-align: center;
+  }
+  .order .order-item-line > span {
+    display: inline-block;
+    width: 59px;
+  }
+  .order tbody > tr > td {
+    text-align: center;
+    padding: 30px 0 30px 0;
+    color: #999;
+  }
+  .order tbody > tr > td:nth-child(3) {
+    text-align: left;
+  }
+  .order tbody > tr > td > h3 {
+    font-size: 16px;
+    font-weight: 700;
+    color: #333;
+    margin: 0;
+  }
+  .order tbody > tr > td:last-child > a,
+  .order .nextPage > a {
+    display: inline-block;
+    width: 4.875rem;
+    height: 1.5rem;
+    border: 1px solid #eee;
+    text-decoration: none;
+    color: #333;
+    padding-top: 1%;
+  }
+  .order tbody > tr > td {
+    border-bottom: 1px solid #eee;
+  }
+  .order tbody > tr > td:first-child,
+  .order tbody > tr > td:nth-child(2) {
+    border-bottom: none;
+  }
+  .state {
+    font-size: 1.17em;
+  }
+  .order .food-details {
+    width: 230px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+  .order p > span {
+    color: #333;
+    font-weight: 700;
+  }
+  .order .nextPage {
+    text-align: right;
+    margin-top: 1%;
+  }
+  .order .nextPage > a {
+    padding-top: 0.1%;
+    text-align: center;
+  }
+  

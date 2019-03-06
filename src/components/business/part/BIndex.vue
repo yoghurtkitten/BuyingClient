@@ -9,7 +9,7 @@
             <p>新订单</p>
           </li>
           <li>
-            <p>0</p>
+            <p>{{cancelOrder}}</p>
             <p>异常订单</p>
           </li>
           <li>
@@ -43,7 +43,7 @@
             <p>今日订单</p>
           </li>
           <li>
-            <p>￥6038</p>
+            <p>￥{{countPrice.toFixed(2)}}</p>
             <p>今日营业额</p>
           </li>
         </ul>
@@ -56,38 +56,66 @@ export default {
   data() {
     return {
       baseUrl: this.$store.getters.getBaseUrl,
-      newOrder: '',
-      allOrder: '',
-    }
+      newOrder: "",
+      allOrder: 0,
+      countPrice: 0,
+      cancelOrder: 0,
+    };
   },
   created() {
     this.getNewOrder();
-    this.getAllCount();
-
+    this.getPrice();
+    this.getCancelOrder();
   },
   methods: {
-    getNewOrder(){
+    getNewOrder() {
       var url = `${this.baseUrl}/business/getNewCount`;
-      this.axios.get(url, {
-        params: {
-          bphone: localStorage.getItem("business")
-        }
-      }).then(result => {
-        this.newOrder = result.data.data[0].count;
-      })
+      this.axios
+        .get(url, {
+          params: {
+            bphone: localStorage.getItem("business")
+          }
+        })
+        .then(result => {
+          this.newOrder = result.data.data[0].count;
+        });
     },
-    getAllCount(){
-      var url = `${this.baseUrl}/business/getAllOrder`;
-      this.axios.get(url, {
-        params: {
-          bphone: localStorage.getItem("business")
-        }
-      }).then(result => {
-        this.allOrder = result.data.data[0].count;
-      })
+    getCancelOrder() {
+       var url = `${this.baseUrl}/business/getCancel`;
+      this.axios
+        .get(url, {
+          params: {
+            bphone: localStorage.getItem("business")
+          }
+        })
+        .then(result => {
+          this.cancelOrder = result.data.data[0].count;
+        });
     },
-  },
-}
+    getPrice() {
+      var url = `${this.baseUrl}/business/getAllPrice`;
+      this.axios
+        .get(url, {
+          params: {
+            bphone: localStorage.getItem("business")
+          }
+        })
+        .then(result => {
+          for (const item of result.data.data) {
+            if (
+              new Date(item.order_time).getFullYear() ==
+                new Date().getFullYear() &&
+              new Date(item.order_time).getMonth() == new Date().getMonth() &&
+              new Date(item.order_time).getDate() == new Date().getDate()
+            ) {
+              this.countPrice += item.price;
+              this.allOrder ++;
+            }
+          }
+        });
+    }
+  }
+};
 </script>
 <style scoped>
 .index {
@@ -99,13 +127,13 @@ export default {
 }
 
 .index .order,
-.index .count{
+.index .count {
   width: 50%;
 }
-.index .comment{
+.index .comment {
   width: 40%;
 }
-.index>div:first-child{
+.index > div:first-child {
   margin-right: 2%;
 }
 .index p {
@@ -162,7 +190,7 @@ export default {
   display: flex;
   justify-content: center;
 }
-.index  ul {
+.index ul {
   width: 100%;
   display: flex;
   justify-content: space-around;

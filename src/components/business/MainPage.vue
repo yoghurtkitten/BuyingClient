@@ -2,7 +2,7 @@
   <div class="business">
     <div class="header">
       <p>Buying · 商家中心</p>
-      <p>豪大大鸡排</p>
+      <p>{{shopName}}</p>
     </div>
     <article>
       <aside>
@@ -42,8 +42,13 @@ export default {
   data() {
     return {
       searchInfo: "",
-      isorder: false
+      isorder: false,
+      shopName: '',
+      baseUrl: this.$store.getters.getBaseUrl,
     };
+  },
+   mounted() {
+    this.getAllCount();
   },
   methods: {
     toHome() {
@@ -51,8 +56,19 @@ export default {
     },
     toOrderHandle() {
       this.$router.push("/MainPage/order");
-    }
-  }
+    },
+    getAllCount(){
+      var url = `${this.baseUrl}/business/getAllOrder`;
+      this.axios.get(url, {
+        params: {
+          bphone: localStorage.getItem("business")
+        }
+      }).then(result => {
+        // console.log(result.data.data);
+        this.shopName = result.data.data[0].shop_name;
+      })
+    },
+  },
 };
 </script>
 <style>

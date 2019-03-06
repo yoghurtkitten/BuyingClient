@@ -201,25 +201,16 @@
         </div>
       </aside>
       <aside>
-        <div class="money">
-          <p>今日总营业额</p>
-          <p>
-            订单量：
-            <span>20</span>单
-          </p>
-          <p>
-            营业额：
-            <span>1821</span>元
-          </p>
-        </div>
-        <div class="info">
-          <p>订单小贴士</p>
-          <ul>
-            <li>建议在十点前打开客户端</li>
-            <li>建议填写接单手机号</li>
-            <li>建议填写菜品的介绍</li>
-            <li>建议填写完整的详细地址</li>
-          </ul>
+        <div class="query">
+          <p>查询订单</p>
+          <el-date-picker
+            v-model="value"
+            align="right"
+            type="date"
+            placeholder="选择日期"
+            :picker-options="pickerOptions1"
+          ></el-date-picker>
+          <el-input v-model="queryId" placeholder="请输入要查询的订单号"></el-input>
         </div>
       </aside>
     </section>
@@ -260,7 +251,8 @@ export default {
         ]
       },
       value: "",
-      orderId: ""
+      orderId: "",
+      queryId: "",
     };
   },
   methods: {
@@ -358,7 +350,8 @@ export default {
 .order > section > aside:last-child > div {
   background: #fff;
   margin-left: 10%;
-  padding: 4% 4%;
+  padding: 4% 14.5% 6% 8%;
+  box-shadow: 0 0 5px #ccc;
 }
 .order > section > aside:last-child > div:first-child {
   margin-bottom: 10%;
@@ -424,19 +417,7 @@ export default {
   color: #e54c2a;
   cursor: pointer;
 }
-.order .money > p {
-  color: #3d3d3d;
-}
-.order .money > p:first-child,
-.order .info > p {
-  font-size: 1rem;
-  color: #333;
-  font-weight: bold;
-  margin-bottom: 6%;
-}
-.order .money > p > span {
-  font-weight: bold;
-}
+
 .order .info > ul > li {
   padding-top: 4%;
   padding-bottom: 4%;
@@ -456,6 +437,12 @@ export default {
   background: #fff;
   width: 100%;
   padding: 3%;
+}
+.order .query>p{
+  margin-bottom: 5%;
+}
+.order .query>div{
+  margin-bottom: 5%;
 }
 </style>
 
