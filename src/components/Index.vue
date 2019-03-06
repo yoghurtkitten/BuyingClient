@@ -67,7 +67,7 @@
             </ul>
           </div>
           <div :class="{'col-md-6':true,'addAnimate':isAddAnimate}">
-            <div class="out-phone" :style="{'background-image':`url('${baseUrl}'/img/phone.png)`}">
+            <div class="out-phone"  :style="`background-image:url(${baseUrl}/img/phone.png)`">
               <div
                 class="phone"
                 :style="{'background-image':`url('${server_type[index].phoneImg}')`}"

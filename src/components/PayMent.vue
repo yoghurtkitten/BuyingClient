@@ -78,7 +78,7 @@ export default {
         url: `${this.baseUrl}/user/changeStatu`,
         data: {
           order_no: this.order_id,
-          pay_method: '支付宝'
+          pay_method: "支付宝"
         },
         type: "get",
         dataType: "json"
@@ -95,9 +95,10 @@ export default {
       }, 900000);
     }
   },
-   beforeRouteLeave(to, from, next) {
+  beforeRouteLeave(to, from, next) {
     clearInterval(this.timer);
-  } 
+    next();
+  }
 };
 </script>
 <style scoped>

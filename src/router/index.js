@@ -71,11 +71,15 @@ export default new Router({
       path: '/Pay',
       name: 'Pay',
       component: Pay,
+      beforeEnter:(to, from, next) => {
+        from.path == '/PayMent' ? next('/') :next();
+      }
     },
     {
       path: '/PayMent',
       name: 'PayMent',
-      component: PayMent
+      component: PayMent,
+
     },
     {
       path: '/UserCenter',
@@ -164,7 +168,14 @@ export default new Router({
           name: 'queryOrder',
           component: queryOrder
         }
-      ]
+      ],
+      beforeEnter: (to, from, next) => {
+        if (localStorage.getItem('business')) {
+          next();
+        };
+        console.log('请登录');
+        alert('请登录')
+      }
     }
   ]
 })
