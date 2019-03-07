@@ -133,7 +133,10 @@ export default new Router({
     {
       path: '/forgetPwd',
       name: 'forgetPwd',
-      component: forgetPwd
+      component: forgetPwd,
+      beforeEnter:(to, from, next) => {
+        from.path == '/changePwd' ? next('/Business') :next();
+      }
     },
     {
       path: '/changePwd',

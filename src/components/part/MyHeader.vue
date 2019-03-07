@@ -5,7 +5,7 @@
         <div class="col-md-2 col-sm-3 col-xs-6">
           <div class="logo">
             <router-link to="/">
-              <img :src="baseUrl+'/img/logo.png'" alt>
+              <img :src="baseUrl+'/img/logo.png'" @click="toIndex">
             </router-link>
           </div>
         </div>
@@ -79,6 +79,9 @@ export default {
         $(".header-info").hide();
       }
     },
+     toIndex() {
+      this.$router.push('/')
+    }
   }
 };
 </script>

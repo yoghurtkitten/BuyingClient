@@ -23,6 +23,7 @@
           </el-form-item>
         </el-form>
       </div>
+      <h3 v-show="isSuccess">修改成功，3秒后自动跳到登陆页面~~</h3>
     </div>
   </div>
 </template>
@@ -60,20 +61,45 @@ export default {
         pass: [{ validator: validatePass, trigger: "blur" }],
         checkPass: [{ validator: validatePass2, trigger: "blur" }]
       },
-      phone: ""
+      phone: "",
+      baseUrl: this.$store.getters.getBaseUrl,
+      isSuccess: false,
+      timer: null
     };
   },
   methods: {
     submitForm(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
-          alert("submit!");
+          var url = `${this.baseUrl}/business/changePwd`;
+          this.axios
+            .get(url, {
+              params: {
+                upwd: this.ruleForm2.pass,
+                bphone: this.phone
+              }
+            })
+            .then(result => {
+              if (result.data.code == 200) {
+                this.isSuccess = true;
+                this.timer = setTimeout(() => {
+                  this.$router.push("/Business")
+                }, 3000);
+              } else {
+                alert("修改密码失败，请重新修改！");
+              }
+            });
+          // console.log(this.ruleForm2.pass,this.phone);
         } else {
           console.log("error submit!!");
           return false;
         }
       });
     }
+  },
+  beforeRouteLeave (to, from, next) {
+    clearTimeout(this.timer);
+    next();
   }
 };
 </script>
@@ -84,14 +110,17 @@ export default {
   box-shadow: 0 -1px 5px #ccc;
 }
 .changePwd > div {
-    width: 30%;
-    margin: 0 auto;
-    padding-top: 5%;
+  width: 30%;
+  margin: 0 auto;
+  padding-top: 5%;
 }
-.changePwd > div > p{
-    color: #999;
-    font-size: 12px;
-    margin-bottom: 3%;
-    text-align: center;
+.changePwd > div > p {
+  color: #999;
+  font-size: 12px;
+  margin-bottom: 3%;
+  text-align: center;
+}
+h3{
+  text-align: center;
 }
 </style>

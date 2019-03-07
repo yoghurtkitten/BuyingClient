@@ -197,6 +197,9 @@ ul {
   .title-right p:first-child {
     margin-right: 5%;
   }
+  .title-right p{
+    cursor: pointer;
+  }
   .appli {
     width: 26.5%;
     background: #fff;

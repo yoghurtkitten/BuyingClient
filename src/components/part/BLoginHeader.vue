@@ -1,6 +1,6 @@
 <template>
   <div class="header">
-    <img :src="baseUrl+'/img/login-logo.png'" alt>
+    <img :src="baseUrl+'/img/login-logo.png'" @click="toIndex">
     <p> <span>商家版</span> </p>
   </div>
 </template>
@@ -10,7 +10,12 @@ export default {
     return {
       baseUrl: this.$store.getters.getBaseUrl
     };
-  }
+  },
+  methods: {
+    toIndex() {
+      this.$router.push('/')
+    }
+  },
 };
 </script>
 <style scoped>
@@ -29,6 +34,7 @@ export default {
 .header > img {
   height: 41px;
   flex-shrink: 0;
+  cursor: pointer;
 }
 p::before {
   content: "";
