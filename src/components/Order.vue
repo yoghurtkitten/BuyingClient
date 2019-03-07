@@ -27,17 +27,13 @@
                   <span>￥{{obj.un_price}}*{{obj.number}}</span>
                 </li>
                 <li>
-                  <span>包装费</span>
-                  <span>￥2</span>
-                </li>
-                <li>
                   <span>配送费</span>
                   <span>￥{{orderInfo[0].deliver_fee}}</span>
                 </li>
                 <li>
                   <span>
                     ￥
-                    <span data-total>{{getTotal()}}</span>
+                    <span data-total>{{getTotal(orderInfo[0].deliver_fee)}}</span>
                   </span>
                 </li>
               </ul>
@@ -233,7 +229,8 @@ export default {
       province: "湖北省",
       city: "武汉市",
       area: "武昌区",
-      checkPhone: true
+      checkPhone: true,
+      orderTotalPrice: 0
     };
   },
   mounted() {
@@ -294,6 +291,7 @@ export default {
       this.show_dish = false;
     },
     confirm_order: function() {
+      // console.log(this.orderTotalPrice)
       if (this.address_id) {
         if (typeof this.deliver_time == "string") {
           this.deliver_time = new Date().getTime();
@@ -309,7 +307,7 @@ export default {
             order_time: this.deliver_time,
             message: this.order_descript,
             dish_count: this.dish_count,
-            price: this.getTotal()
+            price: this.orderTotalPrice
           },
           dataType: "json"
         }).then(function(data) {
@@ -320,7 +318,7 @@ export default {
             _self.$router.push(
               `/Pay?sid=${_self.sid}&user=${_self.user}&address=${
                 _self.address_id
-              }&total=${_self.getTotal()}&order_id=${data[0].id}&order_no=${
+              }&total=${_self.orderTotalPrice}&order_id=${data[0].id}&order_no=${
                 data[0].order_no
               }&storeTime=${store.state.timerNumber}`
             );
@@ -375,7 +373,7 @@ export default {
         }
       });
     },
-    getTotal: function() {
+    getTotal: function(deliver_fee) {
       var sum = 0;
       for (const key in this.orderInfo) {
         if (this.orderInfo.hasOwnProperty(key)) {
@@ -383,7 +381,8 @@ export default {
           sum += parseInt(element.number) * parseFloat(element.un_price);
         }
       }
-      return sum.toFixed(2);
+      this.orderTotalPrice = sum + deliver_fee;
+      return (sum + deliver_fee).toFixed(2);
     },
     show_address: function() {
       $("#modal").show();
@@ -425,10 +424,11 @@ export default {
         phone: this.phone,
         gender: this.gender
       });
+      // console.log(data);
       var url = `${_self.baseUrl}/user/save_address`;
       this.axios.post(url, data).then(result => {
         this.address_id = result.data.id[0].id;
-        console.log(this.address_id);
+        // console.log(this.address_id);
         $("#modal").hide();
         $(".modal-bg").hide();
         _self.load_adderss();
@@ -454,5 +454,5 @@ export default {
 };
 </script>
 <style lang="css" scoped>
-    @import '../assets/css/order.css'
+@import "../assets/css/order.css";
 </style>
