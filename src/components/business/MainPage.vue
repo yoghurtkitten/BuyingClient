@@ -17,7 +17,7 @@
           </li>
           <li>
             <i class="iconfont">&#xe602;</i>
-            <span>商品</span>
+            <span @click="toFoodIndex">商品</span>
           </li>
           <li>
             <i class="iconfont">&#xe603;</i>
@@ -57,7 +57,7 @@ export default {
     toOrderHandle() {
       this.$router.push("/MainPage/order");
     },
-    getAllCount(){
+    getAllCount() {
       var url = `${this.baseUrl}/business/getAllOrder`;
       this.axios.get(url, {
         params: {
@@ -68,6 +68,9 @@ export default {
         this.shopName = result.data.data[0].shop_name;
       })
     },
+    toFoodIndex() {
+      this.$router.push('/MainPage/foodIndex');
+    }
   },
 };
 </script>

@@ -28,6 +28,7 @@ import BIndex from '@/components/business/part/BIndex.vue'
 import OrderHandle from '@/components/business/part/Order.vue'
 import CancelOrder from '@/components/business/part/CancelOrder.vue'
 import queryOrder from '@/components/business/part/queryOrder.vue'
+import foodIndex from '@/components/business/food/foodIndex.vue'
 
 Vue.use(Router)
 
@@ -182,6 +183,11 @@ export default new Router({
           path: '/MainPage/queryOrder',
           name: 'queryOrder',
           component: queryOrder
+        },
+        {
+          path: '/MainPage/foodIndex',
+          name: 'foodIndex',
+          component: foodIndex
         }
       ],
       beforeEnter: (to, from, next) => {
