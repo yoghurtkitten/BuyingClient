@@ -49,7 +49,7 @@
                 <span @click="show_address">添加新地址</span>
               </div>
               <div>
-                <div data-address-list :class="{showFirst:isShowAdderss}">
+                <div data-address-list :class="{'showFirst':isShowAdderss}">
                   <div
                     v-if="address"
                     class="add-address has-address"
@@ -217,8 +217,8 @@ export default {
       phone: "",
       address_id: "",
       gender: "",
-      showFitst: false,
-      isShowAdderss: false,
+      showFitst: true,
+      isShowAdderss: true,
       order_descript: "",
       deliver_time: "立即送达",
       time: new Date().getTime(),

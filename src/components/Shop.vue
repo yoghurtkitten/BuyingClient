@@ -237,7 +237,8 @@ export default {
       isCollect: false,
       isShowMedia: false,
       saveId: "",
-      c: 1
+      c: 1,
+      enought: true
     };
   },
   mounted() {
@@ -383,11 +384,6 @@ export default {
         );
       });
     },
-    /*     set_sid_user: function() {
-      var urlParams = new URLSearchParams(location.search);
-      this.sid = urlParams.get("sid");
-      this.user = urlParams.get("user");
-    }, */
     load_shop_car: function() {
       var _self = this;
       var url = `${_self.baseUrl}/user/session`;
@@ -407,7 +403,12 @@ export default {
       });
     },
     toOrder: function() {
-      this.$router.push(`/Order?sid=${this.sid}&user=${this.user}`);
+      if (this.enought) {
+        this.$router.push(`/Order?sid=${this.sid}&user=${this.user}`);
+      } else {
+        alert('购物车中有商品库存不足，无法下单！')
+      }
+      // 
     },
     clear: function() {
       this.shop_car = [];
@@ -436,7 +437,6 @@ export default {
         },
         dataType: "json"
       }).then(function(data) {
-        // console.log("重新加载");
         _self.load_shop_car();
       });
       for (const key in this.category[0].foods) {
@@ -451,21 +451,37 @@ export default {
         if (this.shop_car.hasOwnProperty(key)) {
           const element = this.shop_car[key];
           if (element.fid == f_id) {
+            element.number = parseInt(element.number);
             element.number += i;
             if (element.number <= 0) {
               element.number = 0;
               _self.load_shop_car();
             }
-            // console.log(element.number);
-            $.ajax({
-              url: `${_self.baseUrl}/user/update_shopCar`,
-              type: "post",
-              data: {
-                foods_id: f_id,
-                number: element.number
-              },
-              dataType: "json"
-            }).then(function(data) {});
+            var url = `${_self.baseUrl}/user/getFoodCount`;
+            this.axios
+              .get(url, {
+                params: {
+                  inventory: element.number,
+                  food_id: f_id
+                }
+              })
+              .then(res => {
+                if (res.data.code == 200) {
+                  this.enought = true;
+                  $.ajax({
+                    url: `${_self.baseUrl}/user/update_shopCar`,
+                    type: "post",
+                    data: {
+                      foods_id: f_id,
+                      number: element.number
+                    },
+                    dataType: "json"
+                  }).then(function(data) {});
+                } else {
+                  alert("库存不足");
+                  this.enought = false;
+                }
+              });
           }
         }
       }
@@ -477,6 +493,7 @@ export default {
       for (const key in this.shop_car) {
         if (this.shop_car.hasOwnProperty(key)) {
           const element = this.shop_car[key];
+          element.number = parseInt(element.number);
           sum += element.number;
         }
       }
@@ -493,18 +510,6 @@ export default {
       return sum.toFixed(2);
     }
   }
-  /*  beforeRouteEnter(to, from, next) {
-    var sid = to.query.sid;
-    var url = `${this.baseUrl}/user/hasFood`;
-    this.axios.get(url,{
-      params: {
-        sid: sid
-      }
-    }).then(result => {
-      console.log(result.data.data)
-    })
-    next();
-  } */
 };
 
 $(window).resize(function() {
@@ -557,5 +562,5 @@ window.onscroll = function() {
 };
 </script>
 <style lang="css" scoped>
-    @import '../assets/css/shop.css'
+@import "../assets/css/shop.css";
 </style>

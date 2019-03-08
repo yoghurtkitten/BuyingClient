@@ -444,6 +444,7 @@
     cursor: pointer;
   }
   .shop-item ul {
+    padding: 0;
     width: 100%;
   }
   .shop-item ul li {
@@ -474,7 +475,7 @@
     border-top: 1px solid #ddd;
     border-bottom: 1px solid #ddd;
     height: 20px;
-    width: 38%;
+    width: 57%;
     text-align: center;
     color: #666;
   }
