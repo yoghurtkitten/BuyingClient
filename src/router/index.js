@@ -29,6 +29,7 @@ import OrderHandle from '@/components/business/part/Order.vue'
 import CancelOrder from '@/components/business/part/CancelOrder.vue'
 import queryOrder from '@/components/business/part/queryOrder.vue'
 import foodIndex from '@/components/business/food/foodIndex.vue'
+import addFood from '@/components/business/food/addFood.vue'
 
 Vue.use(Router)
 
@@ -188,6 +189,11 @@ export default new Router({
           path: '/MainPage/foodIndex',
           name: 'foodIndex',
           component: foodIndex
+        },
+        {
+          path: 'MainPage/addFood',
+          name: 'addFood',
+          component: addFood
         }
       ],
       beforeEnter: (to, from, next) => {

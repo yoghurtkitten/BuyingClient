@@ -147,7 +147,7 @@ export default {
 .index > div {
   background: #fff;
   box-shadow: 0 0 5px #ccc;
-  margin-bottom: 5%;
+  margin-bottom: 9%;
 }
 .index > div > p {
   font-size: 1rem;
@@ -166,7 +166,7 @@ export default {
 .index .order,
 .index .count,
 .index .comment {
-  padding: 3% 5% 0% 5%;
+  padding: 3% 5% 5% 5%;
 }
 .index .comment ul,
 .index .order ul,

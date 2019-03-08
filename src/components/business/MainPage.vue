@@ -24,11 +24,7 @@
             <span>财务</span>
           </li>
           <li>
-            <i class="iconfont">&#xe603;</i>
-            <span>门店</span>
-          </li>
-          <li>
-            <i class="iconfont">&#xe603;</i>
+            <i class="el-icon-message"></i>
             <span>通知中心</span>
           </li>
         </ul>
@@ -92,11 +88,10 @@ export default {
 }
 .business>article>aside {
   width: 12%;
-  background: #fff;
+  background: #41403f;
   display: flex;
   flex-direction: column;
   align-items: center;
-  height: 675px;
   padding-top: 2%;
   box-shadow: 0 0 5px #ccc;
 }
@@ -110,7 +105,7 @@ export default {
   list-style: none;
   margin: 0;
   padding: 0;
-  color: #333;
+  color: #f3e7e7;
 }
 .business > article > aside > ul li {
   padding-top: 20%;
