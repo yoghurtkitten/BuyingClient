@@ -191,7 +191,7 @@ export default new Router({
           component: foodIndex
         },
         {
-          path: 'MainPage/addFood',
+          path: '/MainPage/addFood',
           name: 'addFood',
           component: addFood
         }

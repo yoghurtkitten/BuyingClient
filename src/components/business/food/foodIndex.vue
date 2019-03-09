@@ -18,8 +18,12 @@
     <div class="right">
       <div class="type">
         <div class="title">
-          <p>{{currentType}}</p>
-          <el-button type="info" icon="el-icon-edit">编辑</el-button>
+          <p v-if="!showChange">{{currentType}}</p>
+          <el-button type="info" icon="el-icon-edit" v-if="!showChange" @click="showChange=true">编辑</el-button>
+          <div v-if="showChange" class="showChangeBox">
+            <input type="text" v-model="currentType">
+            <el-button type="primary" @click="edit(current_type_id)">提交</el-button>
+          </div>
         </div>
         <div class="food">
           <div class="food-item" v-for="(item, index) in foodList" :key="index">
@@ -33,10 +37,10 @@
             </div>
             <div class="btns">
               <div>
-                <button>置满</button>
-                <button>沽清</button>
+                <button @click="addCount" :data-id="item.food_id">置满</button>
+                <button @click="foodZero" :data-id="item.food_id">沽清</button>
               </div>
-              <button>编辑</button>
+              <button @click="del" :data-id="item.food_id">删除</button>
             </div>
           </div>
         </div>
@@ -44,7 +48,7 @@
     </div>
     <div class="oprate">
       <div>
-        <div class="oprate-item" @click="addType" v-if="isAdd">
+        <div class="oprate-item" v-if="isAdd" @click="changeModel">
           <i class="el-icon-menu"></i>
           <span>添加分类</span>
         </div>
@@ -58,6 +62,9 @@
         </div>
       </div>
     </div>
+    <div class="addTypeModel" v-if="isAddType">
+      <div></div>
+    </div>
   </div>
 </template>
 <script>
@@ -70,58 +77,82 @@ export default {
       isAdd: false,
       typeList: [],
       currentType: "",
+      current_type_id: 1,
       foodList: [],
-      allFood: []
+      allFood: [],
+      typeIndex: "",
+      showChange: false,
+      addTypeName: "",
+      isAddType: false,
+      addTypeModel: false
     };
   },
   created() {
-    this.getType();
-    this.getFood();
+    this.getType().then(this.getFood);
   },
   methods: {
+    changeModel() {
+      console.log("123");
+      this.addTypeName = true;
+    },
     search() {
-    //   console.log(this.food_name);
-    //   this.food_name = "";
       for (const item of this.allFood) {
-          if (item.name == this.food_name) {
-            //   console.log(item);
-            this.currentType = item.type_name;
-            this.foodList = [];
-            this.foodList.push(item)
-          }
+        if (item.name == this.food_name) {
+          this.currentType = item.type_name;
+          this.current_type_id = item.id;
+          this.foodList = [];
+          this.foodList.push(item);
+        }
       }
     },
     addFood() {
-      this.$router.push("MainPage/addFood");
+      this.$router.push("/MainPage/addFood");
     },
     addType() {
-      this.$alert(
-        '<p style="color:#333">分类名称</p><input type="text"  placeholder="请输入内容"  v-model="typeName" style="width:300px; margin-top:20px"  clearable></input>',
-        "添加新的分类",
-        {
-          dangerouslyUseHTMLString: true
-        }
-      );
+      /* var url = `${this.baseUrl}/business/addFoodType`;
+      this.axios
+        .get(url, {
+          params: {
+            type_name: this.addTypeName,
+            bphone: localStorage.getItem("business")
+          }
+        })
+        .then(res => {
+          if (res.data.code == 200) {
+            this.getType();
+          } else {
+            this.$message.error("添加错误，请重试");
+          }
+        }); */
     },
     showAdd() {
       this.isAdd = !this.isAdd;
     },
     getType() {
-      var url = `${this.baseUrl}/business/getFoodCata`;
-      this.axios
-        .get(url, {
-          params: {
-            bphone: localStorage.getItem("business")
-          }
-        })
-        .then(res => {
-          this.typeList = res.data.data;
-          for (const item of this.typeList) {
-            item.active = false;
-          }
-          this.typeList[0].active = true;
-          this.currentType = this.typeList[0].type_name;
-        });
+      var _self = this;
+      return new Promise(function(open, err) {
+        var url = `${_self.baseUrl}/business/getFoodCata`;
+        _self.axios
+          .get(url, {
+            params: {
+              bphone: localStorage.getItem("business")
+            }
+          })
+          .then(res => {
+            _self.typeList = res.data.data;
+            for (const item of _self.typeList) {
+              item.active = false;
+            }
+            if (_self.typeIndex == "") {
+              _self.typeList[0].active = true;
+              _self.currentType = _self.typeList[0].type_name;
+              _self.current_type_id = _self.typeList[0].id;
+            } else {
+              _self.typeList[_self.typeIndex].active = true;
+            }
+            open();
+          });
+      });
     },
     selectType(e) {
       var id = e.target.dataset.id;
@@ -133,10 +164,11 @@ export default {
           }
           item.active = true;
           this.currentType = item.type_name;
+          this.current_type_id = item.id;
           var myList = [];
-          for (const item of this.allFood) {
-            if (item.type_name == this.currentType) {
-              myList.push(item);
+          for (const i of this.allFood) {
+            if (i.id == this.current_type_id) {
+              myList.push(i);
             }
           }
           this.foodList = myList;
@@ -147,23 +179,114 @@ export default {
       this.typeList = this.typeList.concat(mylist);
     },
     getFood() {
-      var url = `${this.baseUrl}/business/getFoodInfo`;
+      var _self = this;
+      return new Promise(function(open, err) {
+        var url = `${_self.baseUrl}/business/getFoodInfo`;
+        _self.axios
+          .get(url, {
+            params: {
+              bphone: localStorage.getItem("business")
+            }
+          })
+          .then(res => {
+            _self.allFood = res.data.data;
+            var myList = [];
+            for (const item of _self.allFood) {
+              if (item.id == _self.current_type_id) {
+                myList.push(item);
+              }
+            }
+            _self.foodList = myList;
+            open();
+          });
+      });
+    },
+    addCount(e) {
+      var food_id = e.target.dataset.id;
+      var url = `${this.baseUrl}/business/initFood`;
       this.axios
         .get(url, {
           params: {
-            bphone: localStorage.getItem("business")
+            food_id: food_id
           }
         })
         .then(res => {
-          this.allFood = res.data.data;
-          var myList = [];
-          for (const item of this.allFood) {
-            if (item.type_name == this.currentType) {
-              myList.push(item);
-            }
+          if (res.data.code == 200) {
+            this.$message({
+              message: "置满成功",
+              type: "success"
+            });
+            this.getFood();
+          } else {
+            this.$message.error("置满失败");
           }
-          this.foodList = myList;
         });
+    },
+    foodZero(e) {
+      var food_id = e.target.dataset.id;
+      var url = `${this.baseUrl}/business/foodZero`;
+      this.axios
+        .get(url, {
+          params: {
+            food_id: food_id
+          }
+        })
+        .then(res => {
+          if (res.data.code == 200) {
+            this.$message({
+              message: "沽清成功",
+              type: "success"
+            });
+            this.getFood();
+          } else {
+            this.$message.error("沽清失败");
+          }
+        });
+    },
+    edit(type_id) {
+      var url = `${this.baseUrl}/business/changeFoodType`;
+      this.axios
+        .get(url, {
+          params: {
+            id: type_id,
+            type_name: this.currentType
+          }
+        })
+        .then(res => {
+          if (res.data.code == 200) {
+            for (let i = 0; i < this.typeList.length; i++) {
+              const element = this.typeList[i];
+              if (element.id == type_id) {
+                this.typeIndex = i;
+                break;
+              }
+            }
+            this.showChange = false;
+            this.getType();
+          } else {
+            this.$message.error("更改失败");
+          }
+        });
+      this.dialogchangeVisible = false;
+    },
+    del(e) {
+      var food_id = e.target.dataset.id;
+      var url = `${this.baseUrl}/business/delFood`;
+      this.axios(url, {
+        params: {
+          food_id: food_id
+        }
+      }).then(res => {
+        if (res.data.code == 200) {
+          this.$message({
+            message: "删除成功",
+            type: "success"
+          });
+          this.getFood();
+        } else {
+          this.$message.error("删除失败");
+        }
+      });
     }
   }
 };
@@ -319,5 +442,20 @@ ul {
 img {
   width: 100px;
   height: 100px;
+}
+.showChangeBox {
+  width: 50%;
+}
+.showChangeBox > input {
+  height: 100%;
+  border-radius: 4px;
+  border: 1px solid #e2dfdf;
+  padding-left: 2%;
+}
+.addTypeModel {
+  position: fixed;
+  width: 100%;
+  background: #ccc;
+  height: 800px;
 }
 </style>

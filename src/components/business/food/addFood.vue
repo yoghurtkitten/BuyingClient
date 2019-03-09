@@ -2,11 +2,11 @@
   <div class="addfood">
     <div class="header">
       <p>
-          <router-link to="/MainPage/foodIndex">商品管理</router-link>
-          添加菜品</p>
+        <router-link to="/MainPage/foodIndex">商品管理</router-link>添加菜品
+      </p>
       <div>
         <button>取消</button>
-        <button>保存</button>
+        <button @click="save">保存</button>
       </div>
     </div>
     <div class="content">
@@ -21,10 +21,10 @@
               <p>菜品所属分类</p>
               <el-select v-model="foodType" clearable placeholder="请选择">
                 <el-option
-                  v-for="item in options"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value"
+                  v-for="item in typeList"
+                  :key="item.id"
+                  :label="item.type_name"
+                  :value="item.id"
                 ></el-option>
               </el-select>
             </div>
@@ -58,7 +58,7 @@
         </div>
         <div class="btns">
           <button>取消</button>
-          <button>保存</button>
+          <button @click="save">保存</button>
         </div>
       </div>
       <div class="right">
@@ -71,7 +71,7 @@
             :on-success="handleAvatarSuccess"
             :before-upload="beforeAvatarUpload"
           >
-            <img v-if="imageUrl" :src="imageUrl" class="avatar">
+            <img v-if="imageUrl" :src="baseUrl +'/' +imageUrl" class="avatar">
             <i v-else class="el-icon-plus avatar-uploader-icon"></i>
           </el-upload>
         </div>
@@ -80,6 +80,7 @@
   </div>
 </template>
 <script>
+import qs from "qs";
 export default {
   data() {
     return {
@@ -92,30 +93,11 @@ export default {
       num: "1000",
       maxNum: "1000",
       imageUrl: "",
-      options: [
-        {
-          value: "选项1",
-          label: "黄金糕"
-        },
-        {
-          value: "选项2",
-          label: "双皮奶"
-        },
-        {
-          value: "选项3",
-          label: "蚵仔煎"
-        },
-        {
-          value: "选项4",
-          label: "龙须面"
-        },
-        {
-          value: "选项5",
-          label: "北京烤鸭"
-        }
-      ],
-      imgUrl: ""
+      typeList: []
     };
+  },
+  created() {
+    this.getFoodType();
   },
   watch: {
     star: function(value) {
@@ -131,7 +113,8 @@ export default {
   methods: {
     handleAvatarSuccess(res, file) {
       this.imageUrl = URL.createObjectURL(file.raw);
-      this.imgUrl = res.path.substring(8);
+      this.imageUrl = res.path.substring(9);
+      console.log(this.imageUrl)
     },
     beforeAvatarUpload(file) {
       const isJPG = file.type === "image/jpeg";
@@ -152,6 +135,65 @@ export default {
           message: "请输入菜品名称",
           type: "error"
         });
+      }
+    },
+    getFoodType() {
+      var url = `${this.baseUrl}/business/getFoodCata`;
+      this.axios
+        .get(url, {
+          params: {
+            bphone: localStorage.getItem("business")
+          }
+        })
+        .then(res => {
+          this.typeList = res.data.data;
+        });
+    },
+    vali() {
+      // console.log(arguments);
+      for (const item of arguments) {
+        if (item == "") {
+          return false;
+        }
+      }
+      return true;
+    },
+    save() {
+      var isSave = this.vali(
+        this.foodname,
+        this.foodType,
+        this.star,
+        this.price,
+        this.num,
+        this.maxNum,
+        this.imageUrl
+      );
+      if (isSave) {
+        var data = qs.stringify({
+          bphone: localStorage.getItem("business"),
+          food_name: this.foodname,
+          price: this.price,
+          discript: this.fooddiscript,
+          type_id: this.foodType,
+          star: this.star,
+          imageUrl: this.imageUrl,
+          inventory: this.num,
+          initial: this.maxNum
+        });
+        var url = `${this.baseUrl}/business/addFood`;
+        this.axios.post(url, data).then(res => {
+          if (res.data.code == 200) {
+            this.$message({
+              message: "添加成功",
+              type: "success"
+            });
+            this.$router.push('/MainPage/foodIndex')
+          } else {
+            this.$message.error("添加失败~");
+          }
+        });
+      } else {
+        this.$message.error("请将页面中的内容按要求填写完整哦~");
       }
     }
   }
@@ -242,8 +284,8 @@ p {
   width: 15%;
 }
 .stoke > p > span {
-    font-size: 14px;
-    color: #909399
+  font-size: 14px;
+  color: #909399;
 }
 .avatar-uploader .el-upload {
   border-radius: 6px;
