@@ -2,11 +2,11 @@
   <div class="addfood">
     <div class="header">
       <p>
-        <router-link to="/MainPage/foodIndex">商品管理</router-link> / 添加菜品
+        <router-link to="/MainPage/foodIndex">商品管理 </router-link>/ 管理菜品
       </p>
       <div>
         <button>取消</button>
-        <button @click="save">保存</button>
+        <button @click="del">删除</button>
       </div>
     </div>
     <div class="content">
@@ -93,11 +93,14 @@ export default {
       num: "1000",
       maxNum: "1000",
       imageUrl: "",
-      typeList: []
+      typeList: [],
+      food_id: ''
     };
   },
   created() {
     this.getFoodType();
+    this.food_id = this.$route.query.food_id;
+    this.getFoodInfo();
   },
   watch: {
     star: function(value) {
@@ -111,6 +114,44 @@ export default {
     }
   },
   methods: {
+    del(e) {
+      var url = `${this.baseUrl}/business/delFood`;
+      this.axios(url, {
+        params: {
+          food_id: this.food_id
+        }
+      }).then(res => {
+        if (res.data.code == 200) {
+          this.$message({
+            message: "删除成功",
+            type: "success"
+          });
+          this.$router.push('/MainPage/foodIndex')
+          this.getFood();
+        } else {
+          this.$message.error("删除失败");
+        }
+      });
+    },
+    getFoodInfo(){
+      var url = `${this.baseUrl}/business/getSingleFood`;
+      this.axios.get(url, {
+        params: {
+          food_id: this.food_id
+        }
+      }).then(res => {
+        console.log(res.data.data[0]);
+        var obj = res.data.data[0];
+        this.foodname = obj.name;
+        this.star = obj.food_start;
+        this.foodType = obj.type_id;
+        this.fooddiscript = obj.ingredients;
+        this.price = obj.price;
+        this.imageUrl = obj.food_img;
+        this.num = obj.inventory;
+        this.maxNum = obj.initial;
+      })
+    },
     handleAvatarSuccess(res, file) {
       this.imageUrl = URL.createObjectURL(file.raw);
       this.imageUrl = res.path.substring(9);

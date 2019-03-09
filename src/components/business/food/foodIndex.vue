@@ -40,7 +40,8 @@
                 <button @click="addCount" :data-id="item.food_id">置满</button>
                 <button @click="foodZero" :data-id="item.food_id">沽清</button>
               </div>
-              <button @click="del" :data-id="item.food_id">删除</button>
+              <!-- <button @click="del" :data-id="item.food_id">删除</button> -->
+              <button @click="manage" :data-id="item.food_id">管理</button>
             </div>
           </div>
         </div>
@@ -63,7 +64,15 @@
       </div>
     </div>
     <div class="addTypeModel" v-if="isAddType">
-      <div></div>
+      <div class="form">
+        <p @click="cancle">X</p>
+        <p>添加分类名称</p>
+        <div>
+          <el-input placeholder="请输入内容" v-model="addTypeName" clearable></el-input>
+          <el-button type="info" @click="cancle">取消</el-button>
+          <el-button type="primary" @click="addType">提交</el-button>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -83,17 +92,20 @@ export default {
       typeIndex: "",
       showChange: false,
       addTypeName: "",
-      isAddType: false,
-      addTypeModel: false
+      isAddType: false
     };
   },
   created() {
     this.getType().then(this.getFood);
   },
   methods: {
+    manage(e) {
+      var food_id = e.target.dataset.id;
+      this.$router.push(`/MainPage/updateFood?food_id=${food_id}`);
+    },
     changeModel() {
-      console.log("123");
-      this.addTypeName = true;
+      //   console.log("123");
+      this.isAddType = true;
     },
     search() {
       for (const item of this.allFood) {
@@ -109,7 +121,7 @@ export default {
       this.$router.push("/MainPage/addFood");
     },
     addType() {
-      /* var url = `${this.baseUrl}/business/addFoodType`;
+      var url = `${this.baseUrl}/business/addFoodType`;
       this.axios
         .get(url, {
           params: {
@@ -120,10 +132,11 @@ export default {
         .then(res => {
           if (res.data.code == 200) {
             this.getType();
+            this.isAddType = false;
           } else {
             this.$message.error("添加错误，请重试");
           }
-        }); */
+        });
     },
     showAdd() {
       this.isAdd = !this.isAdd;
@@ -269,24 +282,8 @@ export default {
         });
       this.dialogchangeVisible = false;
     },
-    del(e) {
-      var food_id = e.target.dataset.id;
-      var url = `${this.baseUrl}/business/delFood`;
-      this.axios(url, {
-        params: {
-          food_id: food_id
-        }
-      }).then(res => {
-        if (res.data.code == 200) {
-          this.$message({
-            message: "删除成功",
-            type: "success"
-          });
-          this.getFood();
-        } else {
-          this.$message.error("删除失败");
-        }
-      });
+    cancle() {
+      this.isAddType = false;
     }
   }
 };
@@ -455,7 +452,36 @@ img {
 .addTypeModel {
   position: fixed;
   width: 100%;
-  background: #ccc;
+  background: rgba(0, 0, 0, 0.5);
   height: 800px;
+}
+.form {
+  width: 30%;
+  background: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-left: 30%;
+  margin-top: 15%;
+  border-radius: 4px;
+  padding-bottom: 1%;
+}
+.form > p {
+  align-self: flex-start;
+  margin-left: 15%;
+  margin-bottom: 2%;
+}
+.form > p:first-child {
+  width: 80%;
+  text-align: right;
+  margin-top: 2%;
+  cursor: pointer;
+}
+.form > div {
+  text-align: right;
+}
+.form > div > button {
+  margin-top: 3%;
 }
 </style>
