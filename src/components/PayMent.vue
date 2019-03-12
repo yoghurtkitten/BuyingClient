@@ -74,6 +74,7 @@ export default {
       this.order_no = this.$route.query.order_no;
     },
     changeOrderStatu() {
+      var _self = this;
       $.ajax({
         url: `${this.baseUrl}/user/changeStatu`,
         data: {
@@ -83,7 +84,17 @@ export default {
         type: "get",
         dataType: "json"
       }).then(data => {
-        console.log(data);
+        // console.log(data);
+        if (data.code == 200) {
+          var url = `${_self.baseUrl}/user/updateFoodSell`;
+          _self.axios.get(url, {
+            params: {
+              order_id: _self.order_id
+            }
+          }).then(res => {
+            console.log(res.data)
+          })
+        }
       });
     },
     time() {

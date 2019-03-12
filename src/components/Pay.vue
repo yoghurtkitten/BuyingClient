@@ -192,6 +192,7 @@ export default {
       this.add_id = this.$route.query.address;
       this.order_id = this.$route.query.order_id;
       this.order_no = this.$route.query.order_no;
+      // console.log(this.order_id,this.order_no)
       // this.delive_time = this.$route.query.delive_time;
     },
     close_model() {
@@ -212,6 +213,7 @@ export default {
       });
     },
     confirmPayment() {
+      var _self = this;
       if (this.payment == "支付宝") {
         this.$router.push(
           `/PayMent?total=${this.total}&order_id=${this.order_id}&order_no=${
@@ -231,7 +233,16 @@ export default {
           type: "get",
           dataType: "json"
         }).then(data => {
-          // console.log(data);
+          if (data.code == 200) {
+            var url = `${_self.baseUrl}/user/updateFoodSell`;
+            _self.axios.get(url, {
+              params: {
+                order_id: _self.order_id
+              }
+            }).then(res => {
+              console.log(res.data)
+            })
+          }
         });
       }
     },
