@@ -211,26 +211,26 @@ export default {
       );
       if (isSave) {
         var data = qs.stringify({
-          bphone: localStorage.getItem("business"),
-          food_name: this.foodname,
+          name: this.foodname,
           price: this.price,
-          discript: this.fooddiscript,
+          ingredients: this.fooddiscript,
           type_id: this.foodType,
-          star: this.star,
-          imageUrl: this.imageUrl,
+          food_start: this.star,
+          food_img: this.imageUrl,
           inventory: this.num,
-          initial: this.maxNum
+          initial: this.maxNum,
+          food_id: this.food_id
         });
-        var url = `${this.baseUrl}/business/addFood`;
+        var url = `${this.baseUrl}/business/updateFoodInfo`;
         this.axios.post(url, data).then(res => {
           if (res.data.code == 200) {
             this.$message({
-              message: "添加成功",
+              message: "更新成功",
               type: "success"
             });
             this.$router.push('/MainPage/foodIndex')
           } else {
-            this.$message.error("添加失败~");
+            this.$message.error("更新失败~");
           }
         });
       } else {
