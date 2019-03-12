@@ -157,6 +157,7 @@ export default {
               data: form
             }).then(res => {
               vm.base64 = res.data.path;
+              vm.base64 = vm.base64.substring(9);
             });
           }
           return rst;

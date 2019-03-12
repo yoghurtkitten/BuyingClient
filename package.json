@@ -12,6 +12,7 @@
   "dependencies": {
     "axios": "^0.18.0",
     "bootstrap": "^4.2.1",
+    "echarts": "^4.1.0",
     "element-ui": "^2.5.4",
     "jquery": "^3.3.1",
     "lrz": "^4.9.40",

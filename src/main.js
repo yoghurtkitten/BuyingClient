@@ -15,12 +15,17 @@ import 'bootstrap/dist/js/bootstrap.min.js'
 import ElementUi from 'element-ui'
 import '../node_modules/element-ui/lib/theme-chalk/index.css'
 import store from './store/store.js'
+import echarts from 'echarts'
+
+Vue.prototype.$echarts = echarts 
+
 Vue.use(ElementUi)
 
 Vue.config.productionTip = false
 
 axios.defaults.withCredentials = true;
 Vue.prototype.axios = axios;
+// axios.defaults.headers['Content-Type'] = 'application/x-www-form-urlencoded';
 
 /* eslint-disable no-new */
 Vue.component('my-header',MyHeader)

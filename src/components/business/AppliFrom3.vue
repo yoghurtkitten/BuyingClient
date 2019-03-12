@@ -96,6 +96,15 @@ export default {
           var url = `${vm.baseUrl}/business/registe`;
           this.axios.post(url, data).then(res => {
             console.log(res.data);
+            if (res.data.code == 200) {
+              this.$message({
+                message: "信息提交成功，等待管理员审核",
+                type: "success"
+              });
+              this.$router.push('/')
+            } else {
+              this.$message.error('提交失败，请稍后重试');
+            }
           });
         } else {
           console.log("error submit!!");

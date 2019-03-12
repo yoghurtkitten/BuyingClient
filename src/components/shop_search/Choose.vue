@@ -134,6 +134,7 @@ export default {
         dataType: "json",
         type: "get"
       }).then(function(result) {
+        console.log(result)
         _self.shop_item = _self.shop_item.concat(result);
       });
     },

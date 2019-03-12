@@ -31,6 +31,8 @@ import queryOrder from '@/components/business/part/queryOrder.vue'
 import foodIndex from '@/components/business/food/foodIndex.vue'
 import addFood from '@/components/business/food/addFood.vue'
 import updateFood from '@/components/business/food/updateFood.vue'
+import income from '@/components/business/center/income.vue'
+import setting from '@/components/business/center/setting.vue'
 
 Vue.use(Router)
 
@@ -200,6 +202,16 @@ export default new Router({
           path: '/MainPage/updateFood',
           name: 'updateFood',
           component: updateFood
+        },
+        {
+          path: '/MainPage/income',
+          name: 'income',
+          component: income
+        },
+        {
+          path: '/MainPage/setting',
+          name: 'setting',
+          component: setting
         }
       ],
       beforeEnter: (to, from, next) => {

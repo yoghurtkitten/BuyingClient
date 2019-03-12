@@ -77,6 +77,7 @@
   </div>
 </template>
 <script>
+import qs from "qs";
 export default {
   data() {
     return {
@@ -122,17 +123,15 @@ export default {
     },
     addType() {
       var url = `${this.baseUrl}/business/addFoodType`;
-      this.axios
-        .get(url, {
-          params: {
-            type_name: this.addTypeName,
-            bphone: localStorage.getItem("business")
-          }
-        })
-        .then(res => {
+      var data = qs.stringify({
+        type_name: this.addTypeName,
+        bphone: localStorage.getItem("business")
+      });
+      this.axios.post(url, data).then(res => {
           if (res.data.code == 200) {
             this.getType();
             this.isAddType = false;
+            this.addTypeName = '';
           } else {
             this.$message.error("添加错误，请重试");
           }
@@ -258,28 +257,25 @@ export default {
     },
     edit(type_id) {
       var url = `${this.baseUrl}/business/changeFoodType`;
-      this.axios
-        .get(url, {
-          params: {
-            id: type_id,
-            type_name: this.currentType
-          }
-        })
-        .then(res => {
-          if (res.data.code == 200) {
-            for (let i = 0; i < this.typeList.length; i++) {
-              const element = this.typeList[i];
-              if (element.id == type_id) {
-                this.typeIndex = i;
-                break;
-              }
+      var data = qs.stringify({
+        id: type_id,
+        type_name: this.currentType
+      });
+      this.axios.post(url, data).then(res => {
+        if (res.data.code == 200) {
+          for (let i = 0; i < this.typeList.length; i++) {
+            const element = this.typeList[i];
+            if (element.id == type_id) {
+              this.typeIndex = i;
+              break;
             }
-            this.showChange = false;
-            this.getType();
-          } else {
-            this.$message.error("更改失败");
           }
-        });
+          this.showChange = false;
+          this.getType();
+        } else {
+          this.$message.error("更改失败");
+        }
+      });
       this.dialogchangeVisible = false;
     },
     cancle() {
@@ -454,6 +450,7 @@ img {
   width: 100%;
   background: rgba(0, 0, 0, 0.5);
   height: 800px;
+  top: 0;
 }
 .form {
   width: 30%;
