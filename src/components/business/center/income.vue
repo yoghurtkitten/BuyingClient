@@ -7,7 +7,7 @@
           <p>{{curPrice}}</p>
           <p>今日交易额</p>
         </div>
-        <p>30天总营业额 ￥{{priceCount}}</p>
+        <p>30天总营业额 ￥{{priceCount+orderCount*deliver_fee}}</p>
       </div>
       <div id="income" :style="{width: '700px', height: '350px'}"></div>
     </div>
@@ -25,6 +25,7 @@
   </div>
 </template>
 <script>
+import qs from "qs";
 export default {
   data() {
     return {
@@ -33,16 +34,19 @@ export default {
       priceCount: 0,
       curPrice: 0,
       curOrder: 0,
-      times: []
+      times: [],
+      deliver_fee: 0,
+      idList: [],
+      orderList: []
     };
   },
   mounted() {
     this.getCurrentDay();
     this.getOrderCount();
-    this.drawLine();
     this.drawOrder();
     this.getPrice();
     this.get30Price();
+    this.getWeekOrder().then(this.getWeekPrice);
   },
   methods: {
     getCurrentDay() {
@@ -81,7 +85,7 @@ export default {
       }
       this.times = timeList;
     },
-    drawLine() {
+    drawLine(priceList) {
       // 基于准备好的dom，初始化echarts实例
       let income = this.$echarts.init(document.getElementById("income"));
       // 绘制图表
@@ -117,7 +121,7 @@ export default {
           {
             name: "最高气温",
             type: "line",
-            data: [4000, 5000, 3000, 6000, 8000, 7300, 5000],
+            data: priceList,
             markPoint: {
               data: [
                 { type: "max", name: "最大值" },
@@ -131,7 +135,7 @@ export default {
         ]
       });
     },
-    drawOrder() {
+    drawOrder(timeList) {
       // 基于准备好的dom，初始化echarts实例
       let orderCount = this.$echarts.init(
         document.getElementById("orderCount")
@@ -169,7 +173,7 @@ export default {
           {
             name: "最高气温",
             type: "line",
-            data: [11, 11, 15, 13, 12, 13, 10],
+            data: timeList,
             markPoint: {
               data: [
                 { type: "max", name: "最大值" },
@@ -192,7 +196,7 @@ export default {
           }
         })
         .then(res => {
-          console.log(res.data);
+          //   console.log(res.data);
           if (res.data.code == 200) {
             this.orderCount = res.data.data[0].count;
           }
@@ -229,7 +233,8 @@ export default {
           }
         })
         .then(res => {
-          console.log(res.data);
+          this.deliver_fee = res.data.data[0].deliver_fee;
+          //   console.log(res.data);
           var prices = res.data.data;
           var sum = 0;
           for (const item of prices) {
@@ -237,6 +242,66 @@ export default {
           }
           this.priceCount = sum;
         });
+    },
+    getWeekOrder() {
+      var _self = this;
+      return new Promise(function(open, err) {
+        var url = `${_self.baseUrl}/business/getOrder7`;
+        _self
+          .axios(url, {
+            params: {
+              bphone: localStorage.getItem("business")
+            }
+          })
+          .then(res => {
+            var result = res.data.data;
+            var timeList = [];
+            var date = new Date();
+            var now = date.getDay();
+            var start = now + 1;
+            var idList = [];
+            var index = 0;
+
+            for (let i = 0; i < 14; i++) {
+              timeList[i] = 0;
+            }
+            for (const item of result) {
+              var i = new Date(item.order_time).getDay();
+              timeList[(i+now)%7]++;
+              idList[index++] = item.id;
+            }
+            _self.drawOrder(timeList);
+            _self.orderList = timeList;
+            _self.idList = idList;
+            // console.log(start)
+            open();
+          });
+      });
+    },
+    getWeekPrice() {
+      var _self = this;
+      return new Promise(function(open, err) {
+        var url = `${_self.baseUrl}/business/getPriceWeek`;
+        _self.axios
+          .post(url, qs.stringify({ idList: _self.idList }, { indices: false }))
+          .then(res => {
+            var result = res.data.data;
+            var date = new Date();
+            var now = date.getDay();
+            var start = now + 1;
+            var priceLlist = [];
+            for (let i = 0; i < 7; i++) {
+              priceLlist[i] = 0;
+            }
+            for (const item of result) {
+              var i = new Date(item.order_time).getDay();
+              priceLlist[(i+now)%7] +=
+                item.un_price * item.number +
+                _self.orderList[i] * _self.deliver_fee;
+            }
+            _self.drawLine(priceLlist);
+          });
+      });
     }
   }
 };

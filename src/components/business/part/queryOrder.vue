@@ -68,6 +68,11 @@
                   <td></td>
                   <td>{{item[0].deliver_fee.toFixed(2)}}</td>
                 </tr>
+                <tr>
+                  <td>支付方式</td>
+                  <td></td>
+                  <td>{{item[0].pay_method}}</td>
+                </tr>
                 <tr class="total">
                   <td>总价</td>
                   <td></td>

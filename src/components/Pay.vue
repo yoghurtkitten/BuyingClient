@@ -105,7 +105,7 @@
 </template>
 <script>
 import store from "../store/store.js";
-
+import qs from "qs";
 export default {
   data() {
     return {
@@ -224,7 +224,27 @@ export default {
         this.isModel = true;
         this.iswechat = true;
         this.isClose = false;
-        $.ajax({
+        var url = `${this.baseUrl}/user/changeStatu`;
+        var data = qs.stringify({
+          order_no: this.order_id,
+          pay_method: "微信"
+        });
+        this.axios.post(url, data).then(res => {
+          if (res.data.code) {
+            var url = `${_self.baseUrl}/user/updateFoodSell`;
+            _self.axios
+              .get(url, {
+                params: {
+                  order_id: _self.order_id
+                }
+              })
+              .then(res => {
+                console.log(res.data);
+              });
+          }
+        });
+
+       /*  $.ajax({
           url: `${this.baseUrl}/user/changeStatu`,
           data: {
             order_no: this.order_id,
@@ -235,15 +255,17 @@ export default {
         }).then(data => {
           if (data.code == 200) {
             var url = `${_self.baseUrl}/user/updateFoodSell`;
-            _self.axios.get(url, {
-              params: {
-                order_id: _self.order_id
-              }
-            }).then(res => {
-              console.log(res.data)
-            })
+            _self.axios
+              .get(url, {
+                params: {
+                  order_id: _self.order_id
+                }
+              })
+              .then(res => {
+                console.log(res.data);
+              });
           }
-        });
+        }); */
       }
     },
     pay(payment) {
@@ -338,5 +360,5 @@ export default {
 };
 </script>
 <style lang="css" scoped>
-    @import '../assets/css/pay.css'
+@import "../assets/css/pay.css";
 </style>

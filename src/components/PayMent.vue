@@ -52,6 +52,7 @@
   </div>
 </template>
 <script>
+import qs from 'qs'
 export default {
   data() {
     return {
@@ -75,7 +76,26 @@ export default {
     },
     changeOrderStatu() {
       var _self = this;
-      $.ajax({
+      var url = `${this.baseUrl}/user/changeStatu`;
+      var data = qs.stringify({
+        order_no: this.order_id,
+        pay_method: "支付宝"
+      });
+      this.axios.post(url, data).then(res => {
+        if (res.data.code == 200) {
+          var url = `${_self.baseUrl}/user/updateFoodSell`;
+          _self.axios
+            .get(url, {
+              params: {
+                order_id: _self.order_id
+              }
+            })
+            .then(res => {
+              console.log(res.data);
+            });
+        }
+      });
+      /*  $.ajax({
         url: `${this.baseUrl}/user/changeStatu`,
         data: {
           order_no: this.order_id,
@@ -95,7 +115,7 @@ export default {
             console.log(res.data)
           })
         }
-      });
+      }); */
     },
     time() {
       this.timer = setTimeout(() => {
@@ -113,5 +133,5 @@ export default {
 };
 </script>
 <style lang="css" scoped>
-    @import '../assets/css/payMent.css'
+@import "../assets/css/payMent.css";
 </style>

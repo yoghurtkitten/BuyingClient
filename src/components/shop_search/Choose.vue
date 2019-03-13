@@ -48,8 +48,8 @@
             <span>{{obj.shop_start}}分</span>
           </div>
           <p class="descript d-flex align-items-center">
-            <span>起送:￥{{obj.deliver_fee}}</span>
-            <span class="pl-3">配送费:￥{{obj.deliver_cost}}</span>
+            <span>起送:￥{{obj.deliver_cost}}</span>
+            <span class="pl-3">配送费:￥{{obj.deliver_fee}}</span>
             <span>
               <i class="iconfont">&#xe784;</i>
               {{obj.deliver_time}}分钟

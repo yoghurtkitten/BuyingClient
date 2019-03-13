@@ -107,7 +107,7 @@ export default {
   align-items: center;
   padding-top: 2%;
   box-shadow: 0 0 5px #ccc;
-  min-height: 670px;
+  min-height: 690px;
 }
 .business aside img {
   width: 80px;

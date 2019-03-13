@@ -73,8 +73,6 @@ export default {
       var vm = this;
       this.$refs[formName].validate(valid => {
         if (valid) {
-          console.log(this.$route.query);
-          console.log(this.ruleForm2.pass);
           var data = qs.stringify({
             password: this.ruleForm2.pass,
             phone: this.$route.query.phone,
