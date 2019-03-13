@@ -46,8 +46,23 @@
       <el-tab-pane label="角色管理" name="third">
         <ul>
           <li>
-            <p>暂时停业</p>
-            <el-switch v-model="value" active-color="#13ce66" inactive-color="#ff4949"></el-switch>
+            <p>起送费</p>
+            <p>{{shopInfo.deliver_cost}}</p>
+            <a href="javascript:;" @click="dialogCost = true">修改</a>
+          </li>
+        </ul>
+      </el-tab-pane>
+      <el-tab-pane label="店长信息" name="fourth">
+        <ul>
+          <li>
+            <p>店长姓名</p>
+            <p>张三</p>
+            <p class="nochange">暂不支持商家修改，请联系管理员修改</p>
+          </li>
+          <li>
+            <p>身份证号</p>
+            <p>421186541232548752</p>
+            <p class="nochange">暂不支持商家修改，请联系管理员修改</p>
           </li>
         </ul>
       </el-tab-pane>
