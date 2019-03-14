@@ -13,8 +13,8 @@
             <p>异常订单</p>
           </li>
           <li>
-            <p>0</p>
-            <p>退单</p>
+            <p>{{orderCount}}</p>
+            <p>总订单</p>
           </li>
         </ul>
       </div>
@@ -60,12 +60,14 @@ export default {
       allOrder: 0,
       countPrice: 0,
       cancelOrder: 0,
+      orderCount: 0,
     };
   },
   created() {
     this.getNewOrder();
     this.getPrice();
     this.getCancelOrder();
+    this.getAllOrder();
   },
   methods: {
     getNewOrder() {
@@ -113,6 +115,17 @@ export default {
             }
           }
         });
+    },
+    getAllOrder() {
+       var url = `${this.baseUrl}/business/getAllOrderInfo`;
+      this.axios(url, {
+        params: {
+          bphone: localStorage.getItem("business")
+        }
+      }).then(res => {
+        // console.log(res.data);
+        this.orderCount = res.data.data.length;
+      })
     }
   }
 };

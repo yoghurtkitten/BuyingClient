@@ -86,7 +86,7 @@
               </tbody>
             </table>
             <div class="confirm">
-              <el-button type="primary" @click="changeStatus(item[0].id)">接单并配送</el-button>
+              <el-button type="primary" @click="changeStatus(item[0].id, index)">接单并配送</el-button>
             </div>
           </div>
         </div>
@@ -171,7 +171,7 @@ export default {
           }
         });
     },
-    changeStatus(id) {
+    changeStatus(id, index) {
       var url = `${this.baseUrl}/business/changeStatus`;
       this.axios.get(url, {
         params: {
@@ -180,7 +180,7 @@ export default {
       }).then(res => {
         if (res.data.code == 200) {
           alert('接单成功');
-          this.orderList.splice(id, 1);
+          this.orderList.splice(index, 1);
         } else {
           alert('接单失败，请重试');
         }

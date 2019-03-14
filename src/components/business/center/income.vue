@@ -119,7 +119,7 @@ export default {
         },
         series: [
           {
-            name: "最高气温",
+            name: "最高收入",
             type: "line",
             data: priceList,
             markPoint: {
@@ -171,7 +171,7 @@ export default {
         },
         series: [
           {
-            name: "最高气温",
+            name: "最高订单量",
             type: "line",
             data: timeList,
             markPoint: {
@@ -267,7 +267,7 @@ export default {
             }
             for (const item of result) {
               var i = new Date(item.order_time).getDay();
-              timeList[(i+now)%7]++;
+              timeList[(i+(start+i))%7]++;
               idList[index++] = item.id;
             }
             _self.drawOrder(timeList);
@@ -295,7 +295,7 @@ export default {
             }
             for (const item of result) {
               var i = new Date(item.order_time).getDay();
-              priceLlist[(i+now)%7] +=
+              priceLlist[(i+(start+i))%7] +=
                 item.un_price * item.number +
                 _self.orderList[i] * _self.deliver_fee;
             }

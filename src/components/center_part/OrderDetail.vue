@@ -8,7 +8,7 @@
         <li v-else>订单已付款</li>
       </ul>
     </div>
-    <div class="detail" v-if="shop_info">
+    <div class="detail" v-if="shop_info.shop_img">
       <div class="shop-info">
         <div class="shop-img" :style="`background-image:url(${baseUrl}/${shop_info.shop_img})`"></div>
         <div>
@@ -130,7 +130,7 @@ export default {
         }
       }).then(result => {
         this.shop_info = result.data.data[0];
-        console.log(this.shop_info);
+        // console.log(this.shop_info);
       });
     },
     getShopCarInfo() {
