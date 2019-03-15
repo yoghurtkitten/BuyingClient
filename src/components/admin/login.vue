@@ -59,6 +59,7 @@ export default {
               }
           }).then(res => {
             if (res.data.code == 200) {
+                localStorage.setItem("isLogin","1")
                 this.$router.push('/adminIndex')
             } else {
                 this.$message.error('用户名或密码有误，请重试。');

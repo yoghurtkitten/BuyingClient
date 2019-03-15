@@ -2,7 +2,7 @@
   <div class="index">
     <div class="header">
       <p>Buying · 管理员中心</p>
-      <p>admin</p>
+      <p @click="logOut">退出登录</p>
     </div>
     <div class="main">
       <el-tabs v-model="activeName" @tab-click="handleClick">
@@ -133,6 +133,7 @@ export default {
     };
   },
   created() {
+    console.log(localStorage.getItem("isLogin"));
     this.getAllInfo();
   },
   methods: {
@@ -180,7 +181,7 @@ export default {
     submitForm(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
-          console.log(this.ruleForm2.oldPass, this.ruleForm2.pass);
+        //   console.log(this.ruleForm2.oldPass, this.ruleForm2.pass);
           var url = `${this.baseUrl}/admin/changeAdminPwd`;
           this.axios
             .get(url, {
@@ -203,24 +204,26 @@ export default {
               }
             });
         } else {
-          console.log("error submit!!");
+        //   console.log("error submit!!");
           return false;
         }
       });
     },
     resetForm(formName) {
       this.$refs[formName].resetFields();
+    },
+    logOut() {
+      localStorage.removeItem("isLogin");
+      this.$router.push("/adminLogin");
     }
-  }
-  /*   filters: {
-    statusFormate: function(value) {
-      if (value == 0) {
-        return "审核已通过";
+  },
+  beforeRouteEnter (to, from, next) {
+      if (localStorage.getItem('isLogin') == 1) {
+          next();
       } else {
-        return "未审核/审核未通过";
+          history.go(-1);
       }
-    }
-  } */
+  }
 };
 </script>
 <style scoped>
@@ -235,6 +238,10 @@ export default {
   margin: 0;
   padding: 0;
   font-size: 20px;
+}
+.index > .header p:last-child {
+  font-size: 18px;
+  cursor: pointer;
 }
 .index > .main {
   padding: 2% 4%;
