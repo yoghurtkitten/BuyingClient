@@ -57,7 +57,7 @@ export default {
               .then(res => {
                 console.log(res.data.data[0].isPass)
                 if (res.data.code == 200) {
-                  if (res.data.data[0].isPass == 1) {
+                  if (res.data.data[0].isPass == 0) {
                     localStorage.setItem("business", result.data.data[0].phone);
                     this.$router.push("/MainPage/index");
                   } else if (res.data.data[0].isPass == 0){

@@ -28,6 +28,9 @@
                 <li>
                   <router-link to="/Business">店家入口</router-link>
                 </li>
+                <li>
+                  <router-link to="/adminLogin">管理员入口</router-link>
+                </li>
               </ul>
             </div>
             <div class="header-menu list-info">
@@ -44,6 +47,9 @@
                 <li>
                   <router-link to="/Business">店家入口</router-link>
                 </li>
+                <li>
+                  <router-link to="/adminLogin">管理员入口</router-link>
+                </li>
               </ul>
             </div>
           </div>
@@ -54,11 +60,11 @@
 </template>
 <script>
 export default {
-  props:['toggleFixed'],
+  props: ["toggleFixed"],
   data() {
     return {
       isShow: false,
-      baseUrl: this.$store.getters.getBaseUrl,
+      baseUrl: this.$store.getters.getBaseUrl
     };
   },
   mounted() {
@@ -79,12 +85,12 @@ export default {
         $(".header-info").hide();
       }
     },
-     toIndex() {
-      this.$router.push('/')
+    toIndex() {
+      this.$router.push("/");
     }
   }
 };
 </script>
 <style lang="css" scoped>
-    @import '../../assets/css/userHeader.css'
+@import "../../assets/css/userHeader.css";
 </style>
