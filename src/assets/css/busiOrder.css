@@ -1,5 +1,6 @@
 .order {
     width: 100%;
+    min-height: 550px;
   }
   .order p {
     margin: 0;

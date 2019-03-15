@@ -47,7 +47,7 @@
               <div>
                 <p v-if="item.content[0]">{{item.content[0].status | statuFormat}}</p>
                 <p>
-                  <a href="javascript:;">订单详情</a>
+                  <router-link v-if="item.content[0]" :to="`/UserCenter/OrderDetail?order_no=${item.content[0].order_no}`">订单详情</router-link>
                 </p>
               </div>
             </div>

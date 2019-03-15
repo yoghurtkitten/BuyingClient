@@ -38,6 +38,7 @@ export default {
   box-shadow: 0 0 5px #ccc;
   background: #fff;
   padding: 1.5625rem;
+  min-height: 550px;
 }
 .UserInfo .top {
   font-size: 1.125rem;

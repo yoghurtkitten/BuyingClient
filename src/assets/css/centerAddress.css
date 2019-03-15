@@ -6,6 +6,7 @@
     width: 80%;
     background: #fff;
     padding: 1.5625rem;
+    min-height: 550px;
   }
   .address .top {
     font-size: 1.125rem;

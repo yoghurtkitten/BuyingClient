@@ -22,11 +22,11 @@
                   </div>
                   <div class="user-info" v-show="isToggle" @mouseenter="enter" @mouseleave="leave">
                     <ul>
-                      <li>
+                      <li @click="toUserCenter">
                         <i class="iconfont">&#xe6a2;</i>
                         个人中心
                       </li>
-                      <li>
+                      <li @click="toSave">
                         <i class="iconfont">&#xec43;</i>
                         我的收藏
                       </li>
@@ -97,6 +97,12 @@ export default {
         store.commit("setUser", data);
         this.user = result.data.msg.name;
       });
+    },
+    toUserCenter() {
+      this.$router.push('/UserCenter/Center');
+    },
+    toSave() {
+      this.$router.push('/UserCenter/Save')
     }
   }
 };
