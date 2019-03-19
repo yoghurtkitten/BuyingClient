@@ -214,7 +214,7 @@ export default {
     },
     logOut() {
       localStorage.removeItem("isLogin");
-      this.$router.push("/adminLogin");
+      this.$router.push("/");
     }
   },
   beforeRouteEnter (to, from, next) {

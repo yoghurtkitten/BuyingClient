@@ -29,7 +29,7 @@
                   <router-link to="/Business">店家入口</router-link>
                 </li>
                 <li>
-                  <router-link to="/adminLogin">管理员入口</router-link>
+                  <router-link to="/Business">管理员入口</router-link>
                 </li>
               </ul>
             </div>
@@ -48,7 +48,7 @@
                   <router-link to="/Business">店家入口</router-link>
                 </li>
                 <li>
-                  <router-link to="/adminLogin">管理员入口</router-link>
+                  <router-link to="/Business">管理员入口</router-link>
                 </li>
               </ul>
             </div>

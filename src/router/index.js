@@ -34,7 +34,7 @@ import updateFood from '@/components/business/food/updateFood.vue'
 import income from '@/components/business/center/income.vue'
 import setting from '@/components/business/center/setting.vue'
 import adminIndex from '@/components/admin/index.vue'
-import adminLogin from '@/components/admin/login.vue'
+
 
 Vue.use(Router)
 
@@ -223,11 +223,6 @@ export default new Router({
           alert('请登录')
         }
       }
-    },
-    {
-      path: '/adminLogin',
-      name: 'adminLogin',
-      component: adminLogin
     },
     {
       path: '/adminIndex',
