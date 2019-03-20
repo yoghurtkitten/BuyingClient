@@ -404,6 +404,7 @@ export default {
     },
     toOrder: function() {
       if (this.enought) {
+        // console.log('即将跳转')
         this.$router.push(`/Order?sid=${this.sid}&user=${this.user}`);
       } else {
         alert('购物车中有商品库存不足，无法下单！')

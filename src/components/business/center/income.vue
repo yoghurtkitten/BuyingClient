@@ -255,6 +255,7 @@ export default {
           })
           .then(res => {
             var result = res.data.data;
+            // console.log(result)
             var timeList = [];
             var date = new Date();
             var now = date.getDay();
@@ -267,9 +268,11 @@ export default {
             }
             for (const item of result) {
               var i = new Date(item.order_time).getDay();
-              timeList[(i+(start+i))%7]++;
+              timeList[(i + start-1) % 7]++;
               idList[index++] = item.id;
+              // console.log(i)
             }
+            // console.log(start);
             _self.drawOrder(timeList);
             _self.orderList = timeList;
             _self.idList = idList;
@@ -295,10 +298,14 @@ export default {
             }
             for (const item of result) {
               var i = new Date(item.order_time).getDay();
-              priceLlist[(i+(start+i))%7] +=
-                item.un_price * item.number +
-                _self.orderList[i] * _self.deliver_fee;
+              priceLlist[(i + start-1) % 7] += item.un_price * item.number;
             }
+            for (const key in priceLlist) {
+              if (priceLlist[key]) {
+                priceLlist[key] += _self.orderList[key] * _self.deliver_fee;
+              }
+            }
+
             _self.drawLine(priceLlist);
           });
       });
