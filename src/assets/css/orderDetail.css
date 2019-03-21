@@ -249,8 +249,34 @@
 }
 
 .evaluation>p {
-  margin: 0;
-  padding: 0;
-  font-size: 16px;
-  color: #333;
+    margin: 0;
+    padding: 0;
+    font-size: 16px;
+    color: #333;
+}
+
+.viewComment {
+    padding: 0 3%;
+}
+
+.viewComment>div:first-child {
+    margin-bottom: 4%;
+}
+
+.viewComment>div:first-child>p>span:first-child {
+    margin-right: 2%;
+}
+
+.viewComment i {
+    color: #e54c2a;
+}
+
+.busi-comment {
+    background: #e6e5e5;
+    padding: 4% 2%;
+}
+.comment-item{
+    padding-left: 3%;
+    font-size: 13px;
+    padding-top: 3%;
 }

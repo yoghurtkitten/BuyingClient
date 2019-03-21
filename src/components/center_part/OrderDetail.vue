@@ -8,9 +8,34 @@
         <li v-else>订单已付款</li>
       </ul>
     </div>
-    <div class="evaluation" v-if="status && !comment">
+    <div class="evaluation" v-if="status">
       <p>订单已完成</p>
-      <el-button type="danger" @click="setComment">评价</el-button>
+      <el-button type="danger" @click="setComment" v-if="!comment">评价</el-button>
+      <el-button type="danger" @click="dialogVisible = true" v-else>查看评价</el-button>
+
+      <el-dialog title="查看评论" :visible.sync="dialogVisible" width="30%" :before-close="handleClose">
+        <div class="viewComment">
+          <div>
+            <p>
+              <span>我的评分</span>
+              <i v-for="(item, index) in order_star" :key="index" class="iconfont">&#xec43;</i>
+            </p>
+            <p>
+              <span>我的评论:</span>
+              <span>{{comment}}</span>
+            </p>
+          </div>
+          <div class="busi-comment">
+            <p>商家回复:</p>
+            <p v-if="busi_comment" class="comment-item">{{busi_comment}}</p>
+            <p v-else class="comment-item">暂无评论</p>
+          </div>
+        </div>
+
+        <span slot="footer" class="dialog-footer">
+          <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
+        </span>
+      </el-dialog>
     </div>
     <div class="detail" v-if="shop_info.shop_img">
       <div class="shop-info">
@@ -102,8 +127,11 @@ export default {
       shop_info: {},
       shop_car: [],
       address: [],
-      status: '',
-      comment: '',
+      status: "",
+      comment: "",
+      order_star: "",
+      busi_comment: "",
+      dialogVisible: false,
     };
   },
   created() {
@@ -167,12 +195,19 @@ export default {
       }).then(result => {
         this.status = result.data.data[0].status;
         this.comment = result.data.data[0].comment;
-        // console.log(result.data.data[0]);
-      })
+        this.order_star = result.data.data[0].order_star;
+        this.busi_comment = result.data.data[0].busi_comment;
+      });
     },
     setComment() {
       // console.log(this.order_no);
-      this.$router.push(`/UserCenter/Comment?order_no=${this.order_no}`)
+      this.$router.push(`/UserCenter/Comment?order_no=${this.order_no}`);
+    },
+    viewComment() {
+      this.dialogVisible = true;
+    },
+    handleClose() {
+      this.dialogVisible = false;
     }
   },
   filters: {
@@ -202,5 +237,5 @@ export default {
 };
 </script>
 <style lang="css" scoped>
-    @import '../../assets/css/orderDetail.css'
+@import "../../assets/css/orderDetail.css";
 </style>
