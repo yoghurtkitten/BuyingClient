@@ -10,6 +10,7 @@ import UserCenter from '@/components/UserCenter.vue'
 import Center from '@/components/center_part/Center.vue'
 import OrderPart from '@/components/center_part/Order.vue'
 import OrderDetail from '@/components/center_part/OrderDetail.vue'
+import Comment from '@/components/center_part/Comment.vue'
 import Address from '@/components/center_part/Address.vue'
 import UserInfo from '@/components/center_part/UserInfo.vue'
 import Save from '@/components/center_part/Save.vue'
@@ -25,6 +26,7 @@ import AppliFrom2 from '@/components/business/AppliFrom2.vue'
 import AppliFrom3 from '@/components/business/AppliFrom3.vue'
 import MainPage from '@/components/business/MainPage.vue'
 import BIndex from '@/components/business/part/BIndex.vue'
+import Answer from '@/components/business/part/Answer.vue'
 import OrderHandle from '@/components/business/part/Order.vue'
 import CancelOrder from '@/components/business/part/CancelOrder.vue'
 import queryOrder from '@/components/business/part/queryOrder.vue'
@@ -124,6 +126,11 @@ export default new Router({
           path: '/UserCenter/Save',
           name: 'Save',
           component: Save
+        },
+        {
+          path: '/UserCenter/Comment',
+          name: 'Comment',
+          component: Comment
         }
       ]
     },
@@ -214,6 +221,11 @@ export default new Router({
           path: '/MainPage/setting',
           name: 'setting',
           component: setting
+        },
+        {
+          path: '/MainPage/answer',
+          name: 'Answer',
+          component: Answer
         }
       ],
       beforeEnter: (to, from, next) => {

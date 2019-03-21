@@ -23,12 +23,12 @@
       <p>待处理反馈</p>
       <div>
         <ul>
-          <li>
-            <p>10</p>
+          <li @click="toAnswer(0)">
+            <p>{{newComment.length}}</p>
             <p>未回复评价</p>
           </li>
-          <li>
-            <p>125</p>
+          <li @click="toAnswer(1)">
+            <p>{{commentList.length}}</p>
             <p>总评价</p>
           </li>
         </ul>
@@ -61,6 +61,8 @@ export default {
       countPrice: 0,
       cancelOrder: 0,
       orderCount: 0,
+      commentList: [],
+      newComment: []
     };
   },
   created() {
@@ -68,6 +70,7 @@ export default {
     this.getPrice();
     this.getCancelOrder();
     this.getAllOrder();
+    this.getComment();
   },
   methods: {
     getNewOrder() {
@@ -83,7 +86,7 @@ export default {
         });
     },
     getCancelOrder() {
-       var url = `${this.baseUrl}/business/getCancel`;
+      var url = `${this.baseUrl}/business/getCancel`;
       this.axios
         .get(url, {
           params: {
@@ -111,13 +114,13 @@ export default {
               new Date(item.order_time).getDate() == new Date().getDate()
             ) {
               this.countPrice += item.price;
-              this.allOrder ++;
+              this.allOrder++;
             }
           }
         });
     },
     getAllOrder() {
-       var url = `${this.baseUrl}/business/getAllOrderInfo`;
+      var url = `${this.baseUrl}/business/getAllOrderInfo`;
       this.axios(url, {
         params: {
           bphone: localStorage.getItem("business")
@@ -125,7 +128,33 @@ export default {
       }).then(res => {
         // console.log(res.data);
         this.orderCount = res.data.data.length;
-      })
+      });
+    },
+    getComment() {
+      var url = `${this.baseUrl}/user/getUserComment`;
+      this.axios
+        .get(url, {
+          params: {
+            bphone: localStorage.getItem("business")
+          }
+        })
+        .then(res => {
+          // console.log(res.data.data)
+          if (res.data.code == 200) {
+            var arr = [];
+            this.commentList = res.data.data;
+            for (const item of res.data.data) {
+              if (item.busi_comment == "") {
+                arr.push(item);
+              }
+            }
+            // console.log(arr);
+            this.newComment = arr;
+          }
+        });
+    },
+    toAnswer(choose) {
+      this.$router.push(`/MainPage/answer?choose=${choose}`);
     }
   }
 };
@@ -207,5 +236,8 @@ export default {
   width: 100%;
   display: flex;
   justify-content: space-around;
+}
+.index .comment ul > li {
+  cursor: pointer;
 }
 </style>

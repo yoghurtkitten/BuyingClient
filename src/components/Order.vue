@@ -364,8 +364,8 @@ export default {
         dataType: "json"
       }).then(function(data) {
         _self.orderInfo = data;
-        console.log(_self.sid,_self.user)
-        console.log(data);
+        // console.log(_self.sid,_self.user)
+        // console.log(data);
         if (data.length == 0) {
           _self.has_food = false;
         } else {

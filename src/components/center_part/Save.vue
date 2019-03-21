@@ -40,7 +40,7 @@ export default {
     getSave() {
       var url = `${this.baseUrl}/user/getSave`;
       this.axios(url).then(result => {
-        console.log(result.data.data);
+        // console.log(result.data.data);
         this.saveList = result.data.data;
       });
     },

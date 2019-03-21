@@ -50,17 +50,30 @@
           </div>
         </el-tab-pane>
         <el-tab-pane label="历史信息" name="second">
-          <div>
-            <el-table :data="allList" height="250" border style="width: 100%">
-              <el-table-column prop="shop_name" label="店铺名"></el-table-column>
-              <el-table-column prop="address" label="店铺地址"></el-table-column>
-              <el-table-column prop="license" label="营业执照注册号"></el-table-column>
-              <el-table-column prop="shopman_name" label="商家姓名"></el-table-column>
-              <el-table-column prop="idCard" label="身份证号"></el-table-column>
-              <el-table-column prop="phone" label="商家联系方式"></el-table-column>
-              <el-table-column prop="isPassStatus" label="审核状态"></el-table-column>
-            </el-table>
-          </div>
+          <el-table
+            :data="allList.filter(data => !search || data.shop_name.toLowerCase().includes(search.toLowerCase()))"
+            style="width: 100%"
+          >
+            <el-table-column label="店铺名" prop="shop_name"></el-table-column>
+            <el-table-column label="店铺地址" prop="address"></el-table-column>
+            <el-table-column label="营业执照注册号" prop="license"></el-table-column>
+            <el-table-column label="商家姓名" prop="shopman_name"></el-table-column>
+            <el-table-column label="身份证号" prop="idCard"></el-table-column>
+            <el-table-column label="商家联系方式" prop="phone"></el-table-column>
+            <el-table-column label="审核状态" prop="isPassStatus"></el-table-column>
+            <el-table-column align="right">
+              <template slot="header" slot-scope="scope">
+                <el-input v-model="search" size="mini" placeholder="输入关键字搜索"/>
+              </template>
+              <template slot-scope="scope">
+                <el-button
+                  size="mini"
+                  type="danger"
+                  @click="handleDelete(scope.$index, scope.row)"
+                >关闭该店铺</el-button>
+              </template>
+            </el-table-column>
+          </el-table>
         </el-tab-pane>
         <el-tab-pane label="修改密码" name="third">
           <div class="changePwd">
@@ -129,11 +142,12 @@ export default {
         oldPass: [{ required: true, message: "请输入旧密码", trigger: "blur" }],
         pass: [{ validator: validatePass, trigger: "blur" }],
         checkPass: [{ validator: validatePass2, trigger: "blur" }]
-      }
+      },
+      search: ""
     };
   },
   created() {
-    console.log(localStorage.getItem("isLogin"));
+    // console.log(localStorage.getItem("isLogin"));
     this.getAllInfo();
   },
   methods: {
@@ -156,6 +170,7 @@ export default {
               this.newInfoList.push(item);
             }
           }
+          console.log(this.allList);
         } else {
           this.$message.error("系统开了小差~");
         }
@@ -171,8 +186,7 @@ export default {
       }).then(res => {
         if (res.data.code == 200) {
           this.newInfoList.splice(index, 1);
-          //   this.newInfoList = [];
-          //   this.getAllInfo();
+          this.activeitem = '';
         } else {
           this.$message.error("系统开了小差~");
         }
@@ -181,7 +195,7 @@ export default {
     submitForm(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
-        //   console.log(this.ruleForm2.oldPass, this.ruleForm2.pass);
+          //   console.log(this.ruleForm2.oldPass, this.ruleForm2.pass);
           var url = `${this.baseUrl}/admin/changeAdminPwd`;
           this.axios
             .get(url, {
@@ -201,10 +215,13 @@ export default {
                 }, 3000);
               } else {
                 this.$message.error("原密码错误");
+                this.ruleForm2.oldPass = '';
+                this.ruleForm2.pass = '';
+                this.ruleForm2.checkPass = '';
               }
             });
         } else {
-        //   console.log("error submit!!");
+          //   console.log("error submit!!");
           return false;
         }
       });
@@ -215,14 +232,34 @@ export default {
     logOut() {
       localStorage.removeItem("isLogin");
       this.$router.push("/");
+    },
+    handleDelete(index, row) {
+      // console.log(index, row);
+      var url = `${this.baseUrl}/admin/changeShopStatu`;
+      this.axios(url, {
+        params: {
+          id: row.id,
+          isPass: 1
+        }
+      }).then(res => {
+        if (res.data.code == 200) {
+          var obj = this.allList[index];
+          obj.isPassStatus = '未审核/审核失败';
+          this.allList.splice(index, 1, obj);
+          // this.allList.push(obj);
+          // console.log(this.allList[index]);
+        } else {
+          this.$message.error("系统开了小差~");
+        }
+      });
     }
   },
-  beforeRouteEnter (to, from, next) {
-      if (localStorage.getItem('isLogin') == 1) {
-          next();
-      } else {
-          history.go(-1);
-      }
+  beforeRouteEnter(to, from, next) {
+    if (localStorage.getItem("isLogin") == 1) {
+      next();
+    } else {
+      history.go(-1);
+    }
   }
 };
 </script>

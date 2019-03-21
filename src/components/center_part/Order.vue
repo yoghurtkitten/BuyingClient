@@ -94,7 +94,7 @@ export default {
           user: this.user
         }
       }).then(data => {
-        console.log(data.data)
+        // console.log(data.data)
         var index = 0;
         var myList = [];
         for (let i = 0; i < data.data.length; i++) {
@@ -112,7 +112,7 @@ export default {
       } else {
         start--;
       }
-      console.log(start);
+      // console.log(start);
       var count = 0;
       var myList = [];
       var index = 0;

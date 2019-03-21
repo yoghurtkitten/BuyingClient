@@ -90,7 +90,7 @@ export default {
           user: this.user
         }
       }).then(data => {
-        console.log(data.data);
+        // console.log(data.data);
         _self.allOrder = data.data;
       });
     },

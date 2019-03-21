@@ -8,6 +8,10 @@
         <li v-else>订单已付款</li>
       </ul>
     </div>
+    <div class="evaluation" v-if="status && !comment">
+      <p>订单已完成</p>
+      <el-button type="danger" @click="setComment">评价</el-button>
+    </div>
     <div class="detail" v-if="shop_info.shop_img">
       <div class="shop-info">
         <div class="shop-img" :style="`background-image:url(${baseUrl}/${shop_info.shop_img})`"></div>
@@ -99,6 +103,7 @@ export default {
       shop_car: [],
       address: [],
       status: '',
+      comment: '',
     };
   },
   created() {
@@ -161,8 +166,13 @@ export default {
         }
       }).then(result => {
         this.status = result.data.data[0].status;
-        // console.log(this.status);
+        this.comment = result.data.data[0].comment;
+        // console.log(result.data.data[0]);
       })
+    },
+    setComment() {
+      // console.log(this.order_no);
+      this.$router.push(`/UserCenter/Comment?order_no=${this.order_no}`)
     }
   },
   filters: {

@@ -113,7 +113,7 @@ export default {
     cancelAdd() {
       this.isAdd = false;
       this.isUpdate = false;
-      console.log(this.isUpdate);
+      // console.log(this.isUpdate);
     },
     selected(data) {
       this.city = data.city.value;
@@ -166,7 +166,7 @@ export default {
     },
     addAddress() {
       this.isAdd = true;
-      console.log(this.isUpdate);
+      // console.log(this.isUpdate);
       if (!this.isUpdate) {
         this.receiver = "";
         this.gender = 0;
@@ -184,7 +184,7 @@ export default {
         for (var item of this.addressList) {
           item.showDel = false;
         }
-        console.log(result.data.data);
+        // console.log(result.data.data);
       });
     },
     confirm(e) {
@@ -196,7 +196,7 @@ export default {
           id: id
         }
       }).then(result => {
-        console.log(result.data.msg);
+        // console.log(result.data.msg);
       });
       this.addressList.splice(index, 1);
     },
